@@ -6,3 +6,5 @@
 適用對象: HTML、CSS 和 JavaScript 的中等水準
 
 - [hello world](./helloworld.html)
+- [hello world0](./helloworld0.html)
+- [v-bind](./v-bind.html)

@@ -5,9 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style media="screen">
+        pre {
+            box-shadow: 0 0 1px black;
+            padding: 5px;
+        }
+    </style>
 </head>
 <body>
-    
+    <pre>
+var app = new Vue({
+  el: '#app' ,
+  data: {
+    msg: '<b>這是被{{msg}}取代的結果</b>',
+  }
+})
+    </pre>
+    <div id="app">
+        <h1>Interpolations</h1>
+        <h2>text</h2>
+        <pre>{ { key } }</pre>
+        <p>Message: {{ msg }}</p>
+        <h2>raw html</h2>
+        <pre>< p v-html="key">< /p ></pre>
+        <p v-html="msg"></p>
+        <h2>Attributes</h2>
+        <pre>< p v-bind:html element attribute="key">mouse stop here< /p ></pre>
+
+        <p v-bind:title="msg">mouse stop here</p>
+        <h2>Using JavaScript Expressions</h2>
+        <pre>{ { javascript expressions } }</pre>
+        <p>{{ msg + msg }}</p>
+        <p>{{ msg ? 'YES' : 'NO' }}</p>
+        <p>{{ msg.split('').reverse().join('') }}</p>
+        <pre>< div  v-bind:attribute="javascript expressions">123456</ div ></pre>
+        <div v-bind:id="'list-' + msg">123456</div>
+        <h2>Directives</h2>
+        <pre>< span  v-if="key">現在你看到我了</ span > // if key == true, show it</pre>
+        <input type="checkbox" v-model:checked="seen"><span v-if="seen">現在你看到我了</span>
+        <h2>Arguments</h2>
+        <p>和上面一樣</p>
+        <pre>< a v-bind:html element attribute="key">mouse stop here< /a ></pre>
+        <a v-bind:href="url">abc</a>
+        <pre>< a v-on:js event="function name">mouse stop here< /a ></pre>
+        <a v-on:click="console.log('click it!!');">click me</a>
+    </div>
     <script src="https://unpkg.com/vue"></script>
+    <script type="text/javascript">
+        var app = new Vue({
+          el: '#app' ,
+          data: {
+            msg: '<b>這是被{{msg}}取代的結果</b>',
+            seen: true,
+            url: 'https://dwatow.github.io/'
+          }
+        })
+    </script>
 </body>
 </html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Instance</title>
+        <style media="screen">
+            .lifecycle {
+                width: 100%;
+                font-size: 0;
+                vertical-align: top;
+            }
+            .lifecycle > ul {
+                position: sticky;
+                top: 0;
+                float: left;
+
+                width: 30%;
+                box-sizing: border-box;
+                font-size: 12pt;
+            }
+            img {
+                width: 50%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="example"></div>
+        <p>物件生命週期，可以使用特定函數在特定機執行。</p>
+        <div class="lifecycle">
+            <ul>
+                <li>
+                    建構
+                    <ul>
+                        <li>beforeCreate</li>
+                        <li>created</li>
+                    </ul>
+                </li>
+                <li>
+                    鑲嵌View - ViewModule
+                    <ul>
+                        <li>beforeMounte</li>
+                        <li>mounted</li>
+                    </ul>
+                </li>
+                <li>
+                    修改資料
+                    <ul>
+                        <li>beforeUpdate</li>
+                        <li>updated</li>
+                    </ul>
+                </li>
+                <li>
+                    解構
+                    <ul>
+                        <li>beforeDestroye</li>
+                        <li>destroyed</li>
+                    </ul>
+                </li>
+            </ul>
+            <img src="https://vuejs.org/images/lifecycle.png" alt="">
+            </div>
+        <script src="https://unpkg.com/vue"></script>
+        <script type="text/javascript">
+            var data = {
+                a: 1
+            }
+            var vm = new Vue({
+                el: '#example',
+                data: data
+            })
+
+            // vm.$data === data // -> true
+            // vm.$el === document.getElementById('example') // -> true
+            // // $watch is an instance method
+            // vm.$watch('a', function (newVal, oldVal) {
+            // this callback will be called when `vm.a` changes
+            // })
+    </script>
+    </body>
+</html>

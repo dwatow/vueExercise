@@ -42,7 +42,7 @@
                 我们也需要为每个组件提供一个“key”，晚些时候我们会做个解释。
             -->
             <todo-item
-                v-bind:todo="kkb">
+                v-if="groceryList[2].isGood" v-bind:todo="kkb">
             </todo-item>
             <todo-item
                 v-for="item in groceryList"
@@ -115,6 +115,7 @@
                 ]
               }
             })
+
         </script>
     </body>
 </html>

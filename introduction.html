@@ -42,9 +42,11 @@
                 我们也需要为每个组件提供一个“key”，晚些时候我们会做个解释。
             -->
             <todo-item
+                v-bind:todo="kkb">
+            </todo-item>
+            <todo-item
                 v-for="item in groceryList"
-                v-bind:todo="item"
-                v-bind:key="item.id">
+                v-bind:todo="item">
             </todo-item>
         </ol>
         </div>
@@ -105,6 +107,7 @@
             var app7 = new Vue({
               el: '#app-7',
               data: {
+                kkb: { text: 'abc'},
                 groceryList: [
                   { id: 0, text: '蔬菜' },
                   { id: 1, text: '奶酪' },

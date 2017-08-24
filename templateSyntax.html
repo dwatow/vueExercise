@@ -50,7 +50,30 @@ var app = new Vue({
         <pre>< a v-on:js event="function name">mouse stop here< /a ></pre>
         <a v-on:click="console.log('click it!!');">click me</a>
         <h2>Modifiers</h2>
-        
+        <pre>< form  v-on:submit.prevent="onSubmit"></ form >  //取消預設行為</pre>
+        <form v-on:submit.prevent="onSubmit"><input type="submit"></form>
+        <h2>Filters</h2>
+        <p>Filters are usable in two places:</p>
+        <ol>
+            <li>mustache interpolations. <pre>{ { } }</pre></li>
+            <li>v-bind expressions. <pre>< a v-bind:attribute="key"> < /a ></pre> </li>
+        </ol>
+        <p><code>capitalize</code>過濾器函數將會收到<code>message</code>的值作為第一個參數。</p>
+        <pre>{ { key of data | key of filter } }</pre>
+        <p>{{ msg | capitalize }}</p>
+        <h2>縮寫</h2>
+        <h3><code>v-bind</code></h3>
+        <pre>
+< !-- 完整語​​法-- >
+< a  v-bind:href = "url" > </ a >
+< !-- 縮寫-- >
+< a  :href = "url" > </ a ></pre>
+        <h3><code>v-on</code></h3>
+        <pre>
+< !-- 完整語​​法-- >
+< a  v-on:click = "doSomething" > </ a >
+< !-- 縮寫-- >
+< a @ click = "doSomething" > </ a ></pre>
     </div>
     <script src="https://unpkg.com/vue"></script>
     <script type="text/javascript">
@@ -60,6 +83,19 @@ var app = new Vue({
             msg: '<b>這是被{{msg}}取代的結果</b>',
             seen: true,
             url: 'https://dwatow.github.io/'
+          },
+          methods: {
+              onSubmit: function () {
+                  console.log('submit');
+              }
+          },
+          filters: {
+            capitalize : function ( value ) {
+                console.log(value);
+                if (!value) return  ''
+                value = value.toString()
+                return value.toUpperCase()
+            }
           }
         })
     </script>

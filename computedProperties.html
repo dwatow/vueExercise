@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Computed Properties</title>
+        <style media="screen">
+            pre {
+                box-shadow: 0 0 1px black;
+                padding: 5px;
+            }
+
+            table, td, th {
+                box-shadow: 0 0 1px black;
+            }
+
+        </style>
+    </head>
+    <body>
+        <h1>Computed Properties & Watch</h1>
+        <h2>Computed Properties</h2>
+        <p>模版可以放運算邏輯，但是不建議放太複雜的邏輯，會降低可讀性</p>
+        <p>有<code>get</code>和<code>set</code>可以使用</p>
+        <p><code>data</code>，就是監聽自己的變化進行更新，<code>computed的get</code>就是監聽很多變數的變化進行更新 - by curt</p>
+        <b>example</b>
+        <pre>
+    //javascript
+    var vm = new Vue({
+      el: '#example',
+      data: {
+        message: 'Hello'
+      },
+      computed: {
+        // a computed getter
+        reversedMessage: function () {
+          // `this` points to the vm instance
+          return this.message.split('').reverse().join('')
+        }
+      }
+    })</pre>
+        <div id="example">
+            <pre>< p >Original message: "{ { data value } }"< /p ></pre>
+            <p>Original message: "{{ message }}"</p>
+            <pre>< p >Computed reversed message: "{ { function name } }"< /p ></pre>
+            <p>Computed reversed message: "{{ reversedMessage }}"</p>
+        </div>
+        <h2>Computed Caching vs Methods</h2>
+        <p>computed比method快！computed有「快取住結果」，method沒有。</p>
+        <div id="now">
+            <!-- <p>this is :"{{ test }}"</p> -->
+            <pre>now: "{ { now } }"</pre>
+            <p>now: "{{ now }}"<code>//只是值</code></p>
+            <pre>nowC: "{ { nowC } }"</pre>
+            <p>nowC: "{{ nowC }}"<code>用computed</code></p>
+            <pre>nowM: "{ { nowM() } }"</pre>
+            <p>nowM: "{{ nowM() }}"<code>用methods, 要加括號</code></p>
+        </div>
+        <h2>Computed vs Watched Property</h2>
+        <p>
+            watching <code>dataKey1</code>, when <code>dataKey1</code> change, update <code>dataKey2</code>
+        </p>
+        <pre>{ { key } }</pre>
+        <pre>
+    watch: {
+        dataKey1: function (dataValue1) {
+            this.dataKey2 = dataValue1 + ' ' + this.dataKey3
+        }
+    }</pre>
+        <b>example</b>
+        <pre>
+    watch: {
+        firstName: function (val) {
+            this.fullName = val + ' ' + this.lastName
+        },
+        lastName: function (val) {
+            this.fullName = this.firstName + ' ' + val
+        }
+    }</pre>
+        <div id="demo">
+            <pre>fullName: { { fullName } }</pre>
+            <p>fullName: {{ fullName }}</p>
+            <pre>fullNameC: { { fullNameC } }</pre>
+            <p>fullNameC: {{ fullNameC }}</p>
+            <pre>firstName: { { firstName } }</pre>
+            <p>firstName: {{ firstName }}</p>
+            <pre>lastName: { { lastName } }</pre>
+            <p>lastName: {{ lastName }}</p>
+        </div>
+        <h2>Setter of Computed</h2>
+        <p>像C#這樣的用法</p>
+        <pre>computed: {
+    fullName: {
+        // getter
+        get: function () {
+            return this.firstName + ' ' + this.lastName
+        },
+        // setter
+        set: function (newValue) {
+            var names = newValue.split(' ')
+            this.firstName = names[0]
+            this.lastName = names[names.length - 1]
+        }
+    }
+}</pre>
+        <div id="demo1">
+            <pre>fullName: { { fullName } }</pre>
+            <p>fullName: {{ fullName }}</p>
+            <pre>firstName: { { firstName } }</pre>
+            <p>firstName: {{ firstName }}</p>
+            <pre>lastName: { { lastName } }</pre>
+            <p>lastName: {{ lastName }}</p>
+        </div>
+        <h2>Watchers</h2>
+        <p>非<code>watch</code>不可的時候。</p>
+        <p>This is most useful when you want to perform asynchronous or expensive operations in response to changing data</p>
+        <b>watch implement</b>
+        <div id="watch-example">
+            <p> Ask a yes/no question:
+                <input v-model="question">
+            </p>
+            <p>{{ answer }}</p>
+        </div>
+        <b>computed implement</b>
+        <div id="watch-example1">
+            <p> Ask a yes/no question:
+                <input v-model="question">
+            </p>
+            <p>{{ answer }}</p>
+        </div>
+        <h2>所以...</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>觸發方式</th>
+                    <th>呼叫方式<br>必須和變數同名?</th>
+                    <th>呼叫</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>data</code></td>
+                    <td>「變數」被賦值，渲染view</td>
+                    <td>o</td>
+                    <td><code>vue.value</code></td>
+                </tr>
+                <tr>
+                    <td><code>watch</code></td>
+                    <td>「同名的變數」被賦值就執行</td>
+                    <td>o</td>
+                    <td><code>vue.value</code></td>
+                </tr>
+                <tr>
+                    <td><code>computed</code></td>
+                    <td>「取用的變數」被賦值就執行</td>
+                    <td>x</td>
+                    <td><code>vue.xValue</code></td>
+                </tr>
+                <tr>
+                    <td><code>method</code></td>
+                    <td>被呼叫就執行</td>
+                    <td>x</td>
+                    <td><code>vue.value()</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <script src="https://unpkg.com/vue"></script>
+        <script type="text/javascript">
+    var vm = new Vue({
+        el: '#example',
+        data: {
+            message: 'Hello'
+        },
+        computed: {
+            // a computed getter
+            reversedMessage: function () {
+                // `this` points to the vm instance
+                return this.message.split('').reverse().join('')
+            }
+        }
+    })
+    var now = new Vue({
+        el: '#now',
+        data: {
+            test: 'Hello',
+            now: Date()
+        },
+        computed: {
+            nowC: function () {
+                return this.now
+            }
+        },
+        methods: {
+            nowM: function () {
+                return Date()
+            }
+        }
+    })
+    var name = new Vue({
+        el: '#demo',
+        data: {
+            firstName: 'Foo',
+            lastName: 'Bar',
+            fullName: 'Foo Bar'
+        },
+        computed: {
+            fullNameC: function () {
+              return this.firstName + ' ' + this.lastName
+            }
+        },
+        watch: {
+            firstName: function (val) {
+                this.fullName = val + ' ' + this.lastName
+            },
+            lastName: function (val) {
+                this.fullName = this.firstName + ' ' + val
+            }
+        }
+    })
+
+    var name = new Vue({
+        el: '#demo1',
+        data: {
+            firstName: 'Foo',
+            lastName: 'Bar',
+        },
+        computed: {
+          fullName: {
+            // getter
+            get: function () {
+              return this.firstName + ' ' + this.lastName
+            },
+            // setter
+            set: function (newValue) {
+              var names = newValue.split(' ')
+              this.firstName = names[0]
+              this.lastName = names[names.length - 1]
+            }
+          }
+        }
+    })
+    </script>
+        <!-- Since there is already a rich ecosystem of ajax libraries    -->
+        <!-- and collections of general-purpose utility methods, Vue core -->
+        <!-- is able to remain small by not reinventing them. This also   -->
+        <!-- gives you the freedom to just use what you're familiar with. -->
+        <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+        <script>
+    var watchExampleVM = new Vue({
+      el: '#watch-example',
+      data: {
+        question: '',
+        answer: 'I cannot give you an answer until you ask a question!'
+      },
+      watch: {
+        // 如果 question 发生改变，这个函数就会运行
+        question: function (newQuestion, oldQuestion) {
+          console.log(this)
+          this.answer = 'Waiting for you to stop typing...'
+          this.getAnswer()
+        }
+      },
+      methods: {
+        // _.debounce 是一个通过 lodash 限制操作频率的函数。
+        // 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率
+        // ajax 请求直到用户输入完毕才会发出
+        // 学习更多关于 _.debounce function (and its cousin
+        // _.throttle), 参考: https://lodash.com/docs#debounce
+        getAnswer: _.debounce(
+          function () {
+            if (this.question.indexOf('?') === -1) {
+              this.answer = 'Questions usually contain a question mark. ;-)'
+              return
+            }
+            this.answer = 'Thinking...'
+            var vm = this
+            axios.get('https://yesno.wtf/api')
+              .then(function (response) {
+                vm.answer = _.capitalize(response.data.answer)
+              })
+              .catch(function (error) {
+                vm.answer = 'Error! Could not reach the API. ' + error
+              })
+          },
+          // 这是我们为用户停止输入等待的毫秒数
+          500
+        )
+      }
+    })
+
+    var watchExampleVM1 = new Vue({
+      el: '#watch-example1',
+      data: {
+        questionText: '',
+        answer: 'I cannot give you an answer until you ask a question!'
+      },
+      computed: {
+        // 如果 question 发生改变，这个函数就会运行
+        question: {
+            set: function (newQuestion) {
+                //  != newQuestion
+                console.log(this)
+
+
+                this.answer = 'Waiting for you to stop typing...'
+                this.questionText = newQuestion
+                this.getAnswer(newQuestion)
+            },
+            get: function () {
+                console.log(this)
+                return this.questionText;
+            }
+        }
+      },
+      methods: {
+        // _.debounce 是一个通过 lodash 限制操作频率的函数。
+        // 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率
+        // ajax 请求直到用户输入完毕才会发出
+        // 学习更多关于 _.debounce function (and its cousin
+        // _.throttle), 参考: https://lodash.com/docs#debounce
+        getAnswer: _.debounce(
+          function (newQuestion) {
+            if (newQuestion.indexOf('?') === -1) {
+              this.answer = 'Questions usually contain a question mark. ;-)'
+              return
+            }
+            this.answer = 'Thinking...'
+            var vm = this
+            axios.get('https://yesno.wtf/api')
+              .then(function (response) {
+                vm.answer = _.capitalize(response.data.answer)
+              })
+              .catch(function (error) {
+                vm.answer = 'Error! Could not reach the API. ' + error
+              })
+          },
+          // 这是我们为用户停止输入等待的毫秒数
+          500
+        )
+      }
+    })
+    </script>
+    </body>
+</html>

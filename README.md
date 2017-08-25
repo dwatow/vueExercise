@@ -8,7 +8,8 @@
 
 - [Introduction](https://dwatow.github.io/vueExercise/introduction.html)
 - [hello world0](https://dwatow.github.io/vueExercise/helloworld0.html)
-- [Instance](https://dwatow.github.io/vueExercise/Instance.html)
-- [templateSyntax](https://dwatow.github.io/vueExercise/templateSyntax.html)
+- [instance](https://dwatow.github.io/vueExercise/instance.html)
+- [template syntax](https://dwatow.github.io/vueExercise/templateSyntax.html)
+- [computed properties](https://dwatow.github.io/vueExercise/computedProperties.html)
 
-[最新進度](https://cn.vuejs.org/v2/guide/syntax.html#修饰符)
+[最新進度](https://cn.vuejs.org/v2/guide/computed.html#基础例子)

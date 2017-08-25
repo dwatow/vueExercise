@@ -12,4 +12,4 @@
 - [template syntax](https://dwatow.github.io/vueExercise/templateSyntax.html)
 - [computed properties](https://dwatow.github.io/vueExercise/computedProperties.html)
 
-[最新進度](https://cn.vuejs.org/v2/guide/computed.html#基础例子)
+[最新進度](https://cn.vuejs.org/v2/guide/class-and-style.html)

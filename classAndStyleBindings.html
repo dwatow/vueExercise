@@ -112,12 +112,12 @@
 }</pre>
     <b>也可以用兩個</b>
     <pre>< div v-bind:style="[obj1, obj2]">< /div ></pre>
-    <h2>自動補上 vendor prefix</h2>
+    <h3>自動補上 vendor prefix</h3>
     <p>而且!!!在需要時會「自動加上 Vendor Prefix」</p>
-    <h2>自動選擇支援的前綴</h2>
+    <h3>自動選擇支援的前綴</h3>
     <pre>< div :style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }"></pre>
     若支援無前綴的情況，就會自動變成
-    <pre>< div style="{ display: flex }"></pre>    
+    <pre>< div style="{ display: flex }"></pre>
     <script src="https://unpkg.com/vue"></script>
     <script type="text/javascript">
     var app1 = new Vue({

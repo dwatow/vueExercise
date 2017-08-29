@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style media="screen">
+        pre {
+            box-shadow: 0 0 1px black;
+            padding: 5px;
+        }
+
+        table, td, th {
+            box-shadow: 0 0 1px black;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Class and Style Bindings</h1>
+    <h2>Binding HTML Classes</h2>
+    <h3>Object (of javascript) Syntax</h3>
+    <p>前面有介紹class的控制可以用<code>v-bind:class</code>的語法這樣寫，寫一個js物件接在後面。</p>
+    <b>HTML</b>
+    <pre>< div  v-bind:class = "{ active: isActive }" > </ div ></pre>
+    <b>Javascript</b>
+    <pre>var vm = new Vue({
+    data: {
+        isActive: true
+    }
+})</pre>
+    <p>
+        意思是<br />
+        <code>if (vm.data.isActive === true)</code>
+    </p>
+    <pre>< div class="active"> < /div ></pre>
+    <p><code>else</code></p>
+    <pre>< div class=""> < /div ></pre>
+    <h3>如果很複雜!!!</h3>
+    <p>如果<code>v-bind:class</code>後面接著的物件很複雜，就可以將這一個js物件，命名並寫在<code>data</code>裡，並且在<code>v-bind:class</code>接上這個js物件的名字</p>
+    <pre>< div v-bind:class="dataObject">qwer< /div ></pre>
+    <p>在<code>data</code>直接建「資料物件」(<code>dataObject</code>)，用來切換<code>cssClass</code></p>
+    <pre>data: {
+    dataObject: {
+        cssClass: true | false
+    }
+}</pre>
+    渲染完成為這樣
+    <pre>< div class="cssClass">qwer< /div ></pre>
+    <b>example</b>
+    <div id="app1">
+        <div>{{ classSwitcher.test }}</div>
+        <div v-bind:class="classSwitcher">qwer</div>
+    </div>
+    <h3>Array (of javascript) Syntax</h3>
+    <p>除了寫物件在<code>v-bind:class</code>後面，還可以寫<code>array</code>，代表<code>data</code>有其屬性時，就有<code>class</code></p>
+    <b>HTML</b>
+    <pre>< div v-bind:class="[arrayElement]">< /div ></pre>
+    <b>Javascript</b>
+    <pre>data: {
+  arrayElement: 'cssClass'
+}</pre>
+<p><b>HTML</b>渲染後，變成這樣</p>
+    <pre>< div class="cssClass">< /div ></pre>
+    <p>如果不只是要依「<code>Modal</code>是否有屬性」判斷</p><p>想要依「其屬性的內容」判斷，就在array裡用「三元運算」<code>property?cssClass1:cssClass2</code></p>
+    <pre>< div v-bind:class="[arrayElement ? cssClass1 : cssClass2]">< /div ></pre>
+    <p>如果太複雜，可以再將array裡的成員變成物件</p>
+    <pre>< div v-bind:class="[{ active: isActive }, errorClass]">< /div ></pre>
+    <h3>With Components</h3>
+    <script src="https://unpkg.com/vue"></script>
+    <script type="text/javascript">
+
+    var app1 = new Vue({
+        el: '#app1',
+        data: {
+          classSwitcher: {
+            test: 'abcde',
+            active: false,
+            'text-danger': true
+          }
+        }
+    })
+
+    </script>
+</body>
+</html>

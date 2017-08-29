@@ -11,5 +11,6 @@
 - [instance](https://dwatow.github.io/vueExercise/instance.html)
 - [template syntax](https://dwatow.github.io/vueExercise/templateSyntax.html)
 - [computed properties](https://dwatow.github.io/vueExercise/computedProperties.html)
+- [computed properties](https://dwatow.github.io/vueExercise/classAndStyleBindings.html)
 
 [最新進度](https://cn.vuejs.org/v2/guide/class-and-style.html)

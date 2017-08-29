@@ -12,5 +12,6 @@
 - [template syntax](https://dwatow.github.io/vueExercise/templateSyntax.html)
 - [computed properties](https://dwatow.github.io/vueExercise/computedProperties.html)
 - [class & style bindings](https://dwatow.github.io/vueExercise/classAndStyleBindings.html)
+- [Conditional Rendering](https://dwatow.github.io/vueExercise/conditionalRendering.html)
 
 [最新進度](https://cn.vuejs.org/v2/guide/conditional.html)

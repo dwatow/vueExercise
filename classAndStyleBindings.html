@@ -1,136 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <style media="screen">
-        pre {
-            box-shadow: 0 0 1px black;
-            padding: 5px;
-        }
-
-        table, td, th {
-            box-shadow: 0 0 1px black;
-        }
-
-    </style>
-</head>
-<body>
-    <h1>Class and Style Bindings</h1>
-    <h2>Binding HTML Classes</h2>
-    <h3>Object (of javascript) Syntax</h3>
-    <p>前面有介紹class的控制可以用<code>v-bind:class</code>的語法這樣寫，寫一個js物件接在後面。</p>
-    <b>HTML</b>
-    <pre>< div  v-bind:class = "{ active: isActive }" > </ div ></pre>
-    <b>Javascript</b>
-    <pre>var vm = new Vue({
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Class and Style Bindings</title>
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <h1>Class and Style Bindings</h1>
+        <h2>Binding HTML Classes</h2>
+        <h3>Object (of javascript) Syntax</h3>
+        <p>前面有介紹class的控制可以用<code>v-bind:class</code>的語法這樣寫，寫一個js物件接在後面。</p>
+        <b>HTML</b>
+        <pre>< div  v-bind:class = "{ active: isActive }" > </ div ></pre>
+        <b>Javascript</b>
+        <pre>var vm = new Vue({
     data: {
         isActive: true
     }
 })</pre>
-    <p>
-        意思是<br />
-        <code>if (vm.data.isActive === true)</code>
-    </p>
-    <pre>< div class="active"> < /div ></pre>
-    <p><code>else</code></p>
-    <pre>< div class=""> < /div ></pre>
-    <h3>如果很複雜!!!</h3>
-    <p>如果<code>v-bind:class</code>後面接著的物件很複雜，就可以將這一個js物件，命名並寫在<code>data</code>裡，並且在<code>v-bind:class</code>接上這個js物件的名字</p>
-    <pre>< div v-bind:class="dataObject">qwer< /div ></pre>
-    <p>在<code>data</code>直接建「資料物件」(<code>dataObject</code>)，用來切換<code>cssClass</code></p>
-    <pre>data: {
+        <p>
+            意思是<br />
+            <code>if (vm.data.isActive === true)</code>
+        </p>
+        <pre>< div class="active"> < /div ></pre>
+        <p><code>else</code></p>
+        <pre>< div class=""> < /div ></pre>
+        <h3>如果很複雜!!!</h3>
+        <p>如果<code>v-bind:class</code>後面接著的物件很複雜，就可以將這一個js物件，命名並寫在<code>data</code>裡，並且在<code>v-bind:class</code>接上這個js物件的名字</p>
+        <pre>< div v-bind:class="dataObject">qwer< /div ></pre>
+        <p>在<code>data</code>直接建「資料物件」(<code>dataObject</code>)，用來切換<code>cssClass</code></p>
+        <pre>data: {
     dataObject: {
         cssClass: true | false
     }
-}</pre>
-    渲染完成為這樣
-    <pre>< div class="cssClass">qwer< /div ></pre>
-    <b>example</b>
-    <div id="app1">
-        <div>{{ classSwitcher.test }}</div>
-        <div v-bind:class="classSwitcher">qwer</div>
-    </div>
-    <h3>Array (of javascript) Syntax</h3>
-    <p>除了寫物件在<code>v-bind:class</code>後面，還可以寫<code>array</code>，代表<code>data</code>有其屬性時，就有<code>class</code></p>
-    <b>HTML</b>
-    <pre>< div v-bind:class="[arrayElement]">< /div ></pre>
-    <b>Javascript</b>
-    <pre>data: {
+}</pre> 渲染完成為這樣
+        <pre>< div class="cssClass">qwer< /div ></pre>
+        <b>example</b>
+        <div id="app1">
+            <div>{{ classSwitcher.test }}</div>
+            <div v-bind:class="classSwitcher">qwer</div>
+        </div>
+        <h3>Array (of javascript) Syntax</h3>
+        <p>除了寫物件在<code>v-bind:class</code>後面，還可以寫<code>array</code>，代表<code>data</code>有其屬性時，就有<code>class</code></p>
+        <b>HTML</b>
+        <pre>< div v-bind:class="[arrayElement]">< /div ></pre>
+        <b>Javascript</b>
+        <pre>data: {
   arrayElement: 'cssClass'
 }</pre>
-    <p><b>HTML</b>渲染後，變成這樣</p>
-    <pre>< div class="cssClass">< /div ></pre>
-    <p>如果不只是要依「<code>Modal</code>是否有屬性」判斷</p><p>想要依「其屬性的內容」判斷，就在array裡用「三元運算」<code>property?cssClass1:cssClass2</code></p>
-    <pre>< div v-bind:class="[arrayElement ? cssClass1 : cssClass2]">< /div ></pre>
-    <p>如果太複雜，可以再將array裡的成員變成物件</p>
-    <pre>< div v-bind:class="[{ active: isActive }, errorClass]">< /div ></pre>
-    <h3>With Components</h3>
-    有一個組件長這樣
-    <b>Javascript</b>
-    <pre>Vue.component('my-component', {
+        <p><b>HTML</b>渲染後，變成這樣</p>
+        <pre>< div class="cssClass">< /div ></pre>
+        <p>如果不只是要依「<code>Modal</code>是否有屬性」判斷</p>
+        <p>想要依「其屬性的內容」判斷，就在array裡用「三元運算」<code>property?cssClass1:cssClass2</code></p>
+        <pre>< div v-bind:class="[arrayElement ? cssClass1 : cssClass2]">< /div ></pre>
+        <p>如果太複雜，可以再將array裡的成員變成物件</p>
+        <pre>< div v-bind:class="[{ active: isActive }, errorClass]">< /div ></pre>
+        <h3>With Components</h3> 有一個組件長這樣
+        <b>Javascript</b>
+        <pre>Vue.component('my-component', {
   template: '< p class="foo bar">Hi< /p >'
 })</pre>
-    <b>HTML</b>
-    <pre>< my-component class="baz boo">< /my-component ></pre>
-    渲染完的結果是這樣
-    <pre>< p class="foo bar baz boo">Hi</p ></pre>
-    其中，它的class也可以依照上述方式處理
-    <pre>< my-component v-bind:class="{ active: isActive }">< /my-component ></pre>
-    就可以依isActive的內容值決定是否套件此class。
-    <pre>< p class="foo bar active">Hi< /p ></pre>
-    <h2>Binding Inline Styles</h2>
-    <p>這是一種像極CSS原生寫法的「控制vue css」的寫法</p>
-    <p><code>v-bind</code>的用法，用在<code>style</code>上。</p>
-    <pre>< div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">< /div ></pre>
-    然後，在<code>Vue</code>的<code>data</code>這樣寫
-    <pre>data: {
+        <b>HTML</b>
+        <pre>< my-component class="baz boo">< /my-component ></pre> 渲染完的結果是這樣
+        <pre>< p class="foo bar baz boo">Hi</p ></pre> 其中，它的class也可以依照上述方式處理
+        <pre>< my-component v-bind:class="{ active: isActive }">< /my-component ></pre> 就可以依isActive的內容值決定是否套件此class。
+        <pre>< p class="foo bar active">Hi< /p ></pre>
+        <h2>Binding Inline Styles</h2>
+        <p>這是一種像極CSS原生寫法的「控制vue css」的寫法</p>
+        <p><code>v-bind</code>的用法，用在<code>style</code>上。</p>
+        <pre>< div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">< /div ></pre> 然後，在
+        <code>Vue</code>的<code>data</code>這樣寫
+        <pre>data: {
   activeColor: 'red',
   fontSize: 30
 }</pre>
-    <p>像不像<code>css</code>的<code>inline寫法</code></p>
-    <pre>< div style="color: red;fontSize: 30px;">< /div ></pre>
-    <p>很像直接寫CSS的感覺吧!!!(官網直接這麼說「it looks almost like CSS」)。</p>
-    <p>另外還可以將這種寫法變成「資料物件」的寫法</p>
-    <pre>< div v-bind:style="styleObject">< /div ></pre>
-    <pre>data: {
+        <p>像不像<code>css</code>的<code>inline寫法</code></p>
+        <pre>< div style="color: red;fontSize: 30px;">< /div ></pre>
+        <p>很像直接寫CSS的感覺吧!!!(官網直接這麼說「it looks almost like CSS」)。</p>
+        <p>另外還可以將這種寫法變成「資料物件」的寫法</p>
+        <pre>< div v-bind:style="styleObject">< /div ></pre>
+        <pre>data: {
   styleObject: {
     color: 'red',
     fontSize: '13px'
   }
 }</pre>
-    <p>像不像<code>css</code>的<code>一般寫法</code></p>
-    <b>HTML</b>
-    <pre>< div class="title-style">< /div ></pre>
-    <b>CSS</b>
-    <pre>
+        <p>像不像<code>css</code>的<code>一般寫法</code></p>
+        <b>HTML</b>
+        <pre>< div class="title-style">< /div ></pre>
+        <b>CSS</b>
+        <pre>
 .title-style {
     color: 'red';
     fontSize: '13px';
 }</pre>
-    <b>也可以用兩個</b>
-    <pre>< div v-bind:style="[obj1, obj2]">< /div ></pre>
-    <h3>自動補上 vendor prefix</h3>
-    <p>而且!!!在需要時會「自動加上 Vendor Prefix」</p>
-    <h3>自動選擇支援的前綴</h3>
-    <pre>< div :style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }"></pre>
-    若支援無前綴的情況，就會自動變成
-    <pre>< div style="{ display: flex }"></pre>
-    <script src="https://unpkg.com/vue"></script>
-    <script type="text/javascript">
-    var app1 = new Vue({
-        el: '#app1',
-        data: {
-          classSwitcher: {
-            test: 'abcde',
-            active: false,
-            'text-danger': true
-          }
-        }
-    })
+        <b>也可以用兩個</b>
+        <pre>< div v-bind:style="[obj1, obj2]">< /div ></pre>
+        <h3>自動補上 vendor prefix</h3>
+        <p>而且!!!在需要時會「自動加上 Vendor Prefix」</p>
+        <h3>自動選擇支援的前綴</h3>
+        <pre>< div :style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }"></pre> 若支援無前綴的情況，就會自動變成
+        <pre>< div style="{ display: flex }"></pre>
+        <script src="https://unpkg.com/vue"></script>
+        <script type="text/javascript">
+        var app1 = new Vue({
+            el: '#app1',
+            data: {
+              classSwitcher: {
+                test: 'abcde',
+                active: false,
+                'text-danger': true
+              }
+            }
+        })
 
-    </script>
-</body>
+        </script>
+    </body>
 </html>

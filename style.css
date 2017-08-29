@@ -1,0 +1,9 @@
+
+pre {
+    box-shadow: 0 0 1px black;
+    padding: 5px;
+}
+
+table, td, th {
+    box-shadow: 0 0 1px black;
+}

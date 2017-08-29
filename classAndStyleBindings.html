@@ -61,16 +61,65 @@
     <pre>data: {
   arrayElement: 'cssClass'
 }</pre>
-<p><b>HTML</b>渲染後，變成這樣</p>
+    <p><b>HTML</b>渲染後，變成這樣</p>
     <pre>< div class="cssClass">< /div ></pre>
     <p>如果不只是要依「<code>Modal</code>是否有屬性」判斷</p><p>想要依「其屬性的內容」判斷，就在array裡用「三元運算」<code>property?cssClass1:cssClass2</code></p>
     <pre>< div v-bind:class="[arrayElement ? cssClass1 : cssClass2]">< /div ></pre>
     <p>如果太複雜，可以再將array裡的成員變成物件</p>
     <pre>< div v-bind:class="[{ active: isActive }, errorClass]">< /div ></pre>
     <h3>With Components</h3>
+    有一個組件長這樣
+    <b>Javascript</b>
+    <pre>Vue.component('my-component', {
+  template: '< p class="foo bar">Hi< /p >'
+})</pre>
+    <b>HTML</b>
+    <pre>< my-component class="baz boo">< /my-component ></pre>
+    渲染完的結果是這樣
+    <pre>< p class="foo bar baz boo">Hi</p ></pre>
+    其中，它的class也可以依照上述方式處理
+    <pre>< my-component v-bind:class="{ active: isActive }">< /my-component ></pre>
+    就可以依isActive的內容值決定是否套件此class。
+    <pre>< p class="foo bar active">Hi< /p ></pre>
+    <h2>Binding Inline Styles</h2>
+    <p>這是一種像極CSS原生寫法的「控制vue css」的寫法</p>
+    <p><code>v-bind</code>的用法，用在<code>style</code>上。</p>
+    <pre>< div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">< /div ></pre>
+    然後，在<code>Vue</code>的<code>data</code>這樣寫
+    <pre>data: {
+  activeColor: 'red',
+  fontSize: 30
+}</pre>
+    <p>像不像<code>css</code>的<code>inline寫法</code></p>
+    <pre>< div style="color: red;fontSize: 30px;">< /div ></pre>
+    <p>很像直接寫CSS的感覺吧!!!(官網直接這麼說「it looks almost like CSS」)。</p>
+    <p>另外還可以將這種寫法變成「資料物件」的寫法</p>
+    <pre>< div v-bind:style="styleObject">< /div ></pre>
+    <pre>data: {
+  styleObject: {
+    color: 'red',
+    fontSize: '13px'
+  }
+}</pre>
+    <p>像不像<code>css</code>的<code>一般寫法</code></p>
+    <b>HTML</b>
+    <pre>< div class="title-style">< /div ></pre>
+    <b>CSS</b>
+    <pre>
+.title-style {
+    color: 'red';
+    fontSize: '13px';
+}</pre>
+    <b>也可以用兩個</b>
+    <pre>< div v-bind:style="[obj1, obj2]">< /div ></pre>
+    <h2>自動補上 vendor prefix</h2>
+    <p>而且!!!在需要時會「自動加上 Vendor Prefix」</p>
+    <h2>自動選擇支援的前綴</h2>
+    <pre>< div :style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }"></pre>
+    若支援無前綴的情況，就會自動變成
+    <pre>< div style="{ display: flex }"></pre>    
     <script src="https://unpkg.com/vue"></script>
     <script type="text/javascript">
-
     var app1 = new Vue({
         el: '#app1',
         data: {

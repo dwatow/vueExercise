@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Conditional Rendering</title>
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <h1>Conditional Rendering</h1>
+        <h2><code>v-if</code></h2>
+        <p>用<code>string template</code>時，要寫一個條件渲染，可以這麼做</p>
+        <pre>{ {#if ok} }
+  < h1 >Yes< /h1 >
+{ {/if} }</pre> 很性麻煩吧！所以
+        <code>Vue</code>有提供<code>v-if</code>的寫法來簡化這個語法
+        <pre>< h1 v-if="ok">Yes< /h1 ></pre> 也可以加
+        <pre>< h1 v-if="ok">Yes< /h1 >
+< h1 v-else>No< /h1 ></pre>
+        <b>群組化</b>條件渲染
+        <pre>< template v-if="ok">
+  < h1 >Title< /h1 >
+  < p >Paragraph 1< /p >
+  < p >Paragraph 2< /p >
+< /template ></pre>
+        <h2><code>v-else</code></h2>
+        <pre>< div v-if="Math.random() > 0.5">Now you see me< /div >
+< div v-else              >Now you don't< /div ></pre>
+        <h2><code>v-else-if</code></h2>
+        <pre>< div      v-if="type === 'A'" >A< /div >
+< div v-else-if="type === 'B'" >B< /div >
+< div v-else-if="type === 'C'" >C< /div >
+< div v-else           >Not A/B/C< /div ></pre>
+        <h2><code>template</code></h2>
+        <h3>重複使用<code>template</code></h3>
+        <p>有一種語法叫<code>templaate</code>，可以在條件渲染時，只換掉<code>HTML</code>的差異之處，而不是整個語法法換掉。</p>
+        <pre>< template  v-if = "loginType === 'username'" >
+  < label > Username </ label >
+  < input  placeholder = "Enter your username" >
+< /template >
+< template  v-else >
+  < label > Email < /label >
+  < input  placeholder = "Enter your email address" >
+< /template ></pre>
+        <div id="app1">
+            <p>loginType: {{loginType}} </p>
+            <p><button onclick="app1.change()">Change!!</button></p>
+            <template v-if="loginType === 'username'">
+                <label> Username </label>
+                <input  placeholder="Enter your username">
+            </template>
+            <template v-else>
+                <label> Email </label>
+                <input  placeholder="Enter your email address">
+            </template>
+        </div>
+        <h3>不重複使用<code>template</code></h3>
+        <p>不過，還有另一種使用<code>template</code>的情況</p>
+        <p>若想要清掉整個<code>HTML</code>時，該怎麼辦呢？用<code>key</code>!!!</p>
+        <pre>< template v-if="loginType === 'username'" >
+  < label>Username< /label >
+  < input placeholder="Enter your username" key="username-input" >  <= 在這裡加key
+< /template >
+< template v-else >
+  < label>Email< /label >
+  < input placeholder="Enter your email address" key="email-input" >  <= 在這裡加key
+< /template ></pre>
+        <div id="app2">
+            <p>loginType: {{loginType}} </p>
+            <p><button onclick="app2.change()">Change!!</button></p>
+            <template v-if="loginType === 'username'">
+              <label>Username</label>
+              <input placeholder="Enter your username" key="username-input">
+            </template>
+            <template v-else>
+              <label>Email</label>
+              <input placeholder="Enter your email address" key="email-input">
+            </template>
+        </div>
+        <h2><code>v-show</code></h2>
+        <ul>
+            <li>純切換<code>css</code>的<code>display:none</code></li>
+            <li>所以，永遠渲染</li>
+            <li>不支援<code>template</code></li>
+            <li>不支援<code>v-else</code></li>
+        </ul>
+        <div id="app3">
+            <input type="checkbox" v-model:checked="seen"><span v-show="seen">現在你看到我了</span>
+        </div>
+        <h2><code>v-if</code> vs <code>v-show</code></h2>
+        <p>速度: <code>v-show</code></p>
+        <p>因為<code>v-if</code>會真正的操作DOM使它真正的消失在<code>HTML</code>文件內。(慢)<br />
+        而<code>v-show</code>只是讓DOM不出現在畫面，並不是不存在。元素總是會被渲染，只是用CSS切換。</p>
+        <h2><code>v-if</code> vs <code>v-for</code></h2>
+        <p>優先權: <code>v-for</code> > <code>v-if</code></p>
+
+        <script src="https://unpkg.com/vue"></script>
+        <script type="text/javascript">
+            var app1 = new Vue({
+                el: '#app1',
+                data: {
+                    loginType: 'username',
+                },
+                methods: {
+                    change: function () {
+                        this.loginType = (this.loginType === 'username') ? '' : 'username'
+                    }
+                }
+            })
+            var app2 = new Vue({
+                el: '#app2',
+                data: {
+                    loginType: 'username',
+                },
+                methods: {
+                    change: function () {
+                        this.loginType = (this.loginType === 'username') ? '' : 'username'
+                    }
+                }
+            })
+            var app3 = new Vue({
+                el: '#app3',
+                data: {
+                    seen: true
+                }
+            })
+        </script>
+    </body>
+</html>

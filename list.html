@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>List</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <h1>List Rendering</h1>
+    <h2><code>v-for</code>with an Array</h2>
+    <p>重複<code>< li ></code>。所以將<code>v-for</code>寫在<code>< li ></code>上面。</p>
+    <p>印出一個array，所以將array丟進<code>for-in</code></p>
+    <b>HTML</b>
+    <pre>< ul id="v-for-array">
+  < li v-for="item in items">
+    {{ item.message }}
+  < /li >
+< /ul ></pre>
+    <b>Javascript</b>
+    <pre>var example1 = new Vue({
+  el: '#v-for-array',
+  data: {
+    items: [
+      { message: 'Foo' },
+      { message: 'Bar' }
+    ]
+  }
+})</pre>
+    <b>Result:</b>
+    <ul id="v-for-array">
+      <li v-for="item in items">
+        {{ item.message }}
+      </li>
+    </ul>
+    <p>其中，<code>in</code>可以換成<code>of</code></p>
+    <pre>< li v-for="item in items"> 也可以用 < li v-for="item of items"></pre>
+    <h2>v-for with an Object</h2>
+    <p>印出一個object成員變數，所以將object丟進<code>for-in</code></p>
+    <b>HTML</b>
+    <pre>< ul id="v-for-object" class="demo">
+  < li v-for="value in object">
+    {{ value }}
+  < /li >
+< /ul ></pre>
+    <b>Javascript</b>
+    <pre>new Vue({
+  el: '#v-for-object',
+  data: {
+    object: {
+      firstName: 'John',
+      lastName: 'Doe',
+      age: 30
+    }
+  }
+})</pre>
+    <b>Result:</b>
+    <ul id="v-for-object" class="demo">
+      <li v-for="value in object">
+        {{ value }}
+      </li>
+    </ul>
+    <h3>印出<code>key-value</code></h3>
+    <b>HTML</b>
+    <pre>< div v-for="(value, key) in object">
+  {{ key }}: {{ value }}
+< /div ></pre>
+    <b>Result:</b>
+    <div id="v-for-key-value">
+        <div v-for="(value, key) in object">
+          {{ key }}: {{ value }}
+        </div>
+    </div>
+    <h3>印出<code>index</code></h3>
+    <p>0起始計數。</p>
+    <b>HTML</b>
+    <pre>< div v-for="(value, key) in object">
+   {{ index }}. {{ key }}: {{ value }}
+< /div ></pre>
+    <b>Result:</b>
+    <div id="v-for-index">
+        <div v-for="(value, key, index) in object">
+           {{ index }}. {{ key }}: {{ value }}
+        </div>
+    </div>
+    不保證順序每次都相同。
+    <h2>一次渲染多個<code>HTML</code>tag <small>< template ></small></h2>
+    <p>重複多個<code>HTML</code>tag。所以將<code>v-for</code>寫在<code>< template ></code>上面。</p>
+    <h2><code>key</code>的用法!!</h2>
+    目前對這個功能還不了解!!!有找到<a href="https://www.zhihu.com/question/61064119" target="_blank">一篇文章</a>可以參考
+    <div id="v-for-key">
+        <div v-for="(value, key, index) in object" :key = "key">
+           {{ index }}. {{ key }}: {{ value }}
+        </div>
+    </div>
+    <h2>Array Change Detection</h2>
+    <p>陣列經過這些<code>function</code>都會觸發更新畫面</p>
+    <p>修改元素，修改原陣列</p>
+    <ul>
+        <li><code>push()</code></li>
+        <li><code>pop()</code></li>
+        <li><code>shift()</code></li>
+        <li><code>unshift()</code></li>
+        <li><code>splice()</code></li>
+        <li><code>sort()</code></li>
+        <li><code>reverse()</code></li>
+    </ul>
+    <p>修改元素, 回傳新陣列</p>
+    <ul>
+        <li><code>filter()</code></li>
+        <li><code>concat()</code></li>
+        <li><code>slice()</code></li>
+    </ul>
+    <b>example</b>
+    <pre>< ul id="example-1" >
+  < li v-for="item in items" >
+    {{ item.message }}
+  < /li >
+< /ul ></pre>
+    <ul id="array-methods">
+      <li v-for="item in items">
+        {{ item.message }}
+      </li>
+    </ul>
+    <p>在這個例子可以打開<code>console</code>輸入<code>array_methods.items.push({ message: 'Baz' })</code>可以立即新增元素到畫面上</p>
+    <h3>Replacing an Array</h3>
+    <p>無論js是回傳新的array，還是修改原本的array，vue在渲染DOM的行為，都是高效能的。</p>
+    <h3>Caveats</h3>
+    <p>因為javascript的限制，Array有些操作方式無法觸發「Vue重新渲染」，不過在此也提供了一些解決方式。</p>
+    <ol>
+        <li>當你利用索引直接設置一個項時，例如： <code>vm.items[indexOfItem] = newValue</code></li>
+        <li>當你修改數組的長度時，例如： <code>vm.items.length = newLength</code></li>
+    </ol>
+    <b>1. 的解決方式</b>
+    <p>用<code>Vue.set()</code></p>
+    <pre>// Vue.set
+Vue.set(example1.items, indexOfItem, newValue)</pre>
+    <p>用<code>Array.prototype.splice</code></p>
+    <pre>// Array.prototype.splice
+example1.items.splice(indexOfItem, 1 , newValue)</pre>
+    <b>2. 的解決方式</b>
+    <p>用<code>Array.prototype.splice</code></p>
+    <pre>// Array.prototype.splice
+example1.items.splice(newLength)</pre>
+    <h2>Object Change Detection Caveats</h2>
+    <p>在此官方中文版文件....換章節!!</p>
+    <p>有時，我們想要添加新屬性到已存在的物件上，好讓物件可以渲染到畫面上。(也許就是call兩支api的情況??)</p>
+    <p>因為javascript的限制，Object有些操作方式無法觸發「Vue重新渲染」，不過在此也提供了一些解決方式。</p>
+    <pre>var vm = new Vue({
+  data: {
+    a: 1
+  }
+})
+// 賦值`vm.a`有反應
+vm.b = 2
+// 新增`vm.b`無反應</pre>
+    <p>Vue不允許動態地向已創建的實例添加新的根級別的反應屬性。<br />
+        但是，可以使用<code>Vue.set(object, key, value)</code>方法向嵌套對象添加反應屬性。<br />
+        例如，給出：</p>
+    <pre>var obj_update = new Vue({
+    data: {
+        el: '#obj-update'
+        userProfile: {
+            name: 'Anika'
+        }
+    }
+})</pre>
+    <b>example</b>
+    <div id="obj-update">
+        <div v-for="(property, key, index) in userProfile">
+            {{index}}, {{key}}, {{property}}
+        </div>
+    </div>
+    然後，想要在<code>obj_update.userProfile</code>裡加入新的變數，打開<code>console</code>輸入:
+    <pre>Vue.set(obj_update.userProfile, 'age', 27)</pre>
+    或者在Vue物件內的methods時，用<code>vm.$set</code>取代全域的<code>Vue.set</code>。
+    <pre>methods: {
+    add: function (key, value) {
+        this.$set(this.userProfile, key, value);
+    }
+}</pre>
+    在<code>console</code>可以這樣輸入，新增元素到畫面。
+    <pre>obj_update.add('age', 27)</pre>
+    <p>有時，如果你想要添加數個變數，例如使用<code>Object.assign()</code>和<code>_.extend()</code>進行物件屬性的合併。<br />
+    但是，這樣添加的話是不會觸發更新畫面的。</p>
+    <pre>Object.assign(obj_update.userProfile, {
+  age: 27,
+  favoriteColor: 'Vue Green'
+})</pre>
+    <p>要解決這個問題，要用一個新的物件賦值</p>
+    <p>可以直接在<code>console</code>貼上這一段。上面的資料會動態渲染唷。</p>
+    <pre>const newUserProfile = Object.assign({}, obj_update.userProfile, {
+  age: 27,
+  favoriteColor: 'Vue Green'
+})
+obj_update.userProfile = newUserProfile;</pre>
+    <h2>Displaying Filtered/Sorted Results</h2>
+    <p>有時，我們想要顯示 過濾/排序 的資料副本。</p>
+    <p>這裡有一個「顯示偶數」的例子</p>
+    <b>HTML</b>
+    <pre>< li  v-for = "n in evenNumbers" > {{ n }} < /li ></pre>
+    <b>Javascrit</b>
+    <pre>data: {
+  numbers : [ 1 , 2 , 3 , 4 , 5 ]
+},
+computed : {
+  evenNumbers : function () {
+    return  this .nu​​mbers.filter( function ( number ) {
+      return number % 2 === 0
+    })
+  }
+}</pre>
+    <b>Result</b>
+    <div id="even-number">
+        <li v-for="n in evenNumbers" > {{ n }} </li>
+    </div>
+    可以用一個取偶數Method
+    <b>HTML</b>
+    <pre>< li v-for="n in even(numbers)">{{ n }}< /li ></pre>
+    <b>Javascript</b>
+    <pre>data: {
+  numbers: [ 1, 2, 3, 4, 5 ]
+},
+methods: {
+  even: function (numbers) {
+    return numbers.filter(function (number) {
+      return number % 2 === 0
+    })
+  }
+}</pre>
+    <b>Result</b>
+    <div id="even-number2">
+        <li v-for="n in even(numbers)">{{ n }}</li>
+    </div>
+    <h2>v-for with a Range</h2>
+    <code>v-for</code> 可以計數整數。在此例，它可以重複tag
+    <pre>< div >
+  < span v-for="n in 10">{{ n }} < /span >
+< /div ></pre>
+    <b>渲染成</b>
+    <pre>< div id="vfor-range" >
+    < span >1 < /span >
+    < span >2 < /span >
+    < span >3 < /span >
+    < span >4 < /span >
+    < span >5 < /span >
+    < span >6 < /span >
+    < span >7 < /span >
+    < span >8 < /span >
+    < span >9 < /span >
+    < span >10 < /span >
+< /div ></pre>
+    <b>Result</b>
+    <div id="vfor-range">
+      <span v-for="n in 10">{{ n }} </span>
+    </div>
+    <script src="https://unpkg.com/vue"></script>
+    <script type="text/javascript">
+        var vfor_array = new Vue({
+          el: '#v-for-array',
+          data: {
+            items: [
+              { message: 'Foo' },
+              { message: 'Bar' }
+            ]
+          }
+        })
+
+        var vfor_object = new Vue({
+          el: '#v-for-object',
+          data: {
+            object: {
+              firstName: 'John',
+              lastName: 'Doe',
+              age: 30
+            }
+          }
+        })
+
+        var vfor_keyvalue = new Vue({
+          el: '#v-for-key-value',
+          data: {
+            object: {
+              firstName: 'John',
+              lastName: 'Doe',
+              age: 30
+            }
+          }
+        })
+
+        var vfor_index = new Vue({
+          el: '#v-for-index',
+          data: {
+            object: {
+              firstName: 'John',
+              lastName: 'Doe',
+              age: 30
+            }
+          }
+        })
+
+        var vfor_key = new Vue({
+          el: '#v-for-key',
+          data: {
+            object: {
+              firstName: 'John',
+              lastName: 'Doe',
+              age: 30
+            }
+          }
+        })
+
+        var array_methods = new Vue({
+          el: '#array-methods',
+          data: {
+            items: [
+              { message: 'Foo' },
+              { message: 'Bar' }
+            ]
+          }
+        })
+
+        var obj_update = new Vue({
+            el: '#obj-update',
+            data: {
+                userProfile: {
+                    name: 'Anika'
+                }
+            },
+            methods: {
+                add: function (key, value) {
+                    this.$set(this.userProfile, key, value);
+                }
+            }
+        })
+
+        var even_number = new Vue({
+            el: '#even-number',
+            data: {
+              numbers : [ 1 , 2 , 3 , 4 , 5 ]
+            },
+            computed : {
+              evenNumbers : function () {
+                return  this.numbers.filter( function ( number ) {
+                  return number % 2 === 0
+                })
+              }
+            }
+        })
+
+        var vfor_range = new Vue({
+            el: '#vfor-range',
+            data: {
+              numbers: [ 1, 2, 3, 4, 5 ]
+            },
+            methods: {
+              even: function (numbers) {
+                return numbers.filter(function (number) {
+                  return number % 2 === 0
+                })
+              }
+            }
+        })
+
+
+
+        var even_number2 = new Vue({
+            el: '#even-number2',
+            data: {
+              numbers: [ 1, 2, 3, 4, 5 ]
+            },
+            methods: {
+              even: function (numbers) {
+                return numbers.filter(function (number) {
+                  return number % 2 === 0
+                })
+              }
+            }
+        })
+    </script>
+</body>
+</html>

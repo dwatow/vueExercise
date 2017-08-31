@@ -85,8 +85,6 @@
         </div>
     </div>
     不保證順序每次都相同。
-    <h2>一次渲染多個<code>HTML</code>tag <small>< template ></small></h2>
-    <p>重複多個<code>HTML</code>tag。所以將<code>v-for</code>寫在<code>< template ></code>上面。</p>
     <h2><code>key</code>的用法!!</h2>
     目前對這個功能還不了解!!!有找到<a href="https://www.zhihu.com/question/61064119" target="_blank">一篇文章</a>可以參考
     <div id="v-for-key">
@@ -255,6 +253,40 @@ methods: {
     <div id="vfor-range">
       <span v-for="n in 10">{{ n }} </span>
     </div>
+    <h2>v-for on a < template ><small> <br />一次渲染多個<code>HTML</code>tag</small></h2>
+    <p>重複多個<code>HTML</code>tag。所以將<code>v-for</code>寫在<code>< template ></code>上面。</p>
+    <pre>< ul >
+  < template v-for="item in items" >
+    < li >{{ item.msg }}< /li >
+    < li class="divider">< /li >
+  < /template >
+< /ul ></pre>
+    <b>Result</b>
+    <ul id="vfor-template">
+      <template v-for="item in items">
+        <li>{{ item.msg }}</li>
+        <li class="divider">divider</li>
+      </template>
+    </ul>
+    <h2><code>v-for</code> with <code>v-if</code></h2>
+    可以條件式渲染<code>v-for</code>的內容，用起來像<code>for loop</code>一樣。
+    <pre>< li  v-for = "todo in todos"  v-if = "!todo.isComplete" >
+  {{ todo }}
+< /li ></pre>
+    <b>Result</b>
+    <div id="vfor-vif">
+        <li v-for="todo in todos" v-if="!todo.isComplete">
+            {{todo.msg}}
+        </li>
+    </div>
+    也可以條件渲染是否要loop，可以將<code>v-if</code>置於外部的元素，或者新加一個<code>< template ></code>放<code>v-if</code>。
+    <pre>< ul  v-if = "shouldRenderTodos" >
+  < li  v-for = "todo in todos" >
+    {{ todo }}
+  < /li >
+< /ul >
+</pre>
+
     <script src="https://unpkg.com/vue"></script>
     <script type="text/javascript">
         var vfor_array = new Vue({
@@ -376,6 +408,42 @@ methods: {
                   return number % 2 === 0
                 })
               }
+            }
+        })
+
+        var vfor_template = new Vue({
+            el: '#vfor-template',
+            data: {
+                items: [
+                    {msg: 1},
+                    {msg: 2},
+                    {msg: 3},
+                ]
+            },
+            methods: {
+                even: function (numbers) {
+                    return numbers.filter(function (number) {
+                        return number % 2 === 0
+                    })
+                }
+            }
+        })
+
+        var vfor_vif = new Vue({
+            el: '#vfor-vif',
+            data: {
+                todos: [
+                    {msg: 1, isComplete: true},
+                    {msg: 2, isComplete: false},
+                    {msg: 3, isComplete: true},
+                ]
+            },
+            methods: {
+                even: function (numbers) {
+                    return numbers.filter(function (number) {
+                        return number % 2 === 0
+                    })
+                }
             }
         })
     </script>

@@ -15,4 +15,4 @@
 - [v-if, v-show](https://dwatow.github.io/vueExercise/conditionalRendering.html)
 - [List](https://dwatow.github.io/vueExercise/list.html)
 
-[最新進度](https://cn.vuejs.org/v2/guide/list.html)
+[最新進度](https://vuejs.org/v2/guide/list.html#v-for-with-a-Component)

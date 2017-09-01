@@ -13,20 +13,19 @@
 var app = new Vue({
   el: '#app' ,
   data: {
-    msg: '<b>這是被{{msg}}取代的結果</b>',
+    msg: '< b>這是被{{msg}}取代的結果< /b>',
   }
 })
     </pre>
         <div id="app">
             <h2>text</h2>
-            <pre>{ { key } }</pre>
+            <pre>{ { msg } }</pre>
             <p>Message: {{ msg }}</p>
             <h2>raw html</h2>
-            <pre>< p v-html="key">< /p ></pre>
+            <pre>< p v-html="msg">< /p ></pre>
             <p v-html="msg"></p>
             <h2>Attributes</h2>
-            <pre>< p v-bind:html element attribute="key">mouse stop here< /p ></pre>
-
+            <pre>< p v-bind:html element attribute="msg">mouse stop here< /p ></pre>
             <p v-bind:title="msg">mouse stop here</p>
             <h2>Using JavaScript Expressions</h2>
             <pre>{ { javascript expressions } }</pre>
@@ -43,7 +42,7 @@ var app = new Vue({
             <pre>< a v-bind:html element attribute="key">mouse stop here< /a ></pre>
             <a v-bind:href="url">abc</a>
             <pre>< a v-on:js event="function name">mouse stop here< /a ></pre>
-            <a v-on:click="console.log('click it!!');">click me</a>
+            <a v-on:click="onSubmit">click me</a>
             <h2>Modifiers</h2>
             <pre>< form  v-on:submit.prevent="onSubmit"></ form >  //取消預設行為</pre>
             <form v-on:submit.prevent="onSubmit"><input type="submit"></form>
@@ -56,6 +55,8 @@ var app = new Vue({
             <p><code>capitalize</code>過濾器函數將會收到<code>message</code>的值作為第一個參數。</p>
             <pre>{ { key of data | key of filter } }</pre>
             <p>{{ msg | capitalize }}</p>
+            <pre>< a v-bind:title="url | capitalize"> { { msg | capitalize } }< /a ></pre>
+            <a v-bind:title="url | capitalize"> {{ msg | capitalize }}</a>
             <h2>縮寫</h2>
             <h3><code>v-bind</code></h3>
             <pre>< !-- 完整語​​法-- >

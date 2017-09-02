@@ -56,7 +56,12 @@ var app = new Vue({
             <pre>{ { key of data | key of filter } }</pre>
             <p>{{ msg | capitalize }}</p>
             <pre>< a v-bind:title="url | capitalize"> { { msg | capitalize } }< /a ></pre>
-            <a v-bind:title="url | capitalize"> {{ msg | capitalize }}</a>
+            <p>
+                <a v-bind:title="url | capitalize"> {{ msg | capitalize }}</a>
+            </p>
+            <p>
+                <a v-bind:title="url | getFirst"> {{ msg | getFirst }}</a>
+            </p>
             <h2>縮寫</h2>
             <h3><code>v-bind</code></h3>
             <pre>< !-- 完整語​​法-- >
@@ -68,10 +73,11 @@ var app = new Vue({
 < a  v-on:click = "doSomething" ></ a >
 < !-- 縮寫-- >
 < a @ click = "doSomething" ></ a ></pre>
+            <h2>同場加映</h2>
             <b>另外試一下的<code>v-for</code></b>
             <p v-for="item in items">{{item.text}}</p>
         </div>
-        <h2>同場加映<code>template</code></h2>
+        <b><code>template</code></b>
         <p><code>< template ></code> 通常拿來當做包裝元素。渲染不會包含 <code>< template ></code>。<br />官網在<code>v-if</code>時會再介紹一下</p>
 
 
@@ -101,6 +107,11 @@ var app = new Vue({
                     if (!value) return  ''
                     value = value.toString()
                     return value.toUpperCase()
+                },
+                getFirst: function ( value ) {
+                    console.log(value);
+                    if (!value) return  ''
+                    return value.split("").shift();
                 }
               }
             })

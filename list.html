@@ -261,12 +261,25 @@ methods: {
     < li class="divider">< /li >
   < /template >
 < /ul ></pre>
-    <b>Result</b>
-    <ul id="vfor-template">
+    <b>Result(用template)</b>
+    <ul id="vfor-template1">
       <template v-for="item in items">
         <li>{{ item.msg }}</li>
         <li class="divider">divider</li>
       </template>
+    </ul>
+    <h3>不可行的寫法</h3>
+    <pre>< ul v-for="item in items" >  -->不會重複
+    < li >{{ item.msg }}< /li >  --->消失
+    < li class="divider">< /li >  --->消失
+< /ul ></pre>
+    <pre>< ul >
+    < li v-for="item in items" >{{ item.msg }}< /li >  -->只會重複它
+    < li class="divider">< /li >  --->只有一個
+< /ul ></pre>
+    <ul id="vfor-template2">
+        <li v-for="item in items">{{ item.msg }}</li>
+        <li class="divider">divider</li>
     </ul>
     <h2><code>v-for</code> with <code>v-if</code></h2>
     可以條件式渲染<code>v-for</code>的內容，用起來像<code>for loop</code>一樣。
@@ -486,8 +499,26 @@ new Vue({
             }
         })
 
-        var vfor_template = new Vue({
-            el: '#vfor-template',
+        var vfor_template1 = new Vue({
+            el: '#vfor-template1',
+            data: {
+                items: [
+                    {msg: 1},
+                    {msg: 2},
+                    {msg: 3},
+                ]
+            },
+            methods: {
+                even: function (numbers) {
+                    return numbers.filter(function (number) {
+                        return number % 2 === 0
+                    })
+                }
+            }
+        })
+
+        var vfor_template2 = new Vue({
+            el: '#vfor-template2',
             data: {
                 items: [
                     {msg: 1},

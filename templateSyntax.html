@@ -68,9 +68,13 @@ var app = new Vue({
 < a  v-on:click = "doSomething" ></ a >
 < !-- 縮寫-- >
 < a @ click = "doSomething" ></ a ></pre>
+            <b>另外試一下的<code>v-for</code></b>
+            <p v-for="item in items">{{item.text}}</p>
         </div>
         <h2>同場加映<code>template</code></h2>
         <p><code>< template ></code> 通常拿來當做包裝元素。渲染不會包含 <code>< template ></code>。<br />官網在<code>v-if</code>時會再介紹一下</p>
+
+
         <script src="https://unpkg.com/vue"></script>
         <script type="text/javascript">
             var app = new Vue({
@@ -78,7 +82,13 @@ var app = new Vue({
               data: {
                 msg: '<b>這是被{{msg}}取代的結果</b>',
                 seen: true,
-                url: 'https://dwatow.github.io/'
+                url: 'https://dwatow.github.io/',
+                items: [
+                    {text: 'a'},
+                    {text: 'b'},
+                    {text: 'c'},
+                    {text: 'd'},
+                ]
               },
               methods: {
                 onSubmit: function () {

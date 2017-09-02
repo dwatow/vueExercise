@@ -14,6 +14,6 @@
 - [v-bind:class & v-bind:style](https://dwatow.github.io/vueExercise/classAndStyleBindings.html)
 - [v-if, v-show](https://dwatow.github.io/vueExercise/conditionalRendering.html)
 - [List](https://dwatow.github.io/vueExercise/list.html)
-- [Event Handling](https://dwatow.github.io/vueExercise/eventHandling.html)
+- [Event Handling](https://dwatow.github.io/vueExercise/events.html)
 
-[最新進度](https://vuejs.org/v2/guide/list.html#v-for-with-a-Component)
+[最新進度](https://vuejs.org/v2/guide/events.html)

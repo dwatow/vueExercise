@@ -13,7 +13,7 @@
 - [computed: {}](https://dwatow.github.io/vueExercise/computedProperties.html)
 - [v-bind:class & v-bind:style](https://dwatow.github.io/vueExercise/classAndStyleBindings.html)
 - [v-if, v-show](https://dwatow.github.io/vueExercise/conditionalRendering.html)
-- [List](https://dwatow.github.io/vueExercise/list.html)
-- [Event Handling](https://dwatow.github.io/vueExercise/events.html)
+- [v-for](https://dwatow.github.io/vueExercise/list.html)
+- [v-on](https://dwatow.github.io/vueExercise/events.html)
 
-[最新進度](https://vuejs.org/v2/guide/events.html)
+[最新進度](https://vuejs.org/v2/guide/forms.html)

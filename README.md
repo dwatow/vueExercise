@@ -15,5 +15,6 @@
 - [v-if, v-show](https://dwatow.github.io/vueExercise/conditionalRendering.html)
 - [v-for](https://dwatow.github.io/vueExercise/list.html)
 - [v-on](https://dwatow.github.io/vueExercise/events.html)
+- [v-model](https://dwatow.github.io/vueExercise/form.html)
 
-[最新進度](https://vuejs.org/v2/guide/forms.html)
+[最新進度](https://vuejs.org/v2/guide/components.html)

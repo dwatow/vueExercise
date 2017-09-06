@@ -1,9 +1,62 @@
 
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+
 pre {
-    box-shadow: 0 0 1px black;
     padding: 5px;
+    background-color: #F8F8F8;
+    font-family: 'MONACO', monospace;
+    font-size: 10pt;
+    /*box-shadow: 0 0 1px black;*/
+}
+h1, h2, h3 {
+    color: #333;
+}
+
+h2 {
+    position: relative;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    background-color: #ccc;
+}
+
+h3::before {
+    content: '# ';
+    color: #42B983;
 }
 
 table, td, th {
     box-shadow: 0 0 1px black;
+}
+
+code {
+    color: #5AC193;
+}
+
+.tip {
+    border-left: 4px solid #f66;
+}
+
+.console-error {
+    color: red;
+    background-color: #FFF0F0;
+    outline: 1px solid #FFD7D7;
+    padding: 8px 25px;
+    position: relative;
+    font-family: monospace;
+    font-style: 10pt;
+}
+
+.console-error i {
+    content: '';
+
+    position: absolute;
+    left: 8px;
+    top: 10px;
 }

@@ -34,7 +34,7 @@
 < div v-else           >Not A/B/C< /div ></pre>
         <h2><code>template</code></h2>
         <h3>重複使用<code>template</code></h3>
-        <p>有一種語法叫<code>templaate</code>，可以在條件渲染時，只換掉<code>HTML</code>的差異之處，而不是整個語法法換掉。</p>
+        <p class="tip">有一種語法叫<code>templaate</code>，可以在條件渲染時，只換掉<code>HTML</code>的差異之處，而不是整個語法法換掉。</p>
         <pre>< template  v-if = "loginType === 'username'" >
   < label > Username </ label >
   < input  placeholder = "Enter your username" >
@@ -90,7 +90,7 @@
         </div>
         <h2><code>v-if</code> vs <code>v-show</code></h2>
         <p>速度: <code>v-show</code></p>
-        <p>因為<code>v-if</code>會真正的操作DOM使它真正的消失在<code>HTML</code>文件內。(慢)<br />
+        <p class="tip">因為<code>v-if</code>會真正的操作DOM使它真正的消失在<code>HTML</code>文件內。(慢)<br />
         而<code>v-show</code>只是讓DOM不出現在畫面，並不是不存在。元素總是會被渲染，只是用CSS切換。</p>
         <h2><code>v-if</code> vs <code>v-for</code></h2>
         <p>優先權: <code>v-for</code> > <code>v-if</code></p>

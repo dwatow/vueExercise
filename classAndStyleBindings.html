@@ -36,7 +36,7 @@
         <div id="vbind-assign">
             <div v-bind:class="isActive">{{text}}</div>
         </div>
-        <p>同理class也可以，而class最常用的就是「換class」。<br />可以用<code>v-bind:class</code>的語法，在後面接一個「在vue.data裡面宣告一個js的物件」名稱。</p>
+        <p class="tip">同理class也可以，而class最常用的就是「換class」。<br />可以用<code>v-bind:class</code>的語法，在後面接一個「在vue.data裡面宣告一個js的物件」名稱。</p>
         <b>HTML</b>
         <pre>< div  v-bind:class = "{ active: isActive }" > </ div ></pre>
         <b>Javascript</b>
@@ -80,7 +80,7 @@
             <div v-bind:class="classGroup">qwer</div>
         </div>
         <h3>Array (of javascript) Syntax</h3>
-        <p>除了寫物件在<code>v-bind:class</code>後面，還可以寫<code>array</code>，代表<code>data</code>有其屬性時，就有<code>class</code></p>
+        <p class="tip">除了寫物件在<code>v-bind:class</code>後面，還可以寫<code>array</code>，代表<code>data</code>有其屬性時，就有<code>class</code></p>
         <b>HTML</b>
         <pre>< div v-bind:class="[arrayElement]">< /div ></pre>
         <b>Javascript</b>
@@ -119,7 +119,7 @@ var empty_component = new Vue ({
         <pre>< my-component v-bind:class="{ active: isActive }">< /my-component ></pre> 就可以依isActive的內容值決定是否套件此class。
         <pre>< p class="foo bar active">Hi< /p ></pre>
         <h2>Binding Inline Styles</h2>
-        <p>這是一種像極CSS原生寫法的「控制vue css」的寫法</p>
+        <p class="tip">這是一種像極CSS原生寫法的「控制vue css」的寫法</p>
         <p><code>v-bind</code>的用法，用在<code>style</code>上。</p>
         <pre>< div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">< /div ></pre> 然後，在
         <code>Vue</code>的<code>data</code>這樣寫
@@ -129,8 +129,8 @@ var empty_component = new Vue ({
 }</pre>
         <p>像不像<code>css</code>的<code>inline寫法</code></p>
         <pre>< div style="color: red;fontSize: 30px;">< /div ></pre>
-        <p>很像直接寫CSS的感覺吧!!!(官網直接這麼說「it looks almost like CSS」)。</p>
-        <p>另外還可以將這種寫法變成「資料物件」的寫法</p>
+        <p class="tip">很像直接寫CSS的感覺吧!!!(官網直接這麼說「it looks almost like CSS」)。<br />
+            另外還可以將這種寫法變成「資料物件」的寫法</p>
         <pre>< div v-bind:style="styleObject">< /div ></pre>
         <pre>data: {
   styleObject: {

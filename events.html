@@ -202,10 +202,10 @@
         <p>counter: {{ counter }}</p>
     </div>
     <h2>Why Listeners in HTML?</h2>
-    <p>這看似違背<a href="https://zh.wikipedia.org/wiki/%E5%85%B3%E6%B3%A8%E7%82%B9%E5%88%86%E7%A6%BB">關注點分離</a>的做法，其實有它的好處。</p>
-    <p>傳統的做法上，js歸js，html歸html，使得js上混著事件細節、畫面邏輯，而且該function都是全域的。</p>
-    <p>在Vue的做上，所有的邏輯都自己寫，所有的事件細節交給Vue，該function都在Vue物件中，不會是全域的。</p>
-    <p><a href="https://vuejs.org/v2/guide/events.html#Why-Listeners-in-HTML">官網文件</a>提出了幾個解釋</p>
+    <p class="tip">這看似違背<a href="https://zh.wikipedia.org/wiki/%E5%85%B3%E6%B3%A8%E7%82%B9%E5%88%86%E7%A6%BB">關注點分離</a>的做法，其實有它的好處。<br />
+        傳統的做法上，js歸js，html歸html，使得js上混著事件細節、畫面邏輯，而且該function都是全域的。<br />
+        在Vue的做上，所有的邏輯都自己寫，所有的事件細節交給Vue，該function都在Vue物件中，不會是全域的。<br />
+        <a href="https://vuejs.org/v2/guide/events.html#Why-Listeners-in-HTML">官網文件</a>提出了幾個解釋</p>
     <ul>
         <li>掃一眼HTML 模板便能輕鬆定位在JavaScript 代碼裡對應的方法。</li>
         <li>因為你無須在JavaScript 里手動綁定事件，你的ViewModel 代碼可以是非常純粹的邏輯，和DOM 完全解耦，更易於測試。</li>

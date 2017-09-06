@@ -125,11 +125,12 @@
     <h3>Replacing an Array</h3>
     <p>無論js是回傳新的array，還是修改原本的array，vue在渲染DOM的行為，都是高效能的。</p>
     <h3>Caveats</h3>
-    <p>因為javascript的限制，Array有些操作方式無法觸發「Vue重新渲染」，不過在此也提供了一些解決方式。</p>
+    <p class="tip">因為javascript的限制，Array有些操作方式無法觸發「Vue重新渲染」，不過在此也提供了一些解決方式。</p>
     <ol>
         <li>當你利用索引直接設置一個項時，例如： <code>vm.items[indexOfItem] = newValue</code></li>
         <li>當你修改數組的長度時，例如： <code>vm.items.length = newLength</code></li>
     </ol>
+
     <b>1. 的解決方式</b>
     <p>用<code>Vue.set()</code></p>
     <pre>// Vue.set
@@ -144,7 +145,7 @@ example1.items.splice(newLength)</pre>
     <h2>Object Change Detection Caveats</h2>
     <p>在此官方中文版文件....換章節!!</p>
     <p>有時，我們想要添加新屬性到已存在的物件上，好讓物件可以渲染到畫面上。(也許就是call兩支api的情況??)</p>
-    <p>因為javascript的限制，Object有些操作方式無法觸發「Vue重新渲染」，不過在此也提供了一些解決方式。</p>
+    <p class="tip">因為javascript的限制，Object有些操作方式無法觸發「Vue重新渲染」，不過在此也提供了一些解決方式。</p>
     <pre>var vm = new Vue({
   data: {
     a: 1
@@ -153,7 +154,7 @@ example1.items.splice(newLength)</pre>
 // 賦值`vm.a`有反應
 vm.b = 2
 // 新增`vm.b`無反應</pre>
-    <p>Vue不允許動態地向已創建的實例添加新的根級別的反應屬性。<br />
+    <p class="tip">Vue不允許動態地向已創建的實例添加新的根級別的反應屬性。<br />
         但是，可以使用<code>Vue.set(object, key, value)</code>方法向嵌套對象添加反應屬性。<br />
         例如，給出：</p>
     <pre>var obj_update = new Vue({
@@ -180,7 +181,7 @@ vm.b = 2
 }</pre>
     在<code>console</code>可以這樣輸入，新增元素到畫面。
     <pre>obj_update.add('age', 27)</pre>
-    <p>有時，如果你想要添加數個變數，例如使用<code>Object.assign()</code>和<code>_.extend()</code>進行物件屬性的合併。<br />
+    <p class="tip">有時，如果你想要添加數個變數，例如使用<code>Object.assign()</code>和<code>_.extend()</code>進行物件屬性的合併。<br />
     但是，這樣添加的話是不會觸發更新畫面的。</p>
     <pre>Object.assign(obj_update.userProfile, {
   age: 27,
@@ -303,7 +304,7 @@ methods: {
     <p>你可以直接在<code>component</code>自訂的tag上放置<code>v-for</code>，像下面這樣</p>
     <pre>< my-component  v-for="item in items" :key="item.id">< /my-component ></pre>
     <p><b>在v2.2.0+ 之後，<code>component</code>上的<code>v-for</code>都要加上<code>key</code>。</b></p>
-    <p><code>component</code>有自己觸立的<code>scop</code>，要將變數傳入<code>component</code>使用，要透過<code>props</code></p>
+    <p><code>component</code>有自己獨立的<code>scop</code>，要將變數傳入<code>component</code>使用，要透過<code>props</code></p>
     <pre>< my-component
   v-for="(item, index) in items"
   v-bind:item="item"
@@ -322,9 +323,9 @@ methods: {
         < li is="todo-item"               ---------> component
           v-for="(todo, index) in todos"  --> todos is data of vue object
           v-bind:key="todo.id"
-          v-bind:name="todo.title"       ---------> v-bind:"name" is prop of component
-          v-on:remove="todos.splice(index, 1)"
-        >< /li>                           ---------> component
+          v-bind:name="todo.title"        ---------> v-bind:"name" is prop of component
+          v-on:remove="todos.splice(index, 1)">
+        < /li>                            ---------> component
       < /ul>
     < /div></pre>
     <b>Javascript</b>

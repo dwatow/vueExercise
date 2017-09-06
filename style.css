@@ -40,7 +40,27 @@ code {
 }
 
 .tip {
+    position: relative;
     border-left: 4px solid #f66;
+    padding-left: 1em;
+}
+
+.tip::before {
+    content: '!';
+    background-color: #f33;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    left: -.88em;
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+    font-size: 14px;
 }
 
 .console-error {

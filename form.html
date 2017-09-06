@@ -11,7 +11,7 @@
     <h1>Form Input Bindings</h1>
     <h2>Basic Usage</h2>
     <div id="vmode-basic">
-        <p>主要是要介紹<code>v-mode</code>，不過他也只是語法糖。</p>
+        <p class="tip">主要是要介紹<code>v-mode</code>，不過他也只是語法糖。</p>
         <p>有一些地雷要注意</p>
         <ol>
             <li>會忽略所有表單元素的value、checked、selected1特性的初始值。<br />
@@ -115,7 +115,7 @@
   < option >C< /option >
 < /select >
 < span >Selected: { { selected1 } }< /span ></pre>
-        <p>如果 <code>v-model</code> 的初始值沒有任何匹配的選項，< select >元素就會以「未選擇」的狀態渲染。<br />
+        <p class="tip">如果 <code>v-model</code> 的初始值沒有任何匹配的選項，< select >元素就會以「未選擇」的狀態渲染。<br />
             在iOS中，這樣使用者將無法選擇第一個選項，因為這樣的情況下，iOS不會引發change事件。<br />
             因此，像以上提供 <code>disabled</code> 選項是建議的做法。</p>
         <b>Javascript</b>
@@ -292,16 +292,7 @@
         有加<code>trim</code><input v-model.trim="msg"><br />
         沒加<code>trim</code><input v-model="msg">
         <h2><code>v-model</code> with Components</h2>
-        <a href="https://vuefe.cn/v2/guide/components.html#自定义事件">組件的自定義事件</a>
-
-        <!--  -->
-        <div>
-            <b>HTML</b>
-            <pre></pre>
-            <b>Javascript</b>
-            <pre></pre>
-            <b>Result</b>
-        </div>
+        <p>直接看<a href="https://vuefe.cn/v2/guide/components.html#自定义事件">組件的自定義事件</a></p>
     </div>
     <script src="https://unpkg.com/vue"></script>
     <script type="text/javascript">

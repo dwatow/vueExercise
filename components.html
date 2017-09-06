@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Form Input Bindings</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <h1>Form Input Bindings</h1>
+    <h2>Components</h2>
+    <b>What are Components?</b>
+    <p>就是Vuejs最強大的功能之一!!!讓HTML有更豐富並保有原生的特色，也可以使用<code>is</code>擴充</p>
+    <h2>Using Components</h2>
+    <h3>Registration</h3>
+    <p>要使用<code>components</code>，就要先註冊。在這裡先介紹「全域註冊」，這種註冊方式可以提供一個元件給所有的Vue物件使用。</p>
+    <b>HTML</b>
+    <pre>< div  id = "example" >
+  < my-component > </ my-component >
+< /div ></pre>
+    <b>Javascript</b>
+    <p>註冊元件，在<code>HTML</code>有一樣名稱的tag name就可以改成<code>template</code>的內容</p>
+    <pre>Vue.component('my-component', {
+  template: '< div >A custom component!< /div >'
+})</pre>
+    <p>Vue物件實體，在<code>HTML</code>有一樣<code>id</code>，對應到Vue物件實體的<code>el</code>，就會進行Vue的渲染。<br />
+        也就是因為有讓Vue實體物件對應上，<code>component</code>自訂義的HTML tag才會渲染成<code>component.template</code>。</p>
+    <pre>new Vue({
+  el: '#example'
+})</pre>
+    <b>Rendered</b>
+    <pre>< div id="example" >
+  < div >A custom component!< /div >
+< /div ></pre>
+    <b>Result</b>
+    <div id = "example">
+      <my-component> </my-component>
+    </div>
+    <h3>Local Registration</h3>
+    <p>限定註冊域，指定components給特定的Vue物件使用。</p>
+    <p>此例指定<code>local-component</code>給<code>local</code></p>
+    <b>HTML</b>
+    <pre>< div id="local" >
+  < local-component > < /local-component >
+< /div ></pre>
+    <b>Javascript</b>
+    <pre>var Child = {
+  template: '<div>A custom component!</div>'
+}
+new Vue({
+  // ...
+  components: {
+    // < local-component > will only be available in parent's template
+    'local-component': Child
+  }
+})</pre>
+    <b>Result</b>
+    <div id="local">
+      <my-component></my-component>
+    </div>
+    <h3>DOM Template Parsing Caveats</h3>
+    <p>這裡的實驗結果，看不出什麼太大的差別，就<code>差別比較大</code>其它的差別感覺不太出來。</p>
+    <p>倒是有一種，在<code>is</code>上的<code>tag name</code>，當作<code>template</code>的味道。</p>
+    <b>HTML</b>
+    <pre>< div id="dom-templae" >
+    < table >< table-cell >會搬出table，沒有渲染!!< /table-cell >< /table >
+    < ul >< ul-cell >ul沒有渲染!!< /ul-cell >< /ul >
+    < ol >< ol-cell >ol沒有渲染!!< /ol-cell >< /ol >
+    < section >< section-cell >section沒有渲染!!< /section-cell >< /section >
+    < !-- 使用is的效果 -- >
+    < table >< tr is="table-cell" >table只是搬出來，沒有渲染!!< /tr >< /table >
+    < ul >< li is="ul-cell" >ul沒有渲染!!< /li >< /ul >
+    < ol >< li is="ol-cell" >ol沒有渲染!!< /li >< /ol >
+    < section >< h5 is="section-cell" >section沒有渲染!!< /h5 >< /section >
+< /div ></pre>
+<b>渲染成</b>
+<pre>< div id="dom-templae" >
+    < tr >< td >有渲染，無is會搬出table< /td >< /tr >
+    < table >< /table >
+    < ul >< li >有渲染< /li >< /ul >
+    < ol >< li >有渲染< /li >< /ol >
+    < section >< h6 >有渲染< /h6 >< /section >
+    < !-- 使用is的效果 -- >
+    < table >< tbody >< tr >< td >有渲染，無is會搬出table< /td >< /tr >< /tbody >< /table >
+    < ul >< li >有渲染< /li >< /ul >
+    < ol >< li >有渲染< /li >< /ol >
+    < section >< h6 >有渲染< /h6 >< /section >
+< /div ></pre>
+    <div id="dom-templae">
+        <b>Result</b><br />
+        <table><table-cell>會搬出table，沒有渲染!!</table-cell></table>
+        <ul><ul-cell>ul沒有渲染!!</ul-cell></ul>
+        <ol><ol-cell>ol沒有渲染!!</ol-cell></ol>
+        <section><section-cell>section沒有渲染!!</section-cell></section>
+        <b>使用<code>is</code>的效果</b>
+        <p>無論<code>is</code>所屬的tag name是什麼，會置換成<code>template</code>的第一層tag name</p>
+        <b>Result</b><br />
+        <table><tr is="table-cell">table只是搬出來，沒有渲染!!</tr></table>
+        <ul><li is="ul-cell">ul沒有渲染!!</li></ul>
+        <ol><li is="ol-cell">ol沒有渲染!!</li></ol>
+        <section><h5 is="section-cell">section沒有渲染!!</h5></section>
+    </div>
+    <h3>data Must Be a Function</h3>
+    <p>在註冊時的<code>data</code>必須是function。</p>
+    <p>如果這麼做，<code>console</code>會發出警告</p>
+    <pre>Vue.component('my-component', {
+  template: '< span >{ { message } }< /span >',
+  data: {
+    message: 'hello'
+  }
+})</pre>
+    <p>告訴你在組件中data必須是一個函數。</p>
+    <p class="console-error"><i class="fa fa-times-circle"></i>vue.js:485 [Vue warn]: The "data" option should be a function that returns a per-instance value in component definitions.</p>
+    <p>理解這種規則的存在意義很有幫助，讓我們假設用如下方式來繞開Vue的警告：</p>
+    <b>HTML</b>
+    <pre>< div id="example-2" >
+  < simple-counter >< /simple-counter >
+  < simple-counter >< /simple-counter >
+  < simple-counter >< /simple-counter >
+< /div ></pre>
+    <b>Javascript</b>
+    <p> 技術上data 的確是一個函數了，因此Vue 不會警告，<br />
+        但是我們返回給每個組件的實例卻引用了同一個data 對象</p>
+    <pre>var data = { counter: 0 }  ---> 全域宣告data物件
+Vue.component('simple-counter', {
+  template: '< button v-on:click="counter += 1" >{{ counter }}< /button >',
+  data: function () {
+    return data   ---> 回傳 全域data物件
+  }
+})
+
+new Vue({
+  el: '#example-2'
+})</pre>
+    <b>Result</b>
+    <div id="example-2">
+      <simple-counter></simple-counter>
+      <simple-counter></simple-counter>
+      <simple-counter></simple-counter>
+    </div>
+    <b>Javascript要修改成「回傳一個新物件」</b>
+    <b>Javascript</b>
+    <pre>data: function () {
+  return {
+    counter : 0
+  }
+}</pre>
+    <b>Result</b>
+    <div id="example-2right">
+      <simple-counter-right></simple-counter-right>
+      <simple-counter-right></simple-counter-right>
+      <simple-counter-right></simple-counter-right>
+    </div>
+    <h3>Composing Components</h3>
+    <p>在Vue中，父子組件的關係可以總結為props down, events up。</p>
+    <ol>
+        <li>父組件通過props向下傳遞數據給子組件</li>
+        <li>子組件通過events給父組件發送消息</li>
+    </ol>
+    <h2>Props</h2>
+    <h3>Passing Data with Props</h3>
+    <b>HTML</b>
+    <pre>< child  message = "hello!" > </ child ></pre>
+    <b>Javascript</b>
+    <pre>Vue.component( 'child' , {
+  // 聲明props
+  props: [ 'message' ],
+  // 就像data 一樣，prop 可以用在模板內
+  // 同樣也可以在vm 實例中像“this.message”這樣使用
+  template: '< span >{ { message } }< /span >'
+})</pre>
+    <b>Result</b>
+    <div id="props">
+        <child message="hello!"></child>
+    </div>
+    <h3>camelCase vs. kebab-case</h3>
+    <p>駝峰命名法=小寫分隔線命名法</p>
+    <p><code>component</code>指的是自訂tag name的HTML</p>
+    <p>HtmlElement.attr = component.props</p>
+    <b>HTML</b>
+    <pre>< !-- kebab-case in HTML -- >
+< child my-message="hello!" >< /child >  ---> my-message(HTML) = myMessage(js)
+< child myMessage="hello!" >< /child >   ---> my-message(HTML) ≠ myMessage(js)</pre>
+    <b>Javascript</b>
+    <p>如果你使用字符串模板，則沒有這些限制。??</p>
+    <pre>Vue.component('child', {
+  // camelCase in JavaScript
+  props: ['myMessage'],
+  template: '< span >{ { myMessage } }< /span >'
+})</pre>
+    <b>Result</b>
+    <div id="my-message">
+        <!-- kebab-case in HTML -->
+        <child my-message="hello!"></child>
+        <child myMessage="hello!"></child>
+    </div>
+
+    <!--  -->
+    <div>
+        <b>HTML</b>
+        <pre></pre>
+        <b>Javascript</b>
+        <pre></pre>
+        <b>Result</b>
+    </div>
+    <script src="https://unpkg.com/vue"></script>
+    <script type="text/javascript">
+        // register
+        Vue.component('my-component', {
+          template: '<div>A custom component!</div>'
+        })
+        // create a root instance
+        new Vue({
+          el: '#example'
+        })
+
+        var Child = {
+          template: '<div>A custom component!</div>'
+        }
+        new Vue({
+          el: '#local',
+          components: {
+            // <local-component> will only be available in parent's template
+            'local-component': Child
+          }
+        })
+
+        Vue.component('table-cell', {
+          template: '<tr><td>有渲染，無is會搬出table</td></tr>'
+        })
+
+        Vue.component('ul-cell', {
+          template: '<li>有渲染</li>'
+        })
+
+        Vue.component('ol-cell', {
+          template: '<li>有渲染</li>'
+        })
+
+        Vue.component('section-cell', {
+          template: '<h6>有渲染</h6>'
+        })
+
+        new Vue({
+          el: '#dom-templae'
+        })
+
+
+        var data = { counter: 0 }
+        Vue.component('simple-counter', {
+          template: '<button v-on:click="counter += 1">{{ counter }}</button>',
+          // data is technically a function, so Vue won't
+          // complain, but we return the same object
+          // reference for each component instance
+          data: function () {
+            return data
+          }
+        })
+
+        new Vue({
+          el: '#example-2'
+        })
+
+        Vue.component('simple-counter-right', {
+          template: '<button v-on:click="counter += 1">{{ counter }}</button>',
+          // data is technically a function, so Vue won't
+          // complain, but we return the same object
+          // reference for each component instance
+          data: function () {
+            return {
+              counter: 0
+            }
+          }
+        })
+
+        new Vue({
+          el: '#example-2right'
+        })
+
+        Vue.component('child', {
+          // declare the props
+          props: ['message'],
+          // just like data, the prop can be used inside templates
+          // and is also made available in the vm as this.message
+          template: '<span>{{ message }}</span>'
+        })
+
+        new Vue({
+            el: '#props'
+        })
+
+        Vue.component('child', {
+          // camelCase in JavaScript
+          props: ['myMessage'],
+          template: '<span>{{ myMessage }}</span>'
+        })
+
+        new Vue({
+            el: '#my-message'
+        })
+
+    </script>
+</body>
+</html>

@@ -17,4 +17,4 @@
 - [v-on](https://dwatow.github.io/vueExercise/events.html)
 - [v-model](https://dwatow.github.io/vueExercise/form.html)
 
-[最新進度](https://vuejs.org/v2/guide/components.html)
+[最新進度](https://cn.vuejs.org/v2/guide/components.html#动态-Prop)

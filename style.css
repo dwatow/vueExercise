@@ -39,21 +39,26 @@ code {
     color: #5AC193;
 }
 
-.tip {
+.tip, .question {
     position: relative;
-    border-left: 4px solid #f66;
     padding-left: 1em;
 }
 
-.tip::before {
-    content: '!';
-    background-color: #f33;
+.tip {
+    border-left: 4px solid hsl(0, 100%, 70%);
+}
+
+.question {
+    border-left: 4px solid hsl(60, 100%, 70%);
+}
+
+
+.tip::before, .question::before {
     position: absolute;
     top: 0;
     bottom: 0;
     margin: auto;
     left: -.88em;
-    color: #fff;
     width: 20px;
     height: 20px;
     border-radius: 100%;
@@ -61,6 +66,17 @@ code {
     line-height: 20px;
     font-weight: bold;
     font-size: 14px;
+    color: #fff;
+}
+
+.tip::before {
+    content: '!';
+    background-color: hsl(0, 100%, 70%);
+}
+
+.question::before {
+    content: '?';
+    background-color: hsl(60, 100%, 70%);
 }
 
 .console-error {

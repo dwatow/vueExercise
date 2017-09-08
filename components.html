@@ -16,6 +16,7 @@
     <h3>Registration</h3>
     <p>要使用<code>components</code>，就要先註冊。在這裡先介紹「全域註冊」，這種註冊方式可以提供一個元件給所有的Vue物件使用。</p>
     <b>HTML</b>
+    <p><code>component</code>只有一個靜態字串。</p>
     <pre>< div  id = "example" >
   < my-component > </ my-component >
 < /div ></pre>
@@ -38,30 +39,40 @@
       <my-component> </my-component>
     </div>
     <h3>Local Registration</h3>
-    <p>限定註冊域，指定components給特定的Vue物件使用。</p>
+    <p>區域註冊，就是「限定註冊域」，指定components給特定的Vue物件使用。</p>
     <p>此例指定<code>local-component</code>給<code>local</code></p>
     <b>HTML</b>
+    <p><code>component</code>只有一個靜態字串。</p>
     <pre>< div id="local" >
   < local-component > < /local-component >
 < /div ></pre>
     <b>Javascript</b>
     <pre>var Child = {
-  template: '<div>A custom component!</div>'
+  template: '< div >A custom component!< /div >'
 }
 new Vue({
   // ...
   components: {
-    // < local-component > will only be available in parent's template
     'local-component': Child
   }
 })</pre>
     <b>Result</b>
     <div id="local">
-      <my-component></my-component>
+      <local-component></local-component>
     </div>
     <h3>DOM Template Parsing Caveats</h3>
-    <p>這裡的實驗結果，看不出什麼太大的差別，就<code>差別比較大</code>其它的差別感覺不太出來。</p>
-    <p>倒是有一種，在<code>is</code>上的<code>tag name</code>，當作<code>template</code>的味道。</p>
+    <p>在HTML渲染中，有存在著某些tag彼此有固定的相依關係<br />
+    <ul>
+        <li><code>ul</code>後面一定接<code>li</code></li>
+        <li><code>ol</code>後面一定接<code>li</code></li>
+        <li><code>table</code>裡面一定接<code>tbody, td, tr</code>...等</li>
+        <li class="question"><code>select</code>一定？？怎麼搭配？</li>
+        <li><code>option</code>外面一定接<code>select</code></li>
+        <li>等等...很多例子</li>
+    </ul>
+    <p>自訂義組件使用這些元素，會有一些問題。</p>
+    <p class="question">這裡的實驗結果，看不出什麼太大的差別，就<code>差別比較大</code>其它的差別感覺不太出來。<br />
+        倒是有一種，在<code>is</code>上的<code>tag name</code>，當作<code>template</code>的味道。</p>
     <b>HTML</b>
     <pre>< div id="dom-templae" >
     < table >< table-cell >會搬出table，沒有渲染!!< /table-cell >< /table >
@@ -89,28 +100,38 @@ new Vue({
 < /div ></pre>
     <div id="dom-templae">
         <b>Result</b><br />
+        <b>不使用<code>is</code>的效果</b>
         <table><table-cell>會搬出table，沒有渲染!!</table-cell></table>
         <ul><ul-cell>ul沒有渲染!!</ul-cell></ul>
         <ol><ol-cell>ol沒有渲染!!</ol-cell></ol>
         <section><section-cell>section沒有渲染!!</section-cell></section>
         <b>使用<code>is</code>的效果</b>
         <p>無論<code>is</code>所屬的tag name是什麼，會置換成<code>template</code>的第一層tag name</p>
-        <b>Result</b><br />
         <table><tr is="table-cell">table只是搬出來，沒有渲染!!</tr></table>
         <ul><li is="ul-cell">ul沒有渲染!!</li></ul>
         <ol><li is="ol-cell">ol沒有渲染!!</li></ol>
         <section><h5 is="section-cell">section沒有渲染!!</h5></section>
     </div>
+    <p class="question"><b>應當注意，如果您使用來自以下來源之一的字符串模板，這些限制將不適用:</b></p>
+    <ul>
+        <li>< script type="text/x-template" ></li>
+        <li>JavaScript 內聯模板字符串</li>
+        <li>.vue 組件</li>
+    </ul>
+    <p>因此，有必要的話請使用字符串模板。</p>
+
     <h3>data Must Be a Function</h3>
-    <p>在註冊時的<code>data</code>必須是function。</p>
-    <p>如果這麼做，<code>console</code>會發出警告</p>
+    <p><code>components</code>的<code>data</code>必須是function。<br />
+        可以看一下<a href="https://www.talkingcoder.com/article/6421767197575348224">Vue 组件data为什么必须是函数？</a></p>
+    <b>Javascript</b>
+    <p>如果這麼做，<code>console</code>會發出警告告訴你「在組件中data必須是一個函數。」</p>
     <pre>Vue.component('my-component', {
   template: '< span >{ { message } }< /span >',
   data: {
-    message: 'hello'
+    message: 'hello'  //被警告
   }
 })</pre>
-    <p>告訴你在組件中data必須是一個函數。</p>
+    <b>console錯誤訊息</b>
     <p class="console-error"><i class="fa fa-times-circle"></i>vue.js:485 [Vue warn]: The "data" option should be a function that returns a per-instance value in component definitions.</p>
     <p>理解這種規則的存在意義很有幫助，讓我們假設用如下方式來繞開Vue的警告：</p>
     <b>HTML</b>
@@ -153,26 +174,31 @@ new Vue({
       <simple-counter-right></simple-counter-right>
     </div>
     <h3>Composing Components</h3>
-    <p>在Vue中，父子組件的關係可以總結為props down, events up。</p>
+    <p>在前面<code>components</code>的練習中，我們都只是在<code>component</code>的<code>template</code>寫靜態的字串，讓它顯示。<br />接下來會開始引進變數，並且介紹如何修改。</p>
+    <p>在Vue中，父子組件的關係可以總結為<code>props down</code>, <code>events up</code>。</p>
     <ol>
-        <li>父組件通過props向下傳遞數據給子組件</li>
-        <li>子組件通過events給父組件發送消息</li>
+        <li>父組件(Vue物件)通過<code>props</code>向下傳遞數據給子組件</li>
+        <li>子組件(component)通過<code>events</code>給父組件發送消息</li>
     </ol>
+    <img src="https://vuejs.org/images/props-events.png" alt="" width="300px">
+    <p>接下來就來看<code>props</code>和<code>events</code>的同作機制！</p>
     <h2>Props</h2>
+    <p class="tip"><code>component</code>實例的作用域是獨立的。<br />這意味著無法直接將父組件的變數傳給子組件使用。<br />
+        除非，使用<code>props</code></p>
     <h3>Passing Data with Props</h3>
+    <p>宣告一段自訂義tag name的<code>component</code></p>
     <b>HTML</b>
     <pre>< child  message = "hello!" > </ child ></pre>
     <b>Javascript</b>
-    <pre>Vue.component( 'child' , {
-  // 聲明props
-  props: [ 'message' ],
-  // 就像data 一樣，prop 可以用在模板內
-  // 同樣也可以在vm 實例中像“this.message”這樣使用
-  template: '< span >{ { message } }< /span >'
+    <pre>Vue.component( 'child' , {  //父組件
+  props: [ 'message' ],  // 宣告props
+  template: '< span >{ { message } }< /span >'  // 子組件!! 就可以像data 一樣，prop 可以用在模板內
 })</pre>
+    <p class="question">同樣也可以在vm 實例中像"this.message"這樣使用 ??</p>
     <b>Result</b>
     <div id="props">
         <child message="hello!"></child>
+        <!-- <div>{{msg}}</div> -->
     </div>
     <h3>camelCase vs. kebab-case</h3>
     <p>駝峰命名法=小寫分隔線命名法</p>
@@ -180,21 +206,192 @@ new Vue({
     <p>HtmlElement.attr = component.props</p>
     <b>HTML</b>
     <pre>< !-- kebab-case in HTML -- >
-< child my-message="hello!" >< /child >  ---> my-message(HTML) = myMessage(js)
-< child myMessage="hello!" >< /child >   ---> my-message(HTML) ≠ myMessage(js)</pre>
+< child my-message="hello!" >< /child >  ---> my-message(HTML) = myMessage(js): rander
+< child myMessage="hello!" >< /child >   ---> myMessage(HTML) ≠ myMessage(js): not rander</pre>
     <b>Javascript</b>
-    <p>如果你使用字符串模板，則沒有這些限制。??</p>
+    <p class="question">如果你使用字符串模板，則沒有這些限制。??</p>
     <pre>Vue.component('child', {
   // camelCase in JavaScript
   props: ['myMessage'],
   template: '< span >{ { myMessage } }< /span >'
+})
+
+new Vue({
+    el: '#my-message'
 })</pre>
     <b>Result</b>
     <div id="my-message">
         <!-- kebab-case in HTML -->
         <child my-message="hello!"></child>
-        <child myMessage="hello!"></child>
+        <!-- <child myMessage="hello!"></child> -->
     </div>
+    <h3>Dynamic Props</h3>
+    <p>把Vue物件裡的<code>data</code>丟到組件裡。</p>
+    <b>HTML</b>
+    <pre>< div id="dynamic_prop" >
+  < input v-model="parentMsg" >
+  < br >
+  < child :my-message="parentMsg" >< /child >
+< /div ></pre>
+    <b>Javascript</b>
+    <pre>Vue.component('child', {
+  // camelCase in JavaScript
+  props: ['myMessage'],
+  template: '< span >{ { myMessage } }< /span >'
+})
+
+new Vue({
+    el: '#dynamic_prop',
+    data: {
+        parentMsg: 'aaaaaa'
+    }
+})</pre>
+    <b>Result</b>
+    <div id="dynamic_prop">
+      <input v-model="parentMsg">
+      <br>
+      <child :my-message="parentMsg"></child>
+    </div>
+    <h3>Literal vs. Dynamic</h3>
+    <p class="tip">初學常犯的問題。</p>
+    <pre>< !-- this passes down a plain string "1" -- >
+< comp some-prop="1" >< /comp ></pre>
+    <p>誤以為這樣的1是數字，但其實是文字。要數字要使<code>v-bind</code></p>
+    <pre>< !-- this passes down an actual number -- >
+< comp v-bind:some-prop="1" >< /comp ></pre>
+    <h3>One-Way Data Flow</h3>
+    <p><code>props</code>是父層組件和子層組件的溝通管道。但是它是單向資料流。<br />
+        所以，不該在子組件內部改變prop。如果你這麼做了，Vue會在控制台給出警告。<br />
+        那為什麼還會想改呢？有兩個常見的原因</p>
+    <ol>
+        <li><code>prop</code> 作為初始值傳入後，子組件想把它當作區域變數來用；</li>
+        <li><code>prop</code> 作為初始值傳入，由子組件處理成其它資料-輸出。</li>
+    </ol>
+    <p>區域變數: <code>component</code>需要<code>data function</code></p>
+    <pre>props: [ 'initialCounter' ],
+data : function () {
+  return { counter : this .initialCounter }
+}</pre>
+    <p>初始化變數: <code>component</code>需要<code>computed function</code></p>
+    <pre>props: [ 'size' ],
+computed : {
+  normalizedSize : function () {
+    return  this .size.trim().toLowerCase()
+  }
+}</pre>
+    <p class="tip">注意在JavaScript中物件和陣列是<code>reference</code>，指向同一個記憶體空間，<br />如果<code>prop</code>是一個物件或陣列，在子組件內部改變它時，會影響父組件的狀態。</p>
+    <h3>Prop Validation</h3>
+    <p><code>components</code>的prop可以設計「資料驗證」。如果驗證NG，Vue會發出警告。有助於設計給別人使用時，別人可以正確的使用<code>props</code></p>
+
+    <b>HTML</b>
+    <pre>< div id="validation" >
+    < label for="1" >propA: < /label >
+    < input id="1" v-model.number="inputA" placeholder="waring: empty string or string" >< br / >
+
+    < label for="2" >propB(number): < /label >
+    < input id="2" v-model.number="inputB" >< br / >
+    < label for="3" >propB(string): < /label >
+    < input id="3" v-model="inputB" >< br / >
+
+    < label for="4" >propC: < /label >
+    < input id="4" v-model.number="inputC" placeholder="waring: no default string" >< br / >
+
+    < label for="4" >propD(number, default 100, but not show): < /label >
+    < input id="4" v-model.number="inputD" placeholder="waring: no warning, default 100" >< br / >
+    < label for="5" >propD(string): < /label >
+    < input id="5" v-model="inputD" placeholder="waring: string, default 100" >< br / >
+
+    < label for="6" >propE: < /label >
+    < input id="6" v-model="inputE.message" >< br / >
+
+    < label for="7" >propF: < /label >
+    < input id="7" v-model.number="inputF" type="number" placeholder="warning: string" >< br / >
+
+    < vali  :prop-a="inputA"
+            :prop-b="inputB"
+            :prop-c="inputC"
+            :prop-d="inputD"
+            :prop-e="inputE"
+            :prop-f="inputF" >
+    < /vali >
+< /div ></pre>
+    <b>Javascript</b>
+    <pre>new Vue({
+    el: '#validation',
+    data: {
+        inputA: 0,
+        inputB: 0,
+        inputC: 'chris',
+        inputD: 10,
+        inputE: { message: 0},
+        inputF: 11
+    },
+    components: {
+        'vali': {
+          props : {
+            propA: Number ,   // 基本資料型別檢查(`null` 意思是任何類型都可以)
+            propB: [ String , Number ],  // 多種類型
+            propC: {          // 必填字串
+              type : String ,
+              required : true
+            },
+            propD: {          // 數字，設定預設值
+              type : Number ,
+              default : 100
+            },
+            propE: {          // 陣列/物件 預設值，要由一個「工廠函數」回傳
+              type : Object ,
+              default : function () {
+                return { message : 'hello' }
+              }
+            },
+            propF: {          // 自定邏輯函數 驗證
+              validator : function ( value ) {
+                return value > 10
+              }
+            }
+          },
+          template: `< ol >
+              < li >propA: {{propA}}< /li >
+              < li >propB: {{propB}}< /li >
+              < li >propC: {{propC}}< /li >
+              < li >propD: {{propD}}< /li >
+              < li >propE: {{propE}}< /li >
+              < li >propF: {{propF}}< /li >
+          < /ol >`
+      }
+    }
+})</pre>
+    <b>Reault</b>
+    <div id="validation">
+        <b>Input</b><br />
+        <label for="1">propA: </label>
+        <input id="1" v-model.number="inputA" placeholder="waring: empty string or string"><br />
+
+        <label for="2">propB(number): </label>
+        <input id="2" v-model.number="inputB"><br />
+        <label for="3">propB(string): </label>
+        <input id="3" v-model="inputB"><br />
+
+        <label for="4">propC: </label>
+        <input id="4" v-model.number="inputC" placeholder="waring: no default string"><br />
+
+        <label for="4">propD(number, default 100, but not show): </label>
+        <input id="4" v-model.number="inputD" placeholder="waring: no warning, default 100"><br />
+        <label for="5">propD(string): </label>
+        <input id="5" v-model="inputD" placeholder="waring: string, default 100"><br />
+
+        <label for="6">propE: </label>
+        <input id="6" v-model="inputE.message"><br />
+
+        <label for="7">propF: </label>
+        <input id="7" v-model.number="inputF" type="number" placeholder="warning: string"><br />
+
+        <b>Output</b>
+        <vali :prop-a="inputA" :prop-b="inputB" :prop-c="inputC" :prop-d="inputD" :prop-e="inputE" :prop-f="inputF"></vali>
+    </div>
+    <h2>Non-Prop Attributes</h2>
+
 
     <!--  -->
     <div>
@@ -204,6 +401,7 @@ new Vue({
         <pre></pre>
         <b>Result</b>
     </div>
+
     <script src="https://unpkg.com/vue"></script>
     <script type="text/javascript">
         // register
@@ -215,14 +413,13 @@ new Vue({
           el: '#example'
         })
 
-        var Child = {
-          template: '<div>A custom component!</div>'
-        }
         new Vue({
           el: '#local',
           components: {
             // <local-component> will only be available in parent's template
-            'local-component': Child
+            'local-component': {
+              template: '<div>A custom component!</div>'
+            }
           }
         })
 
@@ -278,26 +475,85 @@ new Vue({
           el: '#example-2right'
         })
 
-        Vue.component('child', {
-          // declare the props
-          props: ['message'],
-          // just like data, the prop can be used inside templates
-          // and is also made available in the vm as this.message
-          template: '<span>{{ message }}</span>'
+        // Vue.component('child', {
+        //   // declare the props
+        //   props: ['message'],
+        //   // just like data, the prop can be used inside templates
+        //   // and is also made available in the vm as this.message
+        //   template: '<span>{{ message }}</span>'
+        // })
+
+        var props = new Vue({
+            el: '#props',
+            components: {
+                'child': {
+                    props: ['message'],
+                    template: '<span>{{ message }}</span>'
+                }
+            }
         })
 
-        new Vue({
-            el: '#props'
-        })
-
         Vue.component('child', {
-          // camelCase in JavaScript
-          props: ['myMessage'],
-          template: '<span>{{ myMessage }}</span>'
-        })
+            props: ['myMessage'],
+            template: '<span>{{ myMessage }}</span>'
+        });
 
         new Vue({
             el: '#my-message'
+        })
+
+        new Vue({
+            el: '#dynamic_prop',
+            data: {
+                parentMsg: 'aaaaaa'
+            }
+        })
+
+        new Vue({
+            el: '#validation',
+            data: {
+                inputA: 0,
+                inputB: 0,
+                inputC: 'chris',
+                inputD: 10,
+                inputE: { message: 0},
+                inputF: 11
+            },
+            components: {
+                'vali': {
+                  props : {
+                    propA: Number ,   // 基本資料型別檢查(`null` 意思是任何類型都可以)
+                    propB: [ String , Number ],  // 多種類型
+                    propC: {          // 必填字串
+                      type : String ,
+                      required : true
+                    },
+                    propD: {          // 數字，設定預設值
+                      type : Number ,
+                      default : 100
+                    },
+                    propE: {          // 陣列/物件 預設值，要由一個「工廠函數」回傳
+                      type : Object ,
+                      default : function () {
+                        return { message : 'hello' }
+                      }
+                    },
+                    propF: {          // 自定邏輯函數 驗證
+                      validator : function ( value ) {
+                        return value > 10
+                      }
+                    }
+                  },
+                  template: `<ol>
+                          <li>propA: {{propA}}</li>
+                          <li>propB: {{propB}}</li>
+                          <li>propC: {{propC}}</li>
+                          <li>propD: {{propD}}</li>
+                          <li>propE: {{propE}}</li>
+                          <li>propF: {{propF}}</li>
+                      </ol>`
+              }
+            }
         })
 
     </script>

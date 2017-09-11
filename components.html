@@ -12,6 +12,7 @@
     <h2>Components</h2>
     <b>What are Components?</b>
     <p>就是Vuejs最強大的功能之一!!!讓HTML有更豐富並保有原生的特色，也可以使用<code>is</code>擴充</p>
+    <p>如果你有物件的概念，那<code>component</code>可以視為一個<code>class</code>(of OO)的概念</p>
     <h2>Using Components</h2>
     <h3>Registration</h3>
     <p>要使用<code>components</code>，就要先註冊。在這裡先介紹「全域註冊」，這種註冊方式可以提供一個元件給所有的Vue物件使用。</p>
@@ -120,7 +121,7 @@ new Vue({
     </ul>
     <p>因此，有必要的話請使用字符串模板。</p>
 
-    <h3>data Must Be a Function</h3>
+    <h3><code>data</code> Must Be a Function</h3>
     <p><code>components</code>的<code>data</code>必須是function。<br />
         可以看一下<a href="https://www.talkingcoder.com/article/6421767197575348224">Vue 组件data为什么必须是函数？</a></p>
     <b>Javascript</b>
@@ -206,8 +207,8 @@ new Vue({
     <p>HtmlElement.attr = component.props</p>
     <b>HTML</b>
     <pre>< !-- kebab-case in HTML -- >
-< child my-message="hello!" >< /child >  ---> my-message(HTML) = myMessage(js): rander
-< child myMessage="hello!" >< /child >   ---> myMessage(HTML) ≠ myMessage(js): not rander</pre>
+< child my-message="hello!" >< /child >  ---> my-message(HTML) = myMessage(js): render
+< child myMessage="hello!" >< /child >   ---> myMessage(HTML) ≠ myMessage(js): not render</pre>
     <b>Javascript</b>
     <p class="question">如果你使用字符串模板，則沒有這些限制。??</p>
     <pre>Vue.component('child', {
@@ -391,8 +392,44 @@ computed : {
         <vali :prop-a="inputA" :prop-b="inputB" :prop-c="inputC" :prop-d="inputD" :prop-e="inputE" :prop-f="inputF"></vali>
     </div>
     <h2>Non-Prop Attributes</h2>
-
-
+    <p>例子的練習，參考<a href="https://www.ruphi.cn/archives/218/#anchor10">Vue学习总结笔记（二）：组件</a></p>
+    <p>非<code>prop</code>屬性的意思，指的是一般的屬性，要提供給「使用<code>component</code>的開發者」<br />在不修改<code>template</code>的情況，想修改<code>component</code>渲染完的根元屬性，該如何做？</p>
+    <b>HTML</b>
+    <pre>< bs-date-input id="non-prop" data-3d-date-picker="true" >< /bs-date-input ></pre>
+    <b>Javascript</b>
+    <pre>new Vue ({
+    el: '#non-prop',
+    components: {
+        'bs-date-input': {
+            template: `< div >component< /div >`
+        }
+    }
+})</pre>
+    <b>Rendered</b>
+    <pre>< div id="non-prop" data-3d-date-picker="true" >component /div ></pre>
+    <b>Result</b>
+    <bs-date-input id="non-prop" data-3d-date-picker="true"></bs-date-input>
+    <h3>Replacing/Merging with Existing Attributes</h3>
+    <p>在component的例子，HTML有<code>class="date-picker-theme-dark"</code>，<br />
+        在<code>component</code>的<code>template</code>有<code>class="form-control"</code></p>
+    <b>HTML</b>
+    <pre>< bs-date-input id="merging-attri" data-3d-date-picker="true" class="date-picker-theme-dark" >< /bs-date-input ></pre>
+    <b>Javascript</b>
+    <pre>new Vue ({
+    el: '#merging-attri',
+    components: {
+        'bs-date-input': {
+            template: `< input type="date" class="form-control" >`
+        }
+    }
+})</pre>
+    <p>渲染完會長怎樣呢？</p>
+    <b>Rendered</b>
+    <pre>< input type="date" class="form-control date-picker-theme-dark" id="merging-attri" data-3d-date-picker="true" ></pre>
+    <p>HTML的attri會取「聯集」的結果<code>class="form-control date-picker-theme-dark"</code></p>
+    <b>Result</b><br />
+    <bs-date-input id="merging-attri" data-3d-date-picker="true" class="date-picker-theme-dark" ></bs-date-input>
+    <h2>Custom Events</h2>
     <!--  -->
     <div>
         <b>HTML</b>
@@ -555,6 +592,27 @@ computed : {
               }
             }
         })
+
+
+        new Vue ({
+            el: '#non-prop',
+            components: {
+                'bs-date-input': {
+                    template: `<div>component Rendered</div>`
+                }
+            }
+        })
+
+
+        new Vue ({
+            el: '#merging-attri',
+            components: {
+                'bs-date-input': {
+                    template: `<input type="date" class="form-control">`
+                }
+            }
+        })
+
 
     </script>
 </body>

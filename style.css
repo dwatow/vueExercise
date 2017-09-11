@@ -1,13 +1,7 @@
 
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 
-pre {
-    padding: 5px;
-    background-color: #F8F8F8;
-    font-family: 'MONACO', monospace;
-    font-size: 10pt;
-    /*box-shadow: 0 0 1px black;*/
-}
+
 h1, h2, h3 {
     color: #333;
 }

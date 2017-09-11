@@ -6,6 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Form Input Bindings</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet"
+          href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/obsidian.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
 </head>
 <body>
     <h1>Form Input Bindings</h1>
@@ -18,23 +23,23 @@
     <p>要使用<code>components</code>，就要先註冊。在這裡先介紹「全域註冊」，這種註冊方式可以提供一個元件給所有的Vue物件使用。</p>
     <b>HTML</b>
     <p><code>component</code>只有一個靜態字串。</p>
-    <pre>< div  id = "example" >
+    <pre><code class="html">< div  id = "example" >
   < my-component > </ my-component >
-< /div ></pre>
+< /div ></code></pre>
     <b>Javascript</b>
     <p>註冊元件，在<code>HTML</code>有一樣名稱的tag name就可以改成<code>template</code>的內容</p>
-    <pre>Vue.component('my-component', {
+    <pre><code class="javascript">Vue.component('my-component', {
   template: '< div >A custom component!< /div >'
-})</pre>
+})</code></pre>
     <p>Vue物件實體，在<code>HTML</code>有一樣<code>id</code>，對應到Vue物件實體的<code>el</code>，就會進行Vue的渲染。<br />
         也就是因為有讓Vue實體物件對應上，<code>component</code>自訂義的HTML tag才會渲染成<code>component.template</code>。</p>
-    <pre>new Vue({
+    <pre><code class="javascript">new Vue({
   el: '#example'
-})</pre>
+})</code></pre>
     <b>Rendered</b>
-    <pre>< div id="example" >
+    <pre><code class="html">< div id="example" >
   < div >A custom component!< /div >
-< /div ></pre>
+< /div ></code></pre>
     <b>Result</b>
     <div id = "example">
       <my-component> </my-component>
@@ -44,11 +49,11 @@
     <p>此例指定<code>local-component</code>給<code>local</code></p>
     <b>HTML</b>
     <p><code>component</code>只有一個靜態字串。</p>
-    <pre>< div id="local" >
+    <pre><code class="html">< div id="local" >
   < local-component > < /local-component >
-< /div ></pre>
+< /div ></code></pre>
     <b>Javascript</b>
-    <pre>var Child = {
+    <pre><code class="javascript">var Child = {
   template: '< div >A custom component!< /div >'
 }
 new Vue({
@@ -56,7 +61,7 @@ new Vue({
   components: {
     'local-component': Child
   }
-})</pre>
+})</code></pre>
     <b>Result</b>
     <div id="local">
       <local-component></local-component>
@@ -75,7 +80,7 @@ new Vue({
     <p class="question">這裡的實驗結果，看不出什麼太大的差別，就<code>差別比較大</code>其它的差別感覺不太出來。<br />
         倒是有一種，在<code>is</code>上的<code>tag name</code>，當作<code>template</code>的味道。</p>
     <b>HTML</b>
-    <pre>< div id="dom-templae" >
+    <pre><code class="html">< div id="dom-templae" >
     < table >< table-cell >會搬出table，沒有渲染!!< /table-cell >< /table >
     < ul >< ul-cell >ul沒有渲染!!< /ul-cell >< /ul >
     < ol >< ol-cell >ol沒有渲染!!< /ol-cell >< /ol >
@@ -85,9 +90,9 @@ new Vue({
     < ul >< li is="ul-cell" >ul沒有渲染!!< /li >< /ul >
     < ol >< li is="ol-cell" >ol沒有渲染!!< /li >< /ol >
     < section >< h5 is="section-cell" >section沒有渲染!!< /h5 >< /section >
-< /div ></pre>
+< /div ></code></pre>
 <b>渲染成</b>
-<pre>< div id="dom-templae" >
+<pre><code class="html">< div id="dom-templae" >
     < tr >< td >有渲染，無is會搬出table< /td >< /tr >
     < table >< /table >
     < ul >< li >有渲染< /li >< /ul >
@@ -98,7 +103,7 @@ new Vue({
     < ul >< li >有渲染< /li >< /ul >
     < ol >< li >有渲染< /li >< /ol >
     < section >< h6 >有渲染< /h6 >< /section >
-< /div ></pre>
+< /div ></code></pre>
     <div id="dom-templae">
         <b>Result</b><br />
         <b>不使用<code>is</code>的效果</b>
@@ -126,25 +131,25 @@ new Vue({
         可以看一下<a href="https://www.talkingcoder.com/article/6421767197575348224">Vue 组件data为什么必须是函数？</a></p>
     <b>Javascript</b>
     <p>如果這麼做，<code>console</code>會發出警告告訴你「在組件中data必須是一個函數。」</p>
-    <pre>Vue.component('my-component', {
+    <pre><code class="javascript">Vue.component('my-component', {
   template: '< span >{ { message } }< /span >',
   data: {
     message: 'hello'  //被警告
   }
-})</pre>
+})</code></pre>
     <b>console錯誤訊息</b>
     <p class="console-error"><i class="fa fa-times-circle"></i>vue.js:485 [Vue warn]: The "data" option should be a function that returns a per-instance value in component definitions.</p>
     <p>理解這種規則的存在意義很有幫助，讓我們假設用如下方式來繞開Vue的警告：</p>
     <b>HTML</b>
-    <pre>< div id="example-2" >
+    <pre><code class="html">< div id="example-2" >
   < simple-counter >< /simple-counter >
   < simple-counter >< /simple-counter >
   < simple-counter >< /simple-counter >
-< /div ></pre>
+< /div ></code></pre>
     <b>Javascript</b>
     <p> 技術上data 的確是一個函數了，因此Vue 不會警告，<br />
         但是我們返回給每個組件的實例卻引用了同一個data 對象</p>
-    <pre>var data = { counter: 0 }  ---> 全域宣告data物件
+    <pre><code class="javascript">var data = { counter: 0 }  ---> 全域宣告data物件
 Vue.component('simple-counter', {
   template: '< button v-on:click="counter += 1" >{{ counter }}< /button >',
   data: function () {
@@ -154,7 +159,7 @@ Vue.component('simple-counter', {
 
 new Vue({
   el: '#example-2'
-})</pre>
+})</code></pre>
     <b>Result</b>
     <div id="example-2">
       <simple-counter></simple-counter>
@@ -163,11 +168,11 @@ new Vue({
     </div>
     <b>Javascript要修改成「回傳一個新物件」</b>
     <b>Javascript</b>
-    <pre>data: function () {
+    <pre><code class="javascript">data: function () {
   return {
     counter : 0
   }
-}</pre>
+}</code></pre>
     <b>Result</b>
     <div id="example-2right">
       <simple-counter-right></simple-counter-right>
@@ -189,12 +194,12 @@ new Vue({
     <h3>Passing Data with Props</h3>
     <p>宣告一段自訂義tag name的<code>component</code></p>
     <b>HTML</b>
-    <pre>< child  message = "hello!" > </ child ></pre>
+    <pre><code class="html">< child  message = "hello!" > </ child ></code></pre>
     <b>Javascript</b>
-    <pre>Vue.component( 'child' , {  //父組件
+    <pre><code class="javascript">Vue.component( 'child' , {  //父組件
   props: [ 'message' ],  // 宣告props
   template: '< span >{ { message } }< /span >'  // 子組件!! 就可以像data 一樣，prop 可以用在模板內
-})</pre>
+})</code></pre>
     <p class="question">同樣也可以在vm 實例中像"this.message"這樣使用 ??</p>
     <b>Result</b>
     <div id="props">
@@ -206,12 +211,12 @@ new Vue({
     <p><code>component</code>指的是自訂tag name的HTML</p>
     <p>HtmlElement.attr = component.props</p>
     <b>HTML</b>
-    <pre>< !-- kebab-case in HTML -- >
+    <pre><code class="html">< !-- kebab-case in HTML -- >
 < child my-message="hello!" >< /child >  ---> my-message(HTML) = myMessage(js): render
-< child myMessage="hello!" >< /child >   ---> myMessage(HTML) ≠ myMessage(js): not render</pre>
+< child myMessage="hello!" >< /child >   ---> myMessage(HTML) ≠ myMessage(js): not render</code></pre>
     <b>Javascript</b>
     <p class="question">如果你使用字符串模板，則沒有這些限制。??</p>
-    <pre>Vue.component('child', {
+    <pre><code class="javascript">Vue.component('child', {
   // camelCase in JavaScript
   props: ['myMessage'],
   template: '< span >{ { myMessage } }< /span >'
@@ -219,7 +224,7 @@ new Vue({
 
 new Vue({
     el: '#my-message'
-})</pre>
+})</code></pre>
     <b>Result</b>
     <div id="my-message">
         <!-- kebab-case in HTML -->
@@ -229,13 +234,13 @@ new Vue({
     <h3>Dynamic Props</h3>
     <p>把Vue物件裡的<code>data</code>丟到組件裡。</p>
     <b>HTML</b>
-    <pre>< div id="dynamic_prop" >
+    <pre><code class="html">< div id="dynamic_prop" >
   < input v-model="parentMsg" >
   < br >
   < child :my-message="parentMsg" >< /child >
-< /div ></pre>
+< /div ></code></pre>
     <b>Javascript</b>
-    <pre>Vue.component('child', {
+    <pre><code class="javascript">Vue.component('child', {
   // camelCase in JavaScript
   props: ['myMessage'],
   template: '< span >{ { myMessage } }< /span >'
@@ -246,7 +251,7 @@ new Vue({
     data: {
         parentMsg: 'aaaaaa'
     }
-})</pre>
+})</code></pre>
     <b>Result</b>
     <div id="dynamic_prop">
       <input v-model="parentMsg">
@@ -255,11 +260,11 @@ new Vue({
     </div>
     <h3>Literal vs. Dynamic</h3>
     <p class="tip">初學常犯的問題。</p>
-    <pre>< !-- this passes down a plain string "1" -- >
-< comp some-prop="1" >< /comp ></pre>
+    <pre><code class="html">< !-- this passes down a plain string "1" -- >
+< comp some-prop="1" >< /comp ></code></pre>
     <p>誤以為這樣的1是數字，但其實是文字。要數字要使<code>v-bind</code></p>
-    <pre>< !-- this passes down an actual number -- >
-< comp v-bind:some-prop="1" >< /comp ></pre>
+    <pre><code class="html">< !-- this passes down an actual number -- >
+< comp v-bind:some-prop="1" >< /comp ></code></pre>
     <h3>One-Way Data Flow</h3>
     <p><code>props</code>是父層組件和子層組件的溝通管道。但是它是單向資料流。<br />
         所以，不該在子組件內部改變prop。如果你這麼做了，Vue會在控制台給出警告。<br />
@@ -269,23 +274,23 @@ new Vue({
         <li><code>prop</code> 作為初始值傳入，由子組件處理成其它資料-輸出。</li>
     </ol>
     <p>區域變數: <code>component</code>需要<code>data function</code></p>
-    <pre>props: [ 'initialCounter' ],
+    <pre><code class="javascript">props: [ 'initialCounter' ],
 data : function () {
   return { counter : this .initialCounter }
-}</pre>
+}</code></pre>
     <p>初始化變數: <code>component</code>需要<code>computed function</code></p>
-    <pre>props: [ 'size' ],
+    <pre><code class="javascript">props: [ 'size' ],
 computed : {
   normalizedSize : function () {
     return  this .size.trim().toLowerCase()
   }
-}</pre>
+}</code></pre>
     <p class="tip">注意在JavaScript中物件和陣列是<code>reference</code>，指向同一個記憶體空間，<br />如果<code>prop</code>是一個物件或陣列，在子組件內部改變它時，會影響父組件的狀態。</p>
     <h3>Prop Validation</h3>
     <p><code>components</code>的prop可以設計「資料驗證」。如果驗證NG，Vue會發出警告。有助於設計給別人使用時，別人可以正確的使用<code>props</code></p>
 
     <b>HTML</b>
-    <pre>< div id="validation" >
+    <pre><code class="html">< div id="validation" >
     < label for="1" >propA: < /label >
     < input id="1" v-model.number="inputA" placeholder="waring: empty string or string" >< br / >
 
@@ -315,9 +320,9 @@ computed : {
             :prop-e="inputE"
             :prop-f="inputF" >
     < /vali >
-< /div ></pre>
+< /div ></code></pre>
     <b>Javascript</b>
-    <pre>new Vue({
+    <pre><code class="javascript">new Vue({
     el: '#validation',
     data: {
         inputA: 0,
@@ -362,7 +367,7 @@ computed : {
           < /ol >`
       }
     }
-})</pre>
+})</code></pre>
     <b>Reault</b>
     <div id="validation">
         <b>Input</b><br />
@@ -395,41 +400,91 @@ computed : {
     <p>例子的練習，參考<a href="https://www.ruphi.cn/archives/218/#anchor10">Vue学习总结笔记（二）：组件</a></p>
     <p>非<code>prop</code>屬性的意思，指的是一般的屬性，要提供給「使用<code>component</code>的開發者」<br />在不修改<code>template</code>的情況，想修改<code>component</code>渲染完的根元屬性，該如何做？</p>
     <b>HTML</b>
-    <pre>< bs-date-input id="non-prop" data-3d-date-picker="true" >< /bs-date-input ></pre>
+    <pre><code class="html">< bs-date-input id="non-prop" data-3d-date-picker="true" >< /bs-date-input ></code></pre>
     <b>Javascript</b>
-    <pre>new Vue ({
+    <pre><code class="javascript">new Vue ({
     el: '#non-prop',
     components: {
         'bs-date-input': {
             template: `< div >component< /div >`
         }
     }
-})</pre>
+})</code></pre>
     <b>Rendered</b>
-    <pre>< div id="non-prop" data-3d-date-picker="true" >component /div ></pre>
+    <pre><code class="html">< div id="non-prop" data-3d-date-picker="true" >component /div ></code></pre>
     <b>Result</b>
     <bs-date-input id="non-prop" data-3d-date-picker="true"></bs-date-input>
     <h3>Replacing/Merging with Existing Attributes</h3>
     <p>在component的例子，HTML有<code>class="date-picker-theme-dark"</code>，<br />
         在<code>component</code>的<code>template</code>有<code>class="form-control"</code></p>
     <b>HTML</b>
-    <pre>< bs-date-input id="merging-attri" data-3d-date-picker="true" class="date-picker-theme-dark" >< /bs-date-input ></pre>
+    <pre><code class="html">< bs-date-input id="merging-attri" data-3d-date-picker="true" class="date-picker-theme-dark" >< /bs-date-input ></code></pre>
     <b>Javascript</b>
-    <pre>new Vue ({
+    <pre><code class="javascript">new Vue ({
     el: '#merging-attri',
     components: {
         'bs-date-input': {
             template: `< input type="date" class="form-control" >`
         }
     }
-})</pre>
+})</code></pre>
     <p>渲染完會長怎樣呢？</p>
     <b>Rendered</b>
-    <pre>< input type="date" class="form-control date-picker-theme-dark" id="merging-attri" data-3d-date-picker="true" ></pre>
+    <pre><code class="html">< input type="date" class="form-control date-picker-theme-dark" id="merging-attri" data-3d-date-picker="true" ></code></pre>
     <p>HTML的attri會取「聯集」的結果<code>class="form-control date-picker-theme-dark"</code></p>
     <b>Result</b><br />
     <bs-date-input id="merging-attri" data-3d-date-picker="true" class="date-picker-theme-dark" ></bs-date-input>
     <h2>Custom Events</h2>
+    <p>我們前面學了 父對子 的變數值傳遞方式，接下來要說的是 子對父 的變數值傳遞方式</p>
+    <h3>Using v-on with Custom Events</h3>
+    <p>讓我們從熟悉的角度切入</p>
+    <p>每一個Vue物件本身，都擁有<code>event interface</code></p>
+    <ul>
+        <li>監聽 event 使用 <code>$on(eventName)</code></li>
+        <li>觸發 event 使用 <code>$emit(eventName)</code></li>
+    </ul>
+    <p class="tip"><code>$on</code>和<code>$emit</code>並不是<code>addEventListener</code>和<code>dispatchEvent</code>的別名。</p>
+    <p>父組件可以直接監聽在子層裡<code>template</code>裡的事件</p>
+    <p class="tip">無法使用<code>$on</code>直接監聽子層觸發的事件。必須直接在<code>template</code>使用<code>v-on</code></p>
+    <b>HTML</b>
+    <pre><code class="html">< div id="counter-event-example">
+  < p>{ { total } }< /p>
+  < button-counter v-on:increment="incrementTotal">< /button-counter>
+  < button-counter v-on:increment="incrementTotal">< /button-counter>
+< /div></code></pre>
+    <b>Javascript</b>
+    <pre><code class="javascript">Vue.component('button-counter', {
+  template: '< button v-on:click="incrementCounter" >{ { counter } }< /button >',
+  data: function () {
+    return {
+      counter: 0
+    }
+  },
+  methods: {
+    incrementCounter: function () {
+      this.counter += 1
+      this.$emit('increment')
+    }
+  },
+})
+
+new Vue({
+  el: '#counter-event-example',
+  data: {
+    total: 0
+  },
+  methods: {
+    incrementTotal: function () {
+      this.total += 1
+    }
+  }
+})</code></pre>
+    <b>Result</b>
+    <div id="counter-event-example">
+      <p>{{ total }}</p>
+      <button-counter v-on:increment="incrementTotal"></button-counter>
+      <button-counter v-on:increment="incrementTotal"></button-counter>
+    </div>
     <!--  -->
     <div>
         <b>HTML</b>
@@ -603,7 +658,6 @@ computed : {
             }
         })
 
-
         new Vue ({
             el: '#merging-attri',
             components: {
@@ -613,7 +667,35 @@ computed : {
             }
         })
 
+        Vue.component('button-counter', {
+          template: '<button v-on:click="incrementCounter">{{ counter }}</button>',
+          data: function () {
+            return {
+              counter: 0
+            }
+          },
+          methods: {
+            incrementCounter: function () {
+              this.counter += 1
+              this.$emit('increment')
+            }
+          },
+        })
+
+        new Vue({
+          el: '#counter-event-example',
+          data: {
+            total: 0
+          },
+          methods: {
+            incrementTotal: function () {
+              this.total += 1
+            }
+          }
+        })
 
     </script>
+
+
 </body>
 </html>

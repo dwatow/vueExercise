@@ -1,229 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>List Rendering</title>
-    <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet"
-          href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/obsidian.min.css">
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-</head>
-<body>
-    <h1>Event Handling</h1>
-    <h2>Listening to Events</h2>
-    <p>在vue也可以綁定事件，開啟事件用<code>v-on</code>並寫下想執行的js code</p>
-    <b>Syntax</b>
-    <pre><code class="html">< tagName v-on:javascriptEvent="jsCode" >< /tagName ></code></pre>
-    <p>縮寫</p>
-    <pre><code class="html">< tagName @javascriptEvent="jsCode" >< /tagName ></code></pre>
-    <b>HTML</b>
-    <pre><code class="html">< div id="example-1" >
-  < button v-on:click="counter += 1" >Add 1< /button >
-  < p >The button above has been clicked {{ counter }} times.< /p >
-< /div ></code></pre>
-    <b>javascript</b>
-    <pre><code class="javascript">var example1 = new Vue({
-  el: '#example-1',
-  data: {
-    counter: 0
-  }
-})</code></pre>
-    <b>Result</b>
-    <div id="example-1">
-        <button v-on:click="counter += 1">Add 1</button>
-        <p>The button above has been clicked {{ counter }} times.</p>
-    </div>
-    <h2>Method Event Handlers</h2>
-    <p>很複雜的話...做成function嘛</p>
-    <b>HTML</b>
-    <pre><code class="html">< div id="example-2" >
-  < !-- `greet` is the name of a method defined below -- >
-  < button v-on:click="greet" >Greet< /button >
-< /div ></code></pre>
-    <b>Javasctipt</b>
-    <pre><code class="javascript">var example2 = new Vue({
-  el: '#example-2',
-  data: {
-    name: 'Vue.js'
-  },
-  // define methods under the `methods` object
-  methods: {
-    greet: function (event) {
-      // `this` inside methods points to the Vue instance
-      alert('Hello ' + this.name + '!')
-      // `event` is the native DOM event
-      if (event) {
-        alert(event.target.tagName)
-      }
-    }
-  }
-})</code></pre>
-    <b>Result</b>
-    <div id="example-2">
-      <!-- `greet` is the name of a method defined below -->
-      <button v-on:click="greet">Greet</button>
-    </div>
-    <p>你也可以在<code>console</code>執行這一行，會跳出對話框，顯示 Hello Vue.js!</p>
-    <pre><code class="javascript">example2.greet()</code></pre>
-    <h2>Methods in Inline Handlers</h2>
-    <p>可以直接在HTML的inline丟js的參數</p>
-    <b>HTML</b>
-    <pre><code class="html">< div id="example-3" >
-  < button v-on:click="say('hi')" >Say hi< /button >
-  < button v-on:click="say('what')" >Say what< /button >
-< /div ></code></pre>
-    <b>Javascript</b>
-    <pre><code class="javascript">new Vue({
-  el: '#example-3',
-  methods: {
-    say: function (message) {
-      alert(message)
-    }
-  }
-})</code></pre>
-    <b>Result</b>
-    <div id="example-3">
-      <button v-on:click="say('hi')">Say hi</button>
-      <button v-on:click="say('what')">Say what</button>
-    </div>
-    <p>還可以用<code>$event</code>呼叫原生的event callback function的參數</p>
-    <p>此例就送出了一個submit，但是取消了預設行為，所以不會跳頁。</p>
-    <b>HTML</b>
-    <pre><code class="html">< div id="example-3-1" >
-  < button  v-on:click = "warn('Form cannot be submitted yet.', $event)" >
-    Submit
-  < /button >
-< /div ></code></pre>
-    <b>Javascript</b>
-    <pre><code class="javascript">new Vue({
-  el: '#example-3-1',
-  methods: {
-    warn : function ( message, event ) {
-      // 現在我們可以訪問原生事件對象
-      if (event) event.preventDefault()
-      alert(message)
-    }
-  }
-})</code></pre>
-    <b>Result</b>
-    <div id="example-3-1">
-      <button  v-on:click = "warn('Form cannot be submitted yet.', $event)">
-        Submit
-      </button>
-    </div>
-    <div id="modifiers">
-        <h2>Event Modifiers</h2>
-        <p>事件有時需要<code>event.preventDefault()</code>(取消預設行為)或<code>event.stopPropagation()</code>(停止漣波效應)之類的，這往往和我們寫的邏輯混在一起。</p>
-        <p>最理想的情況是，邏輯歸邏輯、事件細節歸事件細節!!!</p>
-        <p>為了解決這個問題Vue提供「事件修飾符」，在事件名稱後加上<code>.</code>來呼叫</p>
-        <p><a href="https://cythilya.github.io/2017/04/17/vue-methods-and-event-handling/">在此有些解說可以看一下</a></p>
-        <ul>
-            <li><code>.stop</code></li>
-            <li><code>.prevent</code></li>
-            <li><code>.capture</code></li>
-            <li><code>.self</code></li>
-            <li><code>.once</code>  (能用在組件，其它不行)</li>
-        </ul>
-        <b>Result</b>
-        <p>兩層都有click，外層執行×2，內層執行＋1</p>
-        <div v-on:click="counter *= 2"><div v-on:click="counter += 1">一般情況, 先＋1再×2</div></div>
-        <div v-on:click="counter *= 2"><div v-on:click.stop="counter += 1">內層stop, 停止漣波效應, 只有＋1</div></div>
-        <div v-on:click.capture="counter *= 2"><div v-on:click.capture="counter += 1">內外都capture, 先×2再＋1</div></div>
-        <div v-on:click.self="counter *= 2"><div v-on:click="counter += 1">外層self, 執行內層, self不capture, bubbling, 只有＋1</div></div>
-        <div v-on:click="counter *= 2"><div v-on:click.once="counter += 1">內層once, 內層只執行一次, 先＋1再×2，之後只有×2</div></div>
-        <p>counter: {{ counter }}</p>
-        <h2>Key (key code) Modifiers</h2>
-        <p>指定鍵盤的鍵。</p>
-        <pre><code class="html">< !-- 只有在keyCode 是13 時呼叫vm.submit() -- >
-< input  v-on:keyup.13 = "submit" ></code></pre>
-        <p>還有為特別的鍵提供別名</p>
-        <ul>
-            <li><code>.enter</code></li>
-            <li><code>.tab</code></li>
-            <li><code>.delete</code> (捕獲<code>delete</code> 和<code>backspace</code>)</li>
-            <li><code>.esc</code></li>
-            <li><code>.space</code></li>
-            <li><code>.up</code></li>
-            <li><code>.down</code></li>
-            <li><code>.left</code></li>
-            <li><code>.right</code></li>
-        </ul>
-        <b>Result</b>
-        <p>點一下，＋1</p>
-        <input v-on:keyup.enter="counter += 1">按enter, ＋1</input><br />
-        <input v-on:keyup.tab="counter += 1">按tab, ＋1 ??</input><br />
-        <input v-on:keyup.delete="counter += 1">按delete, ＋1</input><br />
-        <input v-on:keyup.esc="counter += 1">按esc, ＋1</input><br />
-        <input v-on:keyup.space="counter += 1">按space, ＋1</input><br />
-        <input v-on:keyup.up="counter += 1">按up, ＋1</input><br />
-        <input v-on:keyup.down="counter += 1">按down, ＋1</input><br />
-        <input v-on:keyup.left="counter += 1">按left, ＋1</input><br />
-        <input v-on:keyup.right="counter += 1">按right, ＋1</input><br />
-        <p>counter: {{ counter }}</p>
-
-        <p>你也可以自訂別名(全域設定)</p>
-        <pre><code class="javascript">// enable v-on:keyup.f1
-    Vue.config.keyCodes.f1 = 112</code></pre>
-        <h2>Modifier Keys</h2>
-        <p>還支援<code>Ctrl等...的操作</code></p>
-        <ul>
-            <li><code>.ctrl</code></li>
-            <li><code>.alt</code></li>
-            <li><code>.shift</code></li>
-            <li><code>.meta</code></li>
-        </ul>
-
-        <b>Result</b>
-        <p>點一下，＋1</p>
-        <div v-on:click.ctrl="counter += 1">按ctrl再點擊, ＋1</div>
-        <div v-on:click.alt="counter += 1">按alt再點擊, ＋1 ??</div>
-        <div v-on:click.shift="counter += 1">按shift再點擊, ＋1</div>
-        <div v-on:click.meta="counter += 1">按meta再點擊, ＋1</div>
-        <p>counter: {{ counter }}</p>
-
-        <p>其中<code>meta</code>在各個鍵盤上的定義有些許不同。可以看看<a href="https://vuejs.org/v2/guide/events.html#Modifier-Keys">官網文件</a></p>
-        <p>使用上，是按下<code>ctrl</code>再<code>keyup</code>其它指定的鍵，才會觸發<code>method</code></p>
-        <pre><code class="javascript">< !-- Alt + C -- >
-< input @keyup.alt.67="clear" >
-< !-- Ctrl + Click -- >
-< div @click.ctrl="doSomething" >Do something< /div ></code></pre>
-        <h3 class="question">Mouse Button Modifiers</h3>
-        <p>滑鼠的左鍵、中鍵、右鍵</p>
-        <ul>
-            <li><code>.left</code></li>
-            <li><code>.right</code></li>
-            <li><code>.middle</code></li>
-        </ul>
-        <b>Result??</b>
-        <p>點一下，＋1</p>
-        <div v-on:left="counter += 1">滑鼠的左鍵點擊, ＋1</div>
-        <div v-on:right="counter += 1">滑鼠的中鍵點擊, ＋1</div>
-        <div v-on:middle="counter += 1">滑鼠的右鍵點擊, ＋1</div>
-        <p>counter: {{ counter }}</p>
-    </div>
-    <h2>Why Listeners in HTML?</h2>
-    <p class="tip">這看似違背<a href="https://zh.wikipedia.org/wiki/%E5%85%B3%E6%B3%A8%E7%82%B9%E5%88%86%E7%A6%BB">關注點分離</a>的做法，其實有它的好處。<br />
-        傳統的做法上，js歸js，html歸html，使得js上混著事件細節、畫面邏輯，而且該function都是全域的。<br />
-        在Vue的做上，所有的邏輯都自己寫，所有的事件細節交給Vue，該function都在Vue物件中，不會是全域的。<br />
-        <a href="https://vuejs.org/v2/guide/events.html#Why-Listeners-in-HTML">官網文件</a>提出了幾個解釋</p>
-    <ul>
-        <li>掃一眼HTML 模板便能輕鬆定位在JavaScript 代碼裡對應的方法。</li>
-        <li>因為你無須在JavaScript 里手動綁定事件，你的ViewModel 代碼可以是非常純粹的邏輯，和DOM 完全解耦，更易於測試。</li>
-        <li>當一個ViewModel 被銷毀時，所有的事件處理器都會自動被刪除。你無須擔心如何自己清理它們。</li>
-    </ul>
-    <script src="https://unpkg.com/vue"></script>
-    <script type="text/javascript">
-    var example1 = new Vue({
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>List Rendering</title>
+        <link rel="stylesheet" href="./style.css">
+        <link rel="stylesheet"
+              href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/obsidian.min.css">
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+    </head>
+    <body>
+        <h1>Event Handling</h1>
+        <h2>Listening to Events</h2>
+        <p>在vue也可以綁定事件，開啟事件用<code>v-on</code>並寫下想執行的js code</p>
+        <b>Syntax</b>
+        <pre><code class="html">< tagName v-on:javascriptEvent="jsCode" >< /tagName ></code></pre>
+        <p>縮寫</p>
+        <pre><code class="html">< tagName @javascriptEvent="jsCode" >< /tagName ></code></pre>
+        <b>HTML</b>
+        <pre><code class="html">< div id="example-1" >
+      < button v-on:click="counter += 1" >Add 1< /button >
+      < p >The button above has been clicked {{ counter }} times.< /p >
+    < /div ></code></pre>
+        <b>javascript</b>
+        <pre><code class="javascript">var example1 = new Vue({
       el: '#example-1',
       data: {
         counter: 0
       }
-    })
-
-    var example2 = new Vue({
+    })</code></pre>
+        <b>Result</b>
+        <div id="example-1">
+            <button v-on:click="counter += 1">Add 1</button>
+            <p>The button above has been clicked {{ counter }} times.</p>
+        </div>
+        <h2>Method Event Handlers</h2>
+        <p>很複雜的話...做成function嘛</p>
+        <b>HTML</b>
+        <pre><code class="html">< div id="example-2" >
+      < !-- `greet` is the name of a method defined below -- >
+      < button v-on:click="greet" >Greet< /button >
+    < /div ></code></pre>
+        <b>Javasctipt</b>
+        <pre><code class="javascript">var example2 = new Vue({
       el: '#example-2',
       data: {
         name: 'Vue.js'
@@ -239,18 +60,45 @@
           }
         }
       }
-    })
-
-    new Vue({
+    })</code></pre>
+        <b>Result</b>
+        <div id="example-2">
+          <!-- `greet` is the name of a method defined below -->
+          <button v-on:click="greet">Greet</button>
+        </div>
+        <p>你也可以在<code>console</code>執行這一行，會跳出對話框，顯示 Hello Vue.js!</p>
+        <pre><code class="javascript">example2.greet()</code></pre>
+        <h2>Methods in Inline Handlers</h2>
+        <p>可以直接在HTML的inline丟js的參數</p>
+        <b>HTML</b>
+        <pre><code class="html">< div id="example-3" >
+      < button v-on:click="say('hi')" >Say hi< /button >
+      < button v-on:click="say('what')" >Say what< /button >
+    < /div ></code></pre>
+        <b>Javascript</b>
+        <pre><code class="javascript">new Vue({
       el: '#example-3',
       methods: {
         say: function (message) {
           alert(message)
         }
       }
-    })
-
-    new Vue({
+    })</code></pre>
+        <b>Result</b>
+        <div id="example-3">
+          <button v-on:click="say('hi')">Say hi</button>
+          <button v-on:click="say('what')">Say what</button>
+        </div>
+        <p>還可以用<code>$event</code>呼叫原生的event callback function的參數</p>
+        <p>此例就送出了一個submit，但是取消了預設行為，所以不會跳頁。</p>
+        <b>HTML</b>
+        <pre><code class="html">< div id="example-3-1" >
+      < button  v-on:click = "warn('Form cannot be submitted yet.', $event)" >
+        Submit
+      < /button >
+    < /div ></code></pre>
+        <b>Javascript</b>
+        <pre><code class="javascript">new Vue({
       el: '#example-3-1',
       methods: {
         warn : function ( message, event ) {
@@ -259,15 +107,167 @@
           alert(message)
         }
       }
-    })
+    })</code></pre>
+        <b>Result</b>
+        <div id="example-3-1">
+          <button  v-on:click = "warn('Form cannot be submitted yet.', $event)">
+            Submit
+          </button>
+        </div>
+        <div id="modifiers">
+            <h2>Event Modifiers</h2>
+            <p>事件有時需要<code>event.preventDefault()</code>(取消預設行為)或<code>event.stopPropagation()</code>(停止漣波效應)之類的，這往往和我們寫的邏輯混在一起。</p>
+            <p>最理想的情況是，邏輯歸邏輯、事件細節歸事件細節!!!</p>
+            <p>為了解決這個問題Vue提供「事件修飾符」，在事件名稱後加上<code>.</code>來呼叫</p>
+            <p><a href="https://cythilya.github.io/2017/04/17/vue-methods-and-event-handling/">在此有些解說可以看一下</a></p>
+            <ul>
+                <li><code>.stop</code></li>
+                <li><code>.prevent</code></li>
+                <li><code>.capture</code></li>
+                <li><code>.self</code></li>
+                <li><code>.once</code>  (能用在組件，其它不行)</li>
+            </ul>
+            <b>Result</b>
+            <p>兩層都有click，外層執行×2，內層執行＋1</p>
+            <div v-on:click="counter *= 2"><div v-on:click="counter += 1">一般情況, 先＋1再×2</div></div>
+            <div v-on:click="counter *= 2"><div v-on:click.stop="counter += 1">內層stop, 停止漣波效應, 只有＋1</div></div>
+            <div v-on:click.capture="counter *= 2"><div v-on:click.capture="counter += 1">內外都capture, 先×2再＋1</div></div>
+            <div v-on:click.self="counter *= 2"><div v-on:click="counter += 1">外層self, 執行內層, self不capture, bubbling, 只有＋1</div></div>
+            <div v-on:click="counter *= 2"><div v-on:click.once="counter += 1">內層once, 內層只執行一次, 先＋1再×2，之後只有×2</div></div>
+            <p>counter: {{ counter }}</p>
+            <h2>Key (key code) Modifiers</h2>
+            <p>指定鍵盤的鍵。</p>
+            <pre><code class="html">< !-- 只有在keyCode 是13 時呼叫vm.submit() -- >
+    < input  v-on:keyup.13 = "submit" ></code></pre>
+            <p>還有為特別的鍵提供別名</p>
+            <ul>
+                <li><code>.enter</code></li>
+                <li><code>.tab</code></li>
+                <li><code>.delete</code> (捕獲<code>delete</code> 和<code>backspace</code>)</li>
+                <li><code>.esc</code></li>
+                <li><code>.space</code></li>
+                <li><code>.up</code></li>
+                <li><code>.down</code></li>
+                <li><code>.left</code></li>
+                <li><code>.right</code></li>
+            </ul>
+            <b>Result</b>
+            <p>點一下，＋1</p>
+            <input v-on:keyup.enter="counter += 1">按enter, ＋1</input><br />
+            <input v-on:keyup.tab="counter += 1">按tab, ＋1 ??</input><br />
+            <input v-on:keyup.delete="counter += 1">按delete, ＋1</input><br />
+            <input v-on:keyup.esc="counter += 1">按esc, ＋1</input><br />
+            <input v-on:keyup.space="counter += 1">按space, ＋1</input><br />
+            <input v-on:keyup.up="counter += 1">按up, ＋1</input><br />
+            <input v-on:keyup.down="counter += 1">按down, ＋1</input><br />
+            <input v-on:keyup.left="counter += 1">按left, ＋1</input><br />
+            <input v-on:keyup.right="counter += 1">按right, ＋1</input><br />
+            <p>counter: {{ counter }}</p>
+
+            <p>你也可以自訂別名(全域設定)</p>
+            <pre><code class="javascript">// enable v-on:keyup.f1
+        Vue.config.keyCodes.f1 = 112</code></pre>
+            <h2>Modifier Keys</h2>
+            <p>還支援<code>Ctrl等...的操作</code></p>
+            <ul>
+                <li><code>.ctrl</code></li>
+                <li><code>.alt</code></li>
+                <li><code>.shift</code></li>
+                <li><code>.meta</code></li>
+            </ul>
+
+            <b>Result</b>
+            <p>點一下，＋1</p>
+            <div v-on:click.ctrl="counter += 1">按ctrl再點擊, ＋1</div>
+            <div v-on:click.alt="counter += 1">按alt再點擊, ＋1 ??</div>
+            <div v-on:click.shift="counter += 1">按shift再點擊, ＋1</div>
+            <div v-on:click.meta="counter += 1">按meta再點擊, ＋1</div>
+            <p>counter: {{ counter }}</p>
+
+            <p>其中<code>meta</code>在各個鍵盤上的定義有些許不同。可以看看<a href="https://vuejs.org/v2/guide/events.html#Modifier-Keys">官網文件</a></p>
+            <p>使用上，是按下<code>ctrl</code>再<code>keyup</code>其它指定的鍵，才會觸發<code>method</code></p>
+            <pre><code class="javascript">< !-- Alt + C -- >
+    < input @keyup.alt.67="clear" >
+    < !-- Ctrl + Click -- >
+    < div @click.ctrl="doSomething" >Do something< /div ></code></pre>
+            <h3 class="question">Mouse Button Modifiers</h3>
+            <p>滑鼠的左鍵、中鍵、右鍵</p>
+            <ul>
+                <li><code>.left</code></li>
+                <li><code>.right</code></li>
+                <li><code>.middle</code></li>
+            </ul>
+            <b>Result??</b>
+            <p>點一下，＋1</p>
+            <div v-on:left="counter += 1">滑鼠的左鍵點擊, ＋1</div>
+            <div v-on:right="counter += 1">滑鼠的中鍵點擊, ＋1</div>
+            <div v-on:middle="counter += 1">滑鼠的右鍵點擊, ＋1</div>
+            <p>counter: {{ counter }}</p>
+        </div>
+        <h2>Why Listeners in HTML?</h2>
+        <p class="tip">這看似違背<a href="https://zh.wikipedia.org/wiki/%E5%85%B3%E6%B3%A8%E7%82%B9%E5%88%86%E7%A6%BB">關注點分離</a>的做法，其實有它的好處。<br />
+            傳統的做法上，js歸js，html歸html，使得js上混著事件細節、畫面邏輯，而且該function都是全域的。<br />
+            在Vue的做上，所有的邏輯都自己寫，所有的事件細節交給Vue，該function都在Vue物件中，不會是全域的。<br />
+            <a href="https://vuejs.org/v2/guide/events.html#Why-Listeners-in-HTML">官網文件</a>提出了幾個解釋</p>
+        <ul>
+            <li>掃一眼HTML 模板便能輕鬆定位在JavaScript 代碼裡對應的方法。</li>
+            <li>因為你無須在JavaScript 里手動綁定事件，你的ViewModel 代碼可以是非常純粹的邏輯，和DOM 完全解耦，更易於測試。</li>
+            <li>當一個ViewModel 被銷毀時，所有的事件處理器都會自動被刪除。你無須擔心如何自己清理它們。</li>
+        </ul>
+        <script src="https://unpkg.com/vue"></script>
+        <script type="text/javascript">
+        var example1 = new Vue({
+          el: '#example-1',
+          data: {
+            counter: 0
+          }
+        })
+
+        var example2 = new Vue({
+          el: '#example-2',
+          data: {
+            name: 'Vue.js'
+          },
+          // define methods under the `methods` object
+          methods: {
+            greet: function (event) {
+              // `this` inside methods points to the Vue instance
+              alert('Hello ' + this.name + '!')
+              // `event` is the native DOM event
+              if (event) {
+                alert(event.target.tagName)
+              }
+            }
+          }
+        })
+
+        new Vue({
+          el: '#example-3',
+          methods: {
+            say: function (message) {
+              alert(message)
+            }
+          }
+        })
+
+        new Vue({
+          el: '#example-3-1',
+          methods: {
+            warn : function ( message, event ) {
+              // 現在我們可以訪問原生事件對象
+              if (event) event.preventDefault()
+              alert(message)
+            }
+          }
+        })
 
 
-    var modifiers = new Vue({
-      el: '#modifiers',
-      data: {
-        counter: 0
-      }
-    })
-    </script>
-</body>
+        var modifiers = new Vue({
+          el: '#modifiers',
+          data: {
+            counter: 0
+          }
+        })
+        </script>
+    </body>
 </html>

@@ -193,13 +193,24 @@ new Vue({
     <h3>Passing Data with Props</h3>
     <p>宣告一段自訂義tag name的<code>component</code></p>
     <b>HTML</b>
-    <pre><code class="html">< child  message = "hello!" > </ child ></code></pre>
+    <pre><code class="html">< div id="props">
+    < child message = "hello!" > < /child >
+< /div></code></pre>
     <b>Javascript</b>
     <pre><code class="javascript">Vue.component( 'child' , {  //父組件
   props: [ 'message' ],  // 宣告props
   template: '< span >{ { message } }< /span >'  // 子組件!! 就可以像data 一樣，prop 可以用在模板內
 })</code></pre>
-    <p class="question">同樣也可以在vm 實例中像"this.message"這樣使用 ??</p>
+    <p>在component中的用法，就像在vm實例中，直接呼叫data般<code>this.message</code>這樣使用。</p>
+    <pre><code class="javascript">Vue.component('child', {
+    props: ['message'],
+    template: '< span v-on:click="showit">{ { message } }< /span>',
+    methods: {
+        showit: function () {
+            setTimeout(() => console.log(this.message), 0);
+        }
+    }
+}</code></pre>
     <b>Result</b>
     <div id="props">
         <child message="hello!"></child>
@@ -492,6 +503,14 @@ new Vue({
     <h3>Binding Native Events to Components</h3>
     <p>如果你不要自訂，要用原生的，在<code>template</code>的<code>v-on</code>加上<code>.native</code>的修飾字</p>
     <pre><code class="html">< my-component v-on:click.native="doTheThing">< /my-component></code></pre>
+    <h3><code>.sync</code>修飾符</h3>
+    <p class="question">不同於v1.x版的雙向綁定的用途，在v2.x版<code>.sync</code>當作一個自動附加父組件<code>v-on</code>偵聽器的屬性。目的在於<b>讓子組件改變父組件狀態的代碼更容易被區分。</b>，也就只是作為一個編譯時的語法糖存在。</p>
+    <pre><code class="html">< comp :foo.sync="bar">< /comp></code></pre>
+    <p class="question">會幫你加上</p>
+    <pre><code class="html">< comp :foo="bar" @update:foo="val => bar = val">< /comp></code></pre>
+    <p class="question">組件需要更新<code>foo</code>時，可以這樣寫</p>
+    <pre><code class="javascript">this .$emit( 'update:foo' , newValue)</code></pre>
+    <h3>Form Input Components using Custom Events</h3>
     <!--  -->
     <div>
         <b>HTML</b>
@@ -587,7 +606,12 @@ new Vue({
             components: {
                 'child': {
                     props: ['message'],
-                    template: '<span>{{ message }}</span>'
+                    template: '<span v-on:click="showit">{{ message }}</span>',
+                    methods: {
+                        showit: function () {
+                            setTimeout(() => console.log(this.message), 0);
+                        }
+                    }
                 }
             }
         })

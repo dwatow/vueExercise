@@ -251,6 +251,8 @@ new Vue({
         parentMsg: 'aaaaaa'
     }
 })</code></pre>
+    <b>數值傳遞圖</b>
+    <img src="https://i.imgur.com/FeyFKYh.jpg" alt="" class="note-graph">
     <b>Result</b>
     <div id="dynamic_prop">
       <input v-model="parentMsg">
@@ -448,12 +450,12 @@ computed : {
     <b>HTML</b>
     <pre><code class="html">< div id="counter-event-example">
   < p>{ { total } }< /p>
-  < button-counter v-on:increment="incrementTotal">< /button-counter>
+  < button-counter v-on:increment="incrementTotal">< /button-counter>  < -- 3. 子層的自訂義increment事件，觸發父層的incrementTotal
   < button-counter v-on:increment="incrementTotal">< /button-counter>
 < /div></code></pre>
     <b>Javascript</b>
     <pre><code class="javascript">Vue.component('button-counter', {
-  template: '< button v-on:click="incrementCounter" >{ { counter } }< /button >',
+  template: '< button v-on:click="incrementCounter" >{ { counter } }< /button >', //1. 子組件用v-on執行incrementCounter
   data: function () {
     return {
       counter: 0
@@ -462,7 +464,7 @@ computed : {
   methods: {
     incrementCounter: function () {
       this.counter += 1
-      this.$emit('increment')
+      this.$emit('increment')  //2. 自訂事件觸發$emit給父層的Method
     }
   },
 })
@@ -474,16 +476,22 @@ new Vue({
   },
   methods: {
     incrementTotal: function () {
-      this.total += 1
+      this.total += 1  //4. 執行父層函數，更新total
     }
   }
 })</code></pre>
+    <b>數值傳遞圖</b>
+    <img src="https://i.imgur.com/7WeRxSL.jpg" alt="" class="note-graph">
     <b>Result</b>
     <div id="counter-event-example">
       <p>{{ total }}</p>
       <button-counter v-on:increment="incrementTotal"></button-counter>
       <button-counter v-on:increment="incrementTotal"></button-counter>
     </div>
+
+    <h3>Binding Native Events to Components</h3>
+    <p>如果你不要自訂，要用原生的，在<code>template</code>的<code>v-on</code>加上<code>.native</code>的修飾字</p>
+    <pre><code class="html">< my-component v-on:click.native="doTheThing">< /my-component></code></pre>
     <!--  -->
     <div>
         <b>HTML</b>
@@ -593,7 +601,7 @@ new Vue({
             el: '#my-message'
         })
 
-        new Vue({
+        var dynamic = new Vue({
             el: '#dynamic_prop',
             data: {
                 parentMsg: 'aaaaaa'

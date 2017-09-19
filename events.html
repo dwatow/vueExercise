@@ -21,16 +21,16 @@
         <pre><code class="html">< tagName @javascriptEvent="jsCode" >< /tagName ></code></pre>
         <b>HTML</b>
         <pre><code class="html">< div id="example-1" >
-      < button v-on:click="counter += 1" >Add 1< /button >
-      < p >The button above has been clicked {{ counter }} times.< /p >
-    < /div ></code></pre>
+  < button v-on:click="counter += 1" >Add 1< /button >
+  < p >The button above has been clicked {{ counter }} times.< /p >
+< /div ></code></pre>
         <b>javascript</b>
         <pre><code class="javascript">var example1 = new Vue({
-      el: '#example-1',
-      data: {
-        counter: 0
-      }
-    })</code></pre>
+  el: '#example-1',
+  data: {
+    counter: 0
+  }
+})</code></pre>
         <b>Result</b>
         <div id="example-1">
             <button v-on:click="counter += 1">Add 1</button>
@@ -40,27 +40,27 @@
         <p>很複雜的話...做成function嘛</p>
         <b>HTML</b>
         <pre><code class="html">< div id="example-2" >
-      < !-- `greet` is the name of a method defined below -- >
-      < button v-on:click="greet" >Greet< /button >
-    < /div ></code></pre>
+  < !-- `greet` is the name of a method defined below -- >
+  < button v-on:click="greet" >Greet< /button >
+< /div ></code></pre>
         <b>Javasctipt</b>
         <pre><code class="javascript">var example2 = new Vue({
-      el: '#example-2',
-      data: {
-        name: 'Vue.js'
-      },
-      // define methods under the `methods` object
-      methods: {
-        greet: function (event) {
-          // `this` inside methods points to the Vue instance
-          alert('Hello ' + this.name + '!')
-          // `event` is the native DOM event
-          if (event) {
-            alert(event.target.tagName)
-          }
-        }
+  el: '#example-2',
+  data: {
+    name: 'Vue.js'
+  },
+  // define methods under the `methods` object
+  methods: {
+    greet: function (event) {
+      // `this` inside methods points to the Vue instance
+      alert('Hello ' + this.name + '!')
+      // `event` is the native DOM event
+      if (event) {
+        alert(event.target.tagName)
       }
-    })</code></pre>
+    }
+  }
+})</code></pre>
         <b>Result</b>
         <div id="example-2">
           <!-- `greet` is the name of a method defined below -->
@@ -72,18 +72,18 @@
         <p>可以直接在HTML的inline丟js的參數</p>
         <b>HTML</b>
         <pre><code class="html">< div id="example-3" >
-      < button v-on:click="say('hi')" >Say hi< /button >
-      < button v-on:click="say('what')" >Say what< /button >
-    < /div ></code></pre>
+  < button v-on:click="say('hi')" >Say hi< /button >
+  < button v-on:click="say('what')" >Say what< /button >
+< /div ></code></pre>
         <b>Javascript</b>
         <pre><code class="javascript">new Vue({
-      el: '#example-3',
-      methods: {
-        say: function (message) {
-          alert(message)
-        }
-      }
-    })</code></pre>
+  el: '#example-3',
+  methods: {
+    say: function (message) {
+      alert(message)
+    }
+  }
+})</code></pre>
         <b>Result</b>
         <div id="example-3">
           <button v-on:click="say('hi')">Say hi</button>
@@ -93,21 +93,21 @@
         <p>此例就送出了一個submit，但是取消了預設行為，所以不會跳頁。</p>
         <b>HTML</b>
         <pre><code class="html">< div id="example-3-1" >
-      < button  v-on:click = "warn('Form cannot be submitted yet.', $event)" >
-        Submit
-      < /button >
-    < /div ></code></pre>
+  < button  v-on:click = "warn('Form cannot be submitted yet.', $event)" >
+    Submit
+  < /button >
+< /div ></code></pre>
         <b>Javascript</b>
         <pre><code class="javascript">new Vue({
-      el: '#example-3-1',
-      methods: {
-        warn : function ( message, event ) {
-          // 現在我們可以訪問原生事件對象
-          if (event) event.preventDefault()
-          alert(message)
-        }
-      }
-    })</code></pre>
+  el: '#example-3-1',
+  methods: {
+    warn : function ( message, event ) {
+      // 現在我們可以訪問原生事件對象
+      if (event) event.preventDefault()
+      alert(message)
+    }
+  }
+})</code></pre>
         <b>Result</b>
         <div id="example-3-1">
           <button  v-on:click = "warn('Form cannot be submitted yet.', $event)">
@@ -138,7 +138,7 @@
             <h2>Key (key code) Modifiers</h2>
             <p>指定鍵盤的鍵。</p>
             <pre><code class="html">< !-- 只有在keyCode 是13 時呼叫vm.submit() -- >
-    < input  v-on:keyup.13 = "submit" ></code></pre>
+< input  v-on:keyup.13 = "submit" ></code></pre>
             <p>還有為特別的鍵提供別名</p>
             <ul>
                 <li><code>.enter</code></li>
@@ -166,7 +166,7 @@
 
             <p>你也可以自訂別名(全域設定)</p>
             <pre><code class="javascript">// enable v-on:keyup.f1
-        Vue.config.keyCodes.f1 = 112</code></pre>
+Vue.config.keyCodes.f1 = 112</code></pre>
             <h2>Modifier Keys</h2>
             <p>還支援<code>Ctrl等...的操作</code></p>
             <ul>

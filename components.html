@@ -243,6 +243,7 @@ new Vue({
     </div>
     <h3>Dynamic Props</h3>
     <p>把Vue物件裡的<code>data</code>丟到組件裡。</p>
+    <p><code>:my-message="parentMsg"</code>中，若"parentMsg"是字串，則my-message就不用<code>v-bind</code>。但是，若它是變數，要v-bind</p>
     <b>HTML</b>
     <pre><code class="html">< div id="dynamic_prop" >
   < input v-model="parentMsg" >
@@ -511,6 +512,28 @@ new Vue({
     <p class="question">組件需要更新<code>foo</code>時，可以這樣寫</p>
     <pre><code class="javascript">this .$emit( 'update:foo' , newValue)</code></pre>
     <h3>Form Input Components using Custom Events</h3>
+    <p>一般而言，我們用雙向綁定vue實例與HTML，在HTML加上<code>v-mode</code></p>
+    <pre><code class="html">< input v-model="something"></code></pre>
+    <p>Vue會幫你改成這樣</p>
+    <pre><code class="html">< input
+  v-bind:value="something"
+  v-on:input="something = $event.target.value"></code></pre>
+    <p>在<code>components</code>使用時，需要這樣寫</p>
+    <pre><code class="html">< custom-input
+  v-bind:value="something"
+  v-on:input="value => { something = value }">
+< /custom-input></code></pre>
+    <b>練習</b>
+    <div id="vmode">
+        <!-- <input
+              v-bind:value="something"
+              v-on:input="something = $event.target.value"> -->
+        <!-- <span>{{something}}</span> -->
+        <custom-input
+          :value="something"
+          @input="value => { something = value }">
+        </custom-input>
+    </div>
     <!--  -->
     <div>
         <b>HTML</b>
@@ -723,6 +746,19 @@ new Vue({
               this.total += 1
             }
           }
+        })
+
+        new Vue({
+            el: '#vmode',
+            data: {
+                something: 'XXXXXXXXX'
+            },
+            components : {
+                'custom-input': {
+                    props: ['value'],
+                    template: `<input :value="value">`
+                }
+            }
         })
 
     </script>

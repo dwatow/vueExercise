@@ -26,7 +26,7 @@
         </style>
     </head>
     <body>
-        <div id="example"></div>
+        <div id="example">This is Example</div>
         <p>物件生命週期，可以使用特定函數在特定機執行。</p>
         <div class="lifecycle">
             <ul>
@@ -68,7 +68,31 @@
             }
             var vm = new Vue({
                 el: '#example',
-                data: data
+                data: data,
+                beforeCreate: function () {
+                    setTimeout(() => console.log('beforeCreate'))
+                },
+                created: function () {
+                    setTimeout(() => console.log('created'))
+                },
+                beforeMounte: function () {
+                    setTimeout(() => console.log('beforeMounte'))
+                },
+                mounted: function () {
+                    setTimeout(() => console.log('mounted'))
+                },
+                beforeUpdate: function () {
+                    setTimeout(() => console.log('beforeUpdate'))
+                },
+                updated: function () {
+                    setTimeout(() => console.log('updated'))
+                },
+                beforeDestroye: function () {
+                    setTimeout(() => console.log('beforeDestroye'))
+                },
+                destroyed: function () {
+                    setTimeout(() => console.log('destroyed'))
+                },
             })
     </script>
     </body>

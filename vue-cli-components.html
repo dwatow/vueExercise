@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue CLI components</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/obsidian.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+    <h1>Vue CLI</h1>
+    <p>This is <code>Vue Command Line Interface</code></p>
+    <h2>Vue Loader</h2>
+    <p>將每一個<code>components</code>放置在.vue的檔案裡。<br />
+       檔案裡面包含所需要的<code>template(HTML)</code>components設定(Javascript)還有CSS</p>
+    <h2>App.vue</h2>
+    <p>頁面的view model，一個頁面，只需要一個view model!!!，剩下的都是component組在view model上。</p>
+    <p>基本的結構長這樣</p>
+    <pre><code class="html">< template>< /template>
+< script>< /script>
+< style lang="scss">< /style>
+</code></pre>
+    <b>HTML</b>
+    <p>放在<code>< template></code>裡面</p>
+    <pre><code class="html">< div id="app">
+  < headbox v-on:queryItem="updateItem"
+           v-on:queryList="initialList">< /headbox>
+  < contentbox v-bind:content="contentboxData" v-bind:contentList="contentboxDataList">< /contentbox>
+  < footerbox>< /footerbox>
+< /div>
+</code></pre>
+    <p>在此可以看見components的自定義HTML</p>
+    <pre><code class="html">< 自定義tagName>< /自定義tagName></code></pre>
+    <p>有設定自定義事件(v-on:自定義事件)，將components的資料傳向App.vue</p>
+    <pre><code class="html">< 自定義tagName v-on:自定義事件="App.vue的Methods">< /自定義tagName></code></pre>
+    <p>有設定資料單向綁定(v-bind:props)，將App.vue的資料傳到components</p>
+    <pre><code class="html">< 自定義tagName v-bind:props="App.vue的data">< /自定義tagName></code></pre>
+    <p class="tip">若沒有設定<code>v-bind</code>，直接寫<code>props="App.vue的data"</code>的話，Vue不會這樣認定<br />
+      它會當作是開發者給元件的屬性設定常數<code>htmlAttr="const string"</code></p>
+    <b>CSS</b>
+    <p>放在<code>< style></code>裡面</p>
+    <p>在此就不特別貼程式碼</p>
+    <b>Javascript</b>
+    <p>放在<code>< script></code>裡面</p>
+    <pre><code class="javascript">import headbox from "./headbox.vue"
+import contentbox from "./content.vue"
+import footerbox from "./footerbox.vue"
+
+export default {
+  name: 'app',
+  components: { headbox, contentbox, footerbox },
+  data () {
+    return {
+      contentboxData: '',
+      contentboxDataList: [],
+    }
+  },
+  methods: {
+      updateItem: function (item) {
+          this.contentboxData = item
+          this.contentboxDataList = []
+      },
+      initialList: function (list = [])  {
+          this.contentboxDataList = list
+      }
+  }
+}</code></pre>
+    <p>在Vue loader裡的「引入」要使用<code>import-from</code>，進來的東西直接就是components.vue定義的<code>export default</code></p>
+    <p>在<code>components</code>裡，直接寫入要加進來的物件(名稱用<code>import</code>後的自訂名稱)</p>
+</body>
+</html>

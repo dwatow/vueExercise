@@ -1,8 +1,8 @@
 # vue2 學習歷程
 
-## 教材
+## vue2官網教學
 
-[vue2官網教學](https://cn.vuejs.org/v2/guide/)
+[教材](https://cn.vuejs.org/v2/guide/)
 
 適用對象: HTML、CSS 和 JavaScript 的中等水準
 
@@ -16,5 +16,14 @@
 - [v-for](https://dwatow.github.io/vueExercise/list.html)
 - [v-on](https://dwatow.github.io/vueExercise/events.html)
 - [v-model](https://dwatow.github.io/vueExercise/form.html)
+- [components](https://dwatow.github.io/vueExercise/components.html)
 
 [最新進度](https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events)
+
+## Vue-cli
+
+適用對象: 想要高效的使用Vue，會一點node.js, webpack(不會再學也可以啦)
+
+- [安裝vue-cli](https://vuejs.org/v2/guide/installation.html#CLI)
+- [vue-loader](https://vue-loader.vuejs.org/en/start/spec.html)
+- [將頁面切成components](https://dwatow.github.io/vueExercise/vue-cli-components.html)

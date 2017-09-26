@@ -1,70 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Form Input Bindings</title>
     <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/obsidian.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/obsidian.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Form Input Bindings</h1>
     <h2>Basic Usage</h2>
     <div id="vmode-basic">
-        <p class="tip">主要是要介紹<code>v-mode</code>，不過他也只是語法糖。</p>
-        <p>有一些地雷要注意</p>
-        <ol>
-            <li>會忽略所有表單元素的value、checked、selected1特性的初始值。<br />
-                會選擇Vue實例數據來作為具體的值。<br />
-                必須在Vuejs的data裡，宣告初始值。(超重要!!!)</li>
-            <li>對於要求IME (如中文、日語、韓語等) (IME意為'輸入法')的語言，你會發現<code>v-mode</code>l不會在ime輸入中得到更新。<br />如果你也想實現更新，請使用input事件。</li>
-        </ol>
-        <h3>Text</h3>
-        <b>HTML</b>
-        <pre><code class="html">< input v-model="message" placeholder="edit me" >
+      <p class="tip">主要是要介紹<code>v-model</code>，不過他也只是語法糖。</p>
+      <p>有一些地雷要注意</p>
+      <ol>
+        <li>會忽略所有表單元素的value、checked、selected1特性的初始值。<br /> 會選擇Vue實例數據來作為具體的值。
+          <br /> 必須在Vuejs的data裡，宣告初始值。(超重要!!!)
+        </li>
+        <li>對於要求IME (如中文、日語、韓語等) (IME意為'輸入法')的語言，你會發現<code>v-model</code>不會在ime輸入中得到更新。<br />如果你也想實現更新，請使用input事件。</li>
+      </ol>
+      <h3>Text</h3>
+      <b>HTML</b>
+      <pre><code class="html">< input v-model="message" placeholder="edit me" >
 < p >Message is: { { message } }< /p ></code></pre>
-        <b>Javascript</b>
-        <pre><code class="javascript">data: {
+      <b>Javascript</b>
+      <pre><code class="javascript">data: {
     message: '{{ message }}'
 }</code></pre>
-        <b>Result</b>
-        <input v-model="message" placeholder="edit me">
-        <p>Message is: {{ message }}</p>
-        <h3>Multiline text</h3>
-        <b>HTML</b>
-        <pre><code class="html">< span >Multiline message is:< /span >
+      <b>Result</b>
+      <input v-model="message" placeholder="edit me">
+      <p>Message is: {{ message }}</p>
+      <h3>Multiline text</h3>
+      <b>HTML</b>
+      <pre><code class="html">< span >Multiline message is:< /span >
 < p style="white-space: pre-line" >{ { message } }< /p >
 < br >
 < textarea v-model="message" placeholder="add multiple lines" >< /textarea ></code></pre>
-        <p>在<code>< textarea >< /textarea ></code>插值並不會動作，必須加<code>v-model</code>。</p>
-        <b>Javascript</b>
-        <pre><code class="javascript">data: {
+      <p>在<code>< textarea >< /textarea ></code>插值並不會動作，必須加<code>v-model</code>。</p>
+      <b>Javascript</b>
+      <pre><code class="javascript">data: {
     message: '{{ message }}'
 }</code></pre>
-        <b>Result</b>
-        <br>
-        <span>Multiline message is:</span>
-        <p style="white-space: pre-line">{{ message }}</p>
-        <textarea v-model="message" placeholder="add multiple lines"></textarea>
-        <h3>Checkbox</h3>
-        <p>當作開關: true | false</p>
-        <b>HTML</b>
-        <pre><code class="html">< input type="checkbox" id="checkbox" v-model="checked" >
+      <b>Result</b>
+      <br>
+      <span>Multiline message is:</span>
+      <p style="white-space: pre-line">{{ message }}</p>
+      <textarea v-model="message" placeholder="add multiple lines"></textarea>
+      <h3>Checkbox</h3>
+      <p>當作開關: true | false</p>
+      <b>HTML</b>
+      <pre><code class="html">< input type="checkbox" id="checkbox" v-model="checked" >
 < label for="checkbox" >{ { checked } }< /label ></code></pre>
-        <b>Javascript</b>
-        <pre><code class="javascript">data: {
+      <b>Javascript</b>
+      <pre><code class="javascript">data: {
     checked: {{ checked }}
 }</code></pre>
-        <b>Result</b><br />
-        <input type="checkbox" id="checkbox" v-model="checked">
-        <label for="checkbox">{{ checked }}</label>
-        <p>當作多選: 成為新陣列</p>
-        <b>HTML</b>
-        <pre><code class="html">< div id='example-3' >
+      <b>Result</b><br />
+      <input type="checkbox" id="checkbox" v-model="checked">
+      <label for="checkbox">{{ checked }}</label>
+      <p>當作多選: 成為新陣列</p>
+      <b>HTML</b>
+      <pre><code class="html">< div id='example-3' >
   < input type="checkbox" id="jack" value="Jack" v-model="checkedNames" >
   < label for="jack" >Jack< /label >
   < input type="checkbox" id="john" value="John" v-model="checkedNames" >
@@ -74,97 +73,98 @@
   < br >
   < span >Checked names: { { checkedNames } }< /span >
 < div ></code></pre>
-        <b>Javascript</b>
-        <pre><code class="javascript">data: {
+      <b>Javascript</b>
+      <pre><code class="javascript">data: {
         checkedNames: {{ checkedNames }}
 }</code></pre>
-        <b>Result</b>
-        <!-- <div id='example-3'> -->
-          <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
-          <label for="jack">Jack</label>
-          <input type="checkbox" id="john" value="John" v-model="checkedNames">
-          <label for="john">John</label>
-          <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
-          <label for="mike">Mike</label>
-          <br>
-          <span>Checked names: {{ checkedNames }}</span>
-        <!-- <div> -->
-        <h3>Radio</h3>
-        <b>HTML</b>
-        <pre><code class="html">< input type="radio" id="one" value="One" v-model="picked" >
+      <b>Result</b>
+      <!-- <div id='example-3'> -->
+      <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+      <label for="jack">Jack</label>
+      <input type="checkbox" id="john" value="John" v-model="checkedNames">
+      <label for="john">John</label>
+      <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+      <label for="mike">Mike</label>
+      <br>
+      <span>Checked names: {{ checkedNames }}</span>
+      <!-- <div> -->
+      <h3>Radio</h3>
+      <b>HTML</b>
+      <pre><code class="html">< input type="radio" id="one" value="One" v-model="picked" >
 < label for="one" >One< /label >
 < br >
 < input type="radio" id="two" value="Two" v-model="picked" >
 < label for="two" >Two< /label >
 < br >
 < span >Picked: { { picked } }< /span ></code></pre>
-        <b>Javascript</b>
-        <pre><code class="javascript">data: {
+      <b>Javascript</b>
+      <pre><code class="javascript">data: {
     picked: '{{ picked }}'
 }</code></pre>
-        <b>Result</b><br />
-        <input type="radio" id="one" value="One" v-model="picked">
-        <label for="one">One</label>
-        <br>
-        <input type="radio" id="two" value="Two" v-model="picked">
-        <label for="two">Two</label>
-        <br>
-        <span>Picked: {{ picked }}</span>
-        <h3>Select</h3>
-        <b>HTML</b>
-        <pre><code class="html"> select v-model="selected1" >
+      <b>Result</b><br />
+      <input type="radio" id="one" value="One" v-model="picked">
+      <label for="one">One</label>
+      <br>
+      <input type="radio" id="two" value="Two" v-model="picked">
+      <label for="two">Two</label>
+      <br>
+      <span>Picked: {{ picked }}</span>
+      <h3>Select</h3>
+      <b>HTML</b>
+      <pre><code class="html"> select v-model="selected1" >
   < option disabled value="" >Please select one< /option >
   < option >A< /option >
   < option >B< /option >
   < option >C< /option >
 < /select >
 < span >Selected: { { selected1 } }< /span ><</code></pre>
-        <p class="tip">如果 <code>v-model</code> 的初始值沒有任何匹配的選項，< select >元素就會以「未選擇」的狀態渲染。<br />
-            在iOS中，這樣使用者將無法選擇第一個選項，因為這樣的情況下，iOS不會引發change事件。<br />
-            因此，像以上提供 <code>disabled</code> 選項是建議的做法。</p>
-        <b>Javascript</b>
-        <pre><code class="javascript">data: {
+      <p class="tip">如果 <code>v-model</code> 的初始值沒有任何匹配的選項，
+
+        < select>元素就會以「未選擇」的狀態渲染。<br /> 在iOS中，這樣使用者將無法選擇第一個選項，因為這樣的情況下，iOS不會引發change事件。
+          <br /> 因此，像以上提供 <code>disabled</code> 選項是建議的做法。</p>
+      <b>Javascript</b>
+      <pre><code class="javascript">data: {
     selected1: '{{ selected1 }}'
 }</code></pre>
-        <b>Result</b><br />
-        <select v-model="selected1">
+      <b>Result</b><br />
+      <select v-model="selected1">
           <option disabled value="">Please select one</option>
           <option>A</option>
           <option>B</option>
           <option>C</option>
         </select>
-        <span>Selected: {{ selected1 }}</span>
-        <p><b>複選選單</b></p>
-        <b>HTML</b>
-        <pre><code class="html">< select v-model="selected2" multiple >
+      <span>Selected: {{ selected1 }}</span>
+      <p><b>複選選單</b></p>
+      <b>HTML</b>
+      <pre><code class="html">< select v-model="selected2" multiple >
   < option >A< /option >
   < option >B< /option >
   < option >C< /option >
 < /select >
 < br >
 < span >Selected: { { selected2 } }< /span ></code></pre>
-        <b>Javascript</b>
-        <pre><code class="javascript">data: {
+      <b>Javascript</b>
+      <pre><code class="javascript">data: {
     selected2: '{{ selected2 }}'
 }</code></pre>
-        <b>Result</b><br />
-        <select v-model="selected2" multiple>
+      <b>Result</b><br />
+      <select v-model="selected2" multiple>
           <option>A</option>
           <option>B</option>
           <option>C</option>
         </select>
-        <br>
-        <span>Selected: {{ selected2 }}</span>
-        <p><b>Key-value的選項</b></p>
-        <b>HTML</b>
-        <pre><code class="html">< select v-model="selected1" >
+      <br>
+      <span>Selected: {{ selected2 }}</span>
+      <p><b>Key-value的選項</b></p>
+      <b>HTML</b>
+      <pre><code class="html">< select v-model="selected1" >
   < option v-for="option in options" v-bind:value="option.value" >
     { { option.text } }
   < /option >
 < /select >
 < span >Selected: { { selected1 } }< /span ></code></pre>
-        <b>Javascript</b>
-        <pre><code class="javascript">data: {
+      <b>Javascript</b>
+      <pre><code class="javascript">data: {
     selected1: '{{ selected1 }}',
     options: [
       { text: 'One', value: 'A' },
@@ -172,21 +172,20 @@
       { text: 'Three', value: 'C' }
     ]
 }</code></pre>
-        <b>Result</b><br />
-        <select v-model="selected1">
+      <b>Result</b><br />
+      <select v-model="selected1">
           <option v-for="option in options" v-bind:value="option.value">
             {{ option.text }}
           </option>
         </select>
-        <span>Selected: {{ selected1 }}</span>
+      <span>Selected: {{ selected1 }}</span>
     </div>
     <h2>Value Bindings</h2>
     <p>可以看成一種使用者可以操作的<code>if</code>判斷式</p>
-    <p><code>type=radio</code>, <code>checkbox</code>的<code>input</code>，還有<code>select</code>的<code>option</code><br />
-        它們的值都是static string。選上了就將<code>html</code>裡的值，賦值到<code>Javascrit</code></p>
+    <p><code>type=radio</code>, <code>checkbox</code>的<code>input</code>，還有<code>select</code>的<code>option</code><br /> 它們的值都是static string。選上了就將<code>html</code>裡的值，賦值到<code>Javascrit</code></p>
     <div id="vmode-value-bindings">
-        <b>HTML</b>
-        <pre><code class="html">< !-- `picked` is a string "a" when checked -- >
+      <b>HTML</b>
+      <pre><code class="html">< !-- `picked` is a string "a" when checked -- >
 < input type="radio" v-model="picked" value="a" >
 < !-- `toggle` is either true or false -- >
 < input type="checkbox" v-model="toggle" >
@@ -194,109 +193,103 @@
 < select v-model="selected1" >
   < option value="abc" >ABC< /option >
 < /select ></code></pre>
-        <b>Result</b>
-        <!-- `picked` is a string "a" when checked -->
-        <input type="radio" v-model="picked" value="a">
-        <label>{{picked}}</label>
-        <!-- `toggle` is either true or false -->
-        <input type="checkbox" v-model="toggle">
-        <label>{{toggle}}</label>
-        <!-- `selected1` is a string "abc" when selected1 -->
-        <select v-model="selected1"><option value="abc">ABC</option></select>
-        <label>{{selected1}}</label>
-        <h3>Checkbox</h3>
-        <b>HTML</b>
-        <pre><code class="html">< input
+      <b>Result</b>
+      <!-- `picked` is a string "a" when checked -->
+      <input type="radio" v-model="picked" value="a">
+      <label>{{picked}}</label>
+      <!-- `toggle` is either true or false -->
+      <input type="checkbox" v-model="toggle">
+      <label>{{toggle}}</label>
+      <!-- `selected1` is a string "abc" when selected1 -->
+      <select v-model="selected1"><option value="abc">ABC</option></select>
+      <label>{{selected1}}</label>
+      <h3>Checkbox</h3>
+      <b>HTML</b>
+      <pre><code class="html">< input
   type="checkbox"
   v-model="toggle"
   v-bind:true-value="a"
   v-bind:false-value="b" ></code></pre>
-        <p>// when checked:<br />
-            vm.toggle === vm.a<br />
-            // when unchecked:<br />
-            vm.toggle === vm.b
-        </p>
-        <b>Javascript</b>
-        <pre><code class="javascript">data: {
+      <p>// when checked:<br /> vm.toggle === vm.a<br /> // when unchecked:<br /> vm.toggle === vm.b
+      </p>
+      <b>Javascript</b>
+      <pre><code class="javascript">data: {
     toggle: {{toggle}},
     a: {{a}},  //static string
     b: {{b}}   //static string
 }</code></pre>
-        <b>Result</b><br />
-        <input type="checkbox" v-model="toggle" v-bind:true-value="a" v-bind:false-value="b">
-        <h3>Radio</h3>
-        <b>HTML</b>
-        <pre><code class="html">< input type="radio" v-model="picked" v-bind:value="c" ></code></pre>
-        <p>// when checked:
-            vm.picked === vm.c</p>
-        <b>Javascript</b>
-        <pre><code class="javascript">data: {
+      <b>Result</b><br />
+      <input type="checkbox" v-model="toggle" v-bind:true-value="a" v-bind:false-value="b">
+      <h3>Radio</h3>
+      <b>HTML</b>
+      <pre><code class="html">< input type="radio" v-model="picked" v-bind:value="c" ></code></pre>
+      <p>// when checked: vm.picked === vm.c</p>
+      <b>Javascript</b>
+      <pre><code class="javascript">data: {
     picked: '{{picked}}',
     c: '{{c}}',  //static string
     d: '{{d}}'   //static string
 }</code></pre>
-        <b>Result</b><br />
-        <input type="radio" v-model="picked" v-bind:value="c">
-        <input type="radio" v-model="picked" v-bind:value="d">
-        <h3>Select Options</h3>
-        <b>HTML</b>
-        <pre><code class="html">< select v-model="selected2" >
+      <b>Result</b><br />
+      <input type="radio" v-model="picked" v-bind:value="c">
+      <input type="radio" v-model="picked" v-bind:value="d">
+      <h3>Select Options</h3>
+      <b>HTML</b>
+      <pre><code class="html">< select v-model="selected2" >
   < !-- inline object literal -- >
   < option v-bind:value="{ number: 123 }" >123< /option >
 < /select ></code></pre>
-        <p>// when selected2:<br />
-        typeof vm.selected2 // => 'object'<br />
-        vm.selected2.number // => 123</p>
-        <b>Javascript</b>
-        <pre><code class="javascript">data: {
+      <p>// when selected2:<br /> typeof vm.selected2 // => 'object'<br /> vm.selected2.number // => 123</p>
+      <b>Javascript</b>
+      <pre><code class="javascript">data: {
     selected2: {{selected2}}
 }</code></pre>
-        <b>Result</b>
-        <select v-model="selected2">
+      <b>Result</b>
+      <select v-model="selected2">
             <!-- inline object literal -->
             <option v-bind:value="{ number: 111 }">111</option>
             <option v-bind:value="{ number: 222 }">222</option>
             <option v-bind:value="{ number: 333 }">333</option>
             <option v-bind:value="{ number: 123 }">123</option>
         </select>
-        <h2>Modifiers</h2>
-        <h3><code>.lazy</code></h3>
-        <p>讓修改值的行為，在失去<code>focus</code>時執行，而不是像一般的情況在<code>change</code>時執行。</p>
-        <b>HTML</b>
-        <pre><code class="html">< !-- synced after "change" instead of "input" -->
+      <h2>Modifiers</h2>
+      <h3><code>.lazy</code></h3>
+      <p>讓修改值的行為，在失去<code>focus</code>時執行，而不是像一般的情況在<code>change</code>時執行。</p>
+      <b>HTML</b>
+      <pre><code class="html">< !-- synced after "change" instead of "input" -->
 < input v-model.lazy="msg" ></code></pre>
-        <b>Javascript</b>
-        <pre><code class="javascript">data: {
+      <b>Javascript</b>
+      <pre><code class="javascript">data: {
     msg: '{{msg}}'
 }</code></pre>
-        <b>Result</b><br />
-        <!-- synced after "change" instead of "input" -->
-        有加<code>lazy</code><input v-model.lazy="msg" ><br />
-        沒加<code>lazy</code><input v-model="msg" >
-        <h3><code>.number</code></h3>
-        <p>轉態成數字的變數型態</p>
-        <b>HTML</b>
-        <pre><code class="html">< input v-model.number="age" type="number" ></code></pre>
-        <b>Javascript</b>
-        <pre><code class="javascript">data: {
+      <b>Result</b><br />
+      <!-- synced after "change" instead of "input" -->
+      有加<code>lazy</code><input v-model.lazy="msg"><br /> 沒加
+      <code>lazy</code><input v-model="msg">
+      <h3><code>.number</code></h3>
+      <p>轉態成數字的變數型態</p>
+      <b>HTML</b>
+      <pre><code class="html">< input v-model.number="age" type="number" ></code></pre>
+      <b>Javascript</b>
+      <pre><code class="javascript">data: {
     age: {{age}} //is a {{typeof(age)}}
 }</code></pre>
-        <b>Result</b><br />
-        有加<code>number</code><input v-model.number="age" type="number"><br />
-        沒加<code>number</code><input v-model="age" type="number">
+      <b>Result</b><br /> 有加
+      <code>number</code><input v-model.number="age" type="number"><br /> 沒加
+      <code>number</code><input v-model="age" type="number">
 
-        <h3><code>.trim</code></h3>
-        <b>HTML</b>
-        <pre><code class="html">< input v-model.trim="msg" ></code></pre>
-        <b>Javascript</b>
-        <pre><code class="javascript">data: {
+      <h3><code>.trim</code></h3>
+      <b>HTML</b>
+      <pre><code class="html">< input v-model.trim="msg" ></code></pre>
+      <b>Javascript</b>
+      <pre><code class="javascript">data: {
     msg: '{{msg}}'
 }</code></pre>
-        <b>Result</b><br />
-        有加<code>trim</code><input v-model.trim="msg"><br />
-        沒加<code>trim</code><input v-model="msg">
-        <h2><code>v-model</code> with Components</h2>
-        <p>直接看<a href="https://vuefe.cn/v2/guide/components.html#自定义事件">組件的自定義事件</a></p>
+      <b>Result</b><br /> 有加
+      <code>trim</code><input v-model.trim="msg"><br /> 沒加
+      <code>trim</code><input v-model="msg">
+      <h2><code>v-model</code> with Components</h2>
+      <p>直接看<a href="https://vuefe.cn/v2/guide/components.html#自定义事件">組件的自定義事件</a></p>
     </div>
     <script src="https://unpkg.com/vue"></script>
     <script type="text/javascript">
@@ -334,5 +327,5 @@
         })
 
     </script>
-</body>
+  </body>
 </html>

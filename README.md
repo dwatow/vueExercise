@@ -27,3 +27,7 @@
 - [安裝vue-cli](https://vuejs.org/v2/guide/installation.html#CLI)
 - [vue-loader](https://vue-loader.vuejs.org/en/start/spec.html)
 - [將頁面切成components](https://dwatow.github.io/vueExercise/vue-cli-components.html)
+
+## Vue-router
+
+- [安裝vue-router](https://router.vuejs.org/zh-cn/installation.html)

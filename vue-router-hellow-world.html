@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>vue router入門有感</title>
   <script src="https://unpkg.com/vue"></script>
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   <link rel="stylesheet" href="./style.css">
@@ -14,59 +14,56 @@
   <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
-  <div id="app">
-    <h1>Hello App!</h1>
-    <h2>Source code</h2>
-    <b>javascript</b>
-    <ol>
-      <li>0. 如果使用模組化機制编程，導入Vue和VueRouter，要呼叫 <code>Vue.use(VueRouter)</code><br />
-        <pre><code class="js">
-  import Vue from 'vue'
-  import VueRouter from 'vue-router'
+  <h1>Hello App!</h1>
+  <h2>Source code</h2>
+  <b>javascript</b>
+  <ol>
+    <li>0. 如果使用模組化機制编程，導入Vue和VueRouter，要呼叫 <code>Vue.use(VueRouter)</code><br />
+      <pre><code class="js">
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 
-  Vue.use(VueRouter)
-  //your code
-        </code></pre></li>
-        <li>定義(要路由的)組件。可以import進來
-        <pre><code class="js">const Foo = { template: '< div>foo< /div>' }
+Vue.use(VueRouter)
+//your code
+      </code></pre></li>
+      <li>定義(要路由的)組件。可以import進來
+      <pre><code class="js">const Foo = { template: '< div>foo< /div>' }
 const Bar = { template: '< div>bar< /div>' }</code></pre></li>
-        <li>定義路由，每一個路由應該對應到一個組件，<br />
-          其中<code>component</code>可以由<code>Vue.extend()</code>建構，<br />
-          或者是一個物件。<br />之後會再討論巢狀式路由
-        <pre><code class="js">const routes = [
-  { path: '/foo', component: Foo },
-  { path: '/bar', component: Bar }
+      <li>定義路由，每一個路由應該對應到一個組件，<br />
+        其中<code>component</code>可以由<code>Vue.extend()</code>建構，<br />
+        或者是一個物件。<br />之後會再討論巢狀式路由
+      <pre><code class="js">const routes = [
+{ path: '/foo', component: Foo },
+{ path: '/bar', component: Bar }
 ]</code></pre></li>
-        <li>建立 router 實例，傳進 <code>routes</code> 配置參數。
-        <pre><code class="js">onst router = new VueRouter({
+      <li>建立 router 實例，傳進 <code>routes</code> 配置參數。
+      <pre><code class="js">onst router = new VueRouter({
 routes // （缩写）相当于 routes: routes
 })</code></pre></li>
-        <li>建立Vue實例，傳進 <code>router</code> 配置參數，注入路由功能
-        <pre><code class="js">const app = new Vue({
-  router
+      <li>建立Vue實例，傳進 <code>router</code> 配置參數，注入路由功能
+      <pre><code class="js">const app = new Vue({
+router
 }).$mount('#app')</code></pre></li>
-    </ol>
-    <b>HTML</b>
-    <p>使用 <code>router-link</code> 組件來渲染要route的連結<br />
-    傳入<code>to</code>指定連結(網址)，<code>router-link</code>最後會渲染成<code>a</code></p>
-    <pre><code class="html">< router-link to="/foo">Go to Foo< /router-link>
+  </ol>
+  <b>HTML</b>
+  <p>使用 <code>router-link</code> 組件來渲染要route的連結<br />
+  傳入<code>to</code>指定連結(網址)，<code>router-link</code>最後會渲染成<code>a</code></p>
+  <pre><code class="html">< router-link to="/foo">Go to Foo< /router-link>
 < router-link to="/bar">Go to Bar< /router-link></code></pre>
-    <p>使用<code>< router-view>< /router-view></code>，當作是路由指定渲染組件所顯示的地方。</p>
-    <pre><code class="html">< router-view>< /router-view></code></pre>
-    <h2>Demo</h2>
-    <div style="height: 66px;">
-      <p>
-        <!-- 使用 router-link 组件来导航. -->
-        <!-- 通过传入 `to` 属性指定链接. -->
-        <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
-        <router-link to="/foo">Go to Foo</router-link>
-        <router-link to="/bar">Go to Bar</router-link>
-      </p>
-      <!-- 路由出口 -->
-      <!-- 路由匹配到的组件将渲染在这里 -->
-      <p></p>
-      <router-view></router-view>
-    </div>
+  <p>使用<code>< router-view>< /router-view></code>，當作是路由指定渲染組件所顯示的地方。</p>
+  <pre><code class="html">< router-view>< /router-view></code></pre>
+  <h2>Demo</h2>
+  <div id="app" style="height: 60px">
+    <p>
+      <!-- 使用 router-link 组件来导航. -->
+      <!-- 通过传入 `to` 属性指定链接. -->
+      <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+      <router-link to="/foo">Go to Foo</router-link>
+      <router-link to="/bar">Go to Bar</router-link>
+    </p>
+    <!-- 路由出口 -->
+    <!-- 路由匹配到的组件将渲染在这里 -->
+    <router-view></router-view>
   </div>
   <script type="text/javascript">
     // 0. 如果使用模块化机制编程，導入Vue和VueRouter，要调用 Vue.use(VueRouter)
@@ -76,29 +73,27 @@ routes // （缩写）相当于 routes: routes
     const Foo = { template: '<div>foo</div>' }
     const Bar = { template: '<div>bar</div>' }
 
-
-
     // 2. 定义路由
     // 每个路由应该映射一个组件。 其中"component" 可以是
     // 通过 Vue.extend() 创建的组件构造器，
     // 或者，只是一个组件配置对象。
     // 我们晚点再讨论嵌套路由。
     const routes = [
-    { path: '/foo', component: Foo },
-    { path: '/bar', component: Bar }
+      { path: '/foo', component: Foo },
+      { path: '/bar', component: Bar }
     ]
 
     // 3. 创建 router 实例，然后传 `routes` 配置
     // 你还可以传别的配置参数, 不过先这么简单着吧。
     const router = new VueRouter({
-    routes // （缩写）相当于 routes: routes
+      routes // （缩写）相当于 routes: routes
     })
 
     // 4. 创建和挂载根实例。
     // 记得要通过 router 配置参数注入路由，
     // 从而让整个应用都有路由功能
     const app = new Vue({
-    router
+      router
     }).$mount('#app')
 
     // 现在，应用已经启动了！

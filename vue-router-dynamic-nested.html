@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue router 動態&巢狀式</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/obsidian.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+  <body>
+    <h1>Dynamic & Nested</h1>
+    <h2>動態 routes</h2>
+    <p>變數網址：在 router 的網址，有個部份想要成為變數帶到 <code>components</code>裡的變數時。就要想起這個功能</p>
+    <b>javascript</b>
+    <p>在<code>component</code>設定<code>template</code>，要用<code>$route.params</code>物件的屬性帶出變數</p>
+    <pre><code class="js">const User = { template: '< div>User {{ $route.params.id }}< /div>' }</code></pre>
+    <p>在<code>routes</code>設定<code>path</code>，加上「:」就變成變數。</p>
+    <pre><code class="js">const routes = [
+{ path: '/user/:id', component: User }
+]</code></pre>
+    <h3>事件觸發</h3>
+    <p class="tip">如果要在變化時做事件觸發，要加一個簡易的<code>watch</code>在<code>components</code>裡面。<br />
+    為什麼要這麼做呢？為了達到高效能的程式行為，組件本身會重複利用，並不會重新建構、重新觸發事件。</p>
+    <pre><code class="js">const User = {
+template: '...',
+watch: {
+  '$route' (to, from) {
+    console.log(to, from); //就是可以hook的地方
+  }
+}
+}</code></pre>
+    <h3>優先等級</h3>
+    <p class="tip">誰先定義的，誰的優先級就最高。</p>
+    <h2>Demo</h2>
+    <div id="app" style="height: 60px">
+      <p>
+        <router-link to="/user/One">User 1</router-link>
+        <router-link to="/user/Two">User 2</router-link>
+      </p>
+      <router-view></router-view>
+    </div>
+    <script type="text/javascript">
+
+      function app1() {
+
+        const User = {
+          template: '<div>User {{ $route.params.id }}</div>',
+          watch: {
+            '$route' (to, from) {
+              console.log(to, from);
+            }
+          }
+        }
+
+        const routes = [
+          { path: '/user/:id', component: User }
+        ]
+
+        const router = new VueRouter({
+          routes
+        })
+
+        return new Vue({
+          router
+        }).$mount('#app')
+      }
+
+      const a1 = app1()
+
+    </script>
+    <h2>巢狀式 routes</h2>
+    <p>在一個vue 實例中，有一個<code>component</code>叫User。<br />
+    而User會出現在<code>< router-view>< /router-view></code>的位置。</p>
+    <b>javascript</b>
+    <p>如果我們希望User裡面，會再有router的效果，就是巢狀式的router。必須在User裡面，再放一個<br />
+      <code>< router-view>< /router-view></code>。</p>
+    <pre><code class="js">
+      const User = {
+        template: `
+          < div class="user">
+            < h2>User {{ $route.params.id }}< /h2>
+            < router-view>< /router-view>
+          < /div>
+        `
+      }
+    </code></pre>
+    <p>設定子層routes，在<code>routes</code>物件裡，加上<code>children</code></p>
+    <pre><code class="js">const router = new VueRouter({
+  routes: [
+    { path: '/user/:id', component: User,
+      children: [
+        {
+          // 当 /user/:id/profile 匹配成功，
+          // UserProfile 会被渲染在 User 的 < router-view> 中
+          path: 'profile',
+          component: UserProfile
+        },
+        {
+          // 当 /user/:id/posts 匹配成功
+          // UserPosts 会被渲染在 User 的 < router-view> 中
+          path: 'posts',
+          component: UserPosts
+        }
+      ]
+    }
+  ]
+})</code></pre>
+    <h2>Demo</h2>
+    <div id="app2" style="height: 116.81px">
+      <p>
+        <router-link to="/user/One/profile">User 1 profile</router-link>
+        <router-link to="/user/One/posts">User 1 posts</router-link>
+        <router-link to="/user/Two/profile">User 2 profile</router-link>
+        <router-link to="/user/Two/posts">User 2 posts</router-link>
+      </p>
+      <router-view></router-view>
+    </div>
+    <script type="text/javascript">
+
+    function app2() {
+      const User = {
+        template: `
+          <div class="user">
+            <h2>User {{ $route.params.id }}</h2>
+            <router-view></router-view>
+          </div>
+        `
+      }
+
+      const UserProfile = {
+        template: `<span>UserProfile</span>`
+      }
+
+      const UserPosts = {
+        template: `<span>UserPosts</span>`
+      }
+
+      const router = new VueRouter({
+        routes: [
+          { path: '/user/:id', component: User,
+            children: [
+              {
+                // 当 /user/:id/profile 匹配成功，
+                // UserProfile 会被渲染在 User 的 < router-view> 中
+                path: 'profile',
+                component: UserProfile
+              },
+              {
+                // 当 /user/:id/posts 匹配成功
+                // UserPosts 会被渲染在 User 的 < router-view> 中
+                path: 'posts',
+                component: UserPosts
+              }
+            ]
+          }
+        ]
+      })
+
+      return new Vue({
+        router
+      }).$mount('#app2')
+    }
+
+    const a2 = app2()
+
+    </script>
+  </body>
+</html>

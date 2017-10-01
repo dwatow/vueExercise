@@ -1,3 +1,4 @@
+
 # vue2 學習歷程
 
 ## vue2官網教學
@@ -34,3 +35,4 @@
 
 - [安裝vue-router](https://router.vuejs.org/zh-cn/installation.html)
 - [vue router Hello World](https://dwatow.github.io/vueExercise/vue-router-hellow-world.html)
+- [vue router dynamic nested](https://dwatow.github.io/vueExercise/vue-router-dynamic-nested.html)

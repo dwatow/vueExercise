@@ -80,15 +80,15 @@ watch: {
     <p>如果我們希望User裡面，會再有router的效果，就是巢狀式的router。必須在User裡面，再放一個<br />
       <code>< router-view>< /router-view></code>。</p>
     <pre><code class="js">
-      const User = {
-        template: `
-          < div class="user">
-            < h2>User {{ $route.params.id }}< /h2>
-            < router-view>< /router-view>
-          < /div>
-        `
-      }
-    </code></pre>
+  const User = {
+    template: `
+      < div class="user">
+        < h2>User {{ $route.params.id }}< /h2>
+        < router-view>< /router-view>
+      < /div>
+    `
+  }
+</code></pre>
     <p>設定子層routes，在<code>routes</code>物件裡，加上<code>children</code></p>
     <pre><code class="js">const router = new VueRouter({
   routes: [
@@ -110,6 +110,15 @@ watch: {
     }
   ]
 })</code></pre>
+    <p>然後補上兩個children裡的components。</p>
+    <pre><code class="js">
+const UserProfile = {
+  template: `<span>UserProfile</span>`
+}
+
+const UserPosts = {
+  template: `<span>UserPosts</span>`
+}</code></pre>
     <h2>Demo</h2>
     <div id="app2" style="height: 116.81px">
       <p>

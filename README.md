@@ -29,6 +29,10 @@
 - [vue-loader](https://vue-loader.vuejs.org/en/start/spec.html)
 - [將頁面切成components](https://dwatow.github.io/vueExercise/vue-cli-components.html)
 
+## vue-resource
+
+
+
 ## Vue-router
 
 用vue做前端router

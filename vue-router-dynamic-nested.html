@@ -131,52 +131,68 @@ const UserPosts = {
     </div>
     <script type="text/javascript">
 
-    function app2() {
-      const User = {
-        template: `
-          <div class="user">
-            <h2>User {{ $route.params.id }}</h2>
-            <router-view></router-view>
-          </div>
-        `
+      function app2() {
+        const User = {
+          template: `
+            <div class="user">
+              <h2>User {{ $route.params.id }}</h2>
+              <router-view></router-view>
+            </div>
+          `
+        }
+
+        const UserProfile = {
+          template: `<span>UserProfile</span>`
+        }
+
+        const UserPosts = {
+          template: `<span>UserPosts</span>`
+        }
+
+        const router = new VueRouter({
+          routes: [
+            { path: '/user/:id', component: User,
+              children: [
+                {
+                  // 当 /user/:id/profile 匹配成功，
+                  // UserProfile 会被渲染在 User 的 < router-view> 中
+                  path: 'profile',
+                  component: UserProfile
+                },
+                {
+                  // 当 /user/:id/posts 匹配成功
+                  // UserPosts 会被渲染在 User 的 < router-view> 中
+                  path: 'posts',
+                  component: UserPosts
+                }
+              ]
+            }
+          ]
+        })
+
+        return new Vue({
+          router
+        }).$mount('#app2')
       }
 
-      const UserProfile = {
-        template: `<span>UserProfile</span>`
-      }
-
-      const UserPosts = {
-        template: `<span>UserPosts</span>`
-      }
-
-      const router = new VueRouter({
-        routes: [
-          { path: '/user/:id', component: User,
-            children: [
-              {
-                // 当 /user/:id/profile 匹配成功，
-                // UserProfile 会被渲染在 User 的 < router-view> 中
-                path: 'profile',
-                component: UserProfile
-              },
-              {
-                // 当 /user/:id/posts 匹配成功
-                // UserPosts 会被渲染在 User 的 < router-view> 中
-                path: 'posts',
-                component: UserPosts
-              }
-            ]
-          }
-        ]
-      })
-
-      return new Vue({
-        router
-      }).$mount('#app2')
-    }
-
-    const a2 = app2()
-
+      const a2 = app2()
     </script>
+    <h2>指定<code>< router-view>< /router-view></code></h2>
+    <p>在Vue router中，可以一個連結觸發多個components的渲染，首先要先將<code>router-view</code>命名</p>
+    <b>HTML</b>
+    <pre><code class="html">
+      <router-view name="a"></router-view>
+    </code></pre>
+    <p>並且在<code>routes</code>中，設計一個連結，多個<code>components</code><br />
+      沒有設定的，就都會被渲染成相同的components。指定名字的會渲染成指定的components</p>
+    <pre><code class="js">const routes = [
+  { path: '',
+    components: {
+      default: news,
+      a: sale
+    }
+  },
+  //...
+]</code></pre>
   </body>
 </html>

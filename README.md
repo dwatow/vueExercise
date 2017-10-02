@@ -25,18 +25,18 @@
 
 適用對象: 想要高效的使用Vue，會一點node.js, webpack(不會再學也可以啦)
 
-- [安裝vue-cli](https://vuejs.org/v2/guide/installation.html#CLI)
+- [安裝 vue-cli](https://vuejs.org/v2/guide/installation.html#CLI)
 - [vue-loader](https://vue-loader.vuejs.org/en/start/spec.html)
-- [將頁面切成components](https://dwatow.github.io/vueExercise/vue-cli-components.html)
+- [將頁面切成 components](https://dwatow.github.io/vueExercise/vue-cli-components.html)
 
 ## vue-resource
 
-
+- [安裝&使用 vue-resource (github)](https://github.com/pagekit/vue-resource)
 
 ## Vue-router
 
 用vue做前端router
 
-- [安裝vue-router](https://router.vuejs.org/zh-cn/installation.html)
+- [安裝 vue-router](https://router.vuejs.org/zh-cn/installation.html)
 - [vue router Hello World](https://dwatow.github.io/vueExercise/vue-router-hellow-world.html)
 - [vue router dynamic nested](https://dwatow.github.io/vueExercise/vue-router-dynamic-nested.html)

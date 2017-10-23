@@ -107,40 +107,45 @@ const app = new Vue({
     < button @click="increment">+< /button>
     < button @click="decrement">-< /button>
   < /p>
-< /div>
-< script type="text/javascript">
-  // 创建一个 Counter 组件
-  const store = new Vuex.Store({
-    state: {
-      count: 0
-    }
-  })
+< /div></code></pre>
+  <pre><code class="js">const store = new Vuex.Store({
+  state: {
+    count: 0
+  }
+})
 
-  const Counter = {
-    template: `< div>{{ count }}< /div>`,
-    computed: {
-      count() {
-        return this.$store.state.count
-      }
+const Counter = {
+  template: `< div>{{ count }}< /div>`,
+  computed: {
+    count() {
+      return this.$store.state.count
     }
   }
+}
 
-  new Vue({
-    el: '#app',
-    store,
-    components: {
-      'counter': Counter
+const app = new Vue({
+  el: '#app',
+  store,
+  components: {
+    'counter': Counter
+  },
+  methods: {
+    increment () {
+      store.state.count++
     },
-    methods: {
-      increment () {
-        store.state.count++
-      },
-      decrement () {
-        store.state.count--
-      }
+    decrement () {
+      store.state.count--
     }
-  })
-< /script></code></pre>
+  }
+})</code></pre>
+  <h2>mapState</h2>
+  <p>這是一個，可以透過<code>Vue</code>實體，存取到<code>Vuex</code>的<code>state</code>的一種機制</p>
+  <b>javascript</b>
+  <p>只要加上這一行</p>
+  <pre><code class="js">var app = new Vue({
+    computed: Vuex.mapState(['count']),
+    //...
+  })</code></pre>
   <script type="text/javascript">
     const Counter = {
       props: ['num'],

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue router入門有感</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/obsidian.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+  <h1>Vuex</h1>
+  <h2>Vuexless</h2>
+  <p>先來看一下，沒有Vuex時，寫一個例子。</p>
+  <b>HTML</b>
+  <pre><code class="html">< div id="app">
+  < counter :num="count">< /counter>
+  < p>
+    < button @click="increment">+< /button>
+    < button @click="decrement">-< /button>
+  < /p>
+< /div></code></pre>
+  <b>javascript</b>
+  <pre><code class="js">const Counter = {
+    template: `< div>{{ num }}< /div>`,
+  props: ['num'],
+}
+
+const app = new Vue({
+  el: '#app',
+  data: {
+    count: 0
+  },
+  components: {
+    'counter': Counter
+  },
+  methods: {
+    increment () {
+      this.count++
+    },
+    decrement () {
+      this.count--
+    }
+  }
+})</code></pre>
+  <b>Result</b>
+  <div id="app0">
+    <counter :num="count"></counter>
+    <p>
+      <button @click="increment">+</button>
+      <button @click="decrement">-</button>
+    </p>
+  </div>
+  <h2>Vue 的 State</h2>
+  <p>state into components</p>
+  <p>要先將 Vuex 宣告出來，並且將 data 搬進 state</p>
+  <b>JavaScript</b>
+  <p><code>Vue</code>裡的<code>data</code></p>
+  <pre><code class="js">const app = new Vue({
+  data: {
+    count: 0
+  },
+  //...
+}</code></pre>
+  <p>搬到<code>Vuex.Store</code>變成</p>
+  <pre><code class="js">const store = new Vuex.Store({
+  state: {
+    count: 0
+  }
+})</code></pre>
+  <p>再改寫<code>Components</code>裡，更新內容的機制</p>
+  <p>將 <code>components</code>的<code>props</code></p>
+  <pre><code class="js">const Counter = {
+    //...
+    props: ['num'],
+  }</code></pre>
+  <p>改成 <code>components</code>的<code>computed</code></p>
+  <pre><code class="js">const Counter = {
+    //...
+    computed: {
+      count() {
+        return this.$store.state.count
+      }
+    }
+  }</code></pre>
+  <p><code>Vue</code>的要加上「註冊使用Vuex」</p>
+  <pre><code class="js">const app = new Vue({
+  //...
+  state,
+  //...
+}</code></pre>
+  <p><code>Components</code>的<code>template</code>的prop傳值機制刪掉</p>
+  <b>HTML</b>
+  <p>原本這樣</p>
+  <pre><code class="html">< counter :num="count">< /counter></code></pre>
+  <p>改成這樣</p>
+  <pre><code class="html">< counter>< /counter></code></pre>
+  <b>改好全部長這樣</b>
+  <pre><code class="html">< div id="app">
+  < counter>< /counter>
+  < p>
+    < button @click="increment">+< /button>
+    < button @click="decrement">-< /button>
+  < /p>
+< /div>
+< script type="text/javascript">
+  // 创建一个 Counter 组件
+  const store = new Vuex.Store({
+    state: {
+      count: 0
+    }
+  })
+
+  const Counter = {
+    template: `< div>{{ count }}< /div>`,
+    computed: {
+      count() {
+        return this.$store.state.count
+      }
+    }
+  }
+
+  new Vue({
+    el: '#app',
+    store,
+    components: {
+      'counter': Counter
+    },
+    methods: {
+      increment () {
+        store.state.count++
+      },
+      decrement () {
+        store.state.count--
+      }
+    }
+  })
+< /script></code></pre>
+  <script type="text/javascript">
+    const Counter = {
+      props: ['num'],
+      template: `<div>{{ num }}</div>`,
+    }
+
+    const app0 = new Vue({
+      el: '#app0',
+      data: {
+        count: 0
+      },
+      components: {
+        'counter': Counter
+      },
+      methods: {
+        increment () {
+          this.count++
+        },
+        decrement () {
+          this.count--
+        }
+      }
+    })
+  </script>
+</body>
+</html>

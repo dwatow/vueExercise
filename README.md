@@ -40,3 +40,10 @@
 - [安裝 vue-router](https://router.vuejs.org/zh-cn/installation.html)
 - [vue router Hello World](https://dwatow.github.io/vueExercise/vue-router-hellow-world.html)
 - [vue router dynamic nested](https://dwatow.github.io/vueExercise/vue-router-dynamic-nested.html)
+
+## Vuex
+
+- [安裝 vuex](https://vuex.vuejs.org/zh-cn/installation.html)
+- [改寫 state](https://dwatow.github.io/vueExercise/vuex-state.html)
+
+[最新進度](https://vuex.vuejs.org/zh-cn/state.html)

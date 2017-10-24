@@ -143,9 +143,19 @@ const app = new Vue({
   <b>javascript</b>
   <p>只要加上這一行</p>
   <pre><code class="js">var app = new Vue({
-    computed: Vuex.mapState({
-      count: state => state.count,
-    }),
+    data: {
+      countA: 123 //just for local computed
+    },
+    computed: {
+      // just local computed
+      countAplus () {
+        return this.countA + 1
+      },
+      //mapState
+      ...Vuex.mapState({
+        count: state => state.count,
+      })
+    },
     //...
   })</code></pre>
   <p>不過，它還有更有意思的用法，就是可以結合 local data 的methods</p>

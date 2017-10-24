@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>vue router入門有感</title>
+  <title>vuex入門有感</title>
   <script src="https://unpkg.com/vue"></script>
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
   <link rel="stylesheet" href="./style.css">
@@ -160,13 +160,17 @@ const app = new Vue({
   })</code></pre>
   <p>不過，它還有更有意思的用法，就是可以結合 local data 的methods</p>
   <pre><code class="js">var app = new Vue({
-    computed: Vuex.mapState({
-      count (state) {
-        return state.count + this.localCount
-      }
-    }),
+    computed: {
+      // local computed
+      ...Vuex.mapState({
+        count: state => state.count + this.countA,
+      })
+    },
     //...
   })</code></pre>
+  <h2>mapGetter</h2>
+  <p>就是一個被共用的computed</p>
+
   <script type="text/javascript">
     const Counter = {
       props: ['num'],
